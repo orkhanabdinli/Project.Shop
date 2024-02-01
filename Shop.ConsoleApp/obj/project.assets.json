@@ -1,0 +1,127 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Shop.Business/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Shop.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Shop.Business.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shop.Business.dll": {}
+        }
+      },
+      "Shop.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Shop.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shop.Core.dll": {}
+        }
+      },
+      "Shop.DataAccess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Shop.Business": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Shop.DataAccess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shop.DataAccess.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Shop.Business/1.0.0": {
+      "type": "project",
+      "path": "../Shop.Business/Shop.Business.csproj",
+      "msbuildProject": "../Shop.Business/Shop.Business.csproj"
+    },
+    "Shop.Core/1.0.0": {
+      "type": "project",
+      "path": "../Shop.Core/Shop.Core.csproj",
+      "msbuildProject": "../Shop.Core/Shop.Core.csproj"
+    },
+    "Shop.DataAccess/1.0.0": {
+      "type": "project",
+      "path": "../Shop.DataAccess/Shop.DataAccess.csproj",
+      "msbuildProject": "../Shop.DataAccess/Shop.DataAccess.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Shop.DataAccess >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\hp\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.ConsoleApp\\Shop.ConsoleApp.csproj",
+      "projectName": "Shop.ConsoleApp",
+      "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.ConsoleApp\\Shop.ConsoleApp.csproj",
+      "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.ConsoleApp\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
