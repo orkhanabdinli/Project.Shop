@@ -1,4 +1,5 @@
 ﻿using Shop.Core.Abstract;
+using System.Collections.ObjectModel;
 
 namespace Shop.Core.Entities;
 
@@ -10,4 +11,5 @@ public class User : BaseEntities
     public string PhoneNumber { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
+    public Collection<Wallet> Wallets { get; set; }
 }
