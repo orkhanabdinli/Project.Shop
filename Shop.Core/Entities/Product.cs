@@ -10,7 +10,8 @@ public class Product : BaseEntities
     public decimal? Price { get; set; } = null!;
     public int? BrandId { get; set; } = null!;
     public int? CategoryId { get; set; } = null!;
+    public int? DiscountId { get; set; }
     public Brand Brand { get; set; } = null!;
     public Category Category { get; set; } = null!;
-    
+    public Discount? Discount { get; set; }
 }
