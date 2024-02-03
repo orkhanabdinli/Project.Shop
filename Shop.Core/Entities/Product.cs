@@ -16,4 +16,5 @@ public class Product : BaseEntities
     public Category Category { get; set; } = null!;
     public Discount? Discount { get; set; }
     public ICollection<CartProducts>? CartProducts { get; set; }
+    public ICollection<InvoiceProducts>? InvoiceProducts { get; set;}
 }

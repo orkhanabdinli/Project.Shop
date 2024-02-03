@@ -9,4 +9,5 @@ public class Invoice : BaseEntities
     public int? WalletId { get; set; } = null!;
     public User User { get; set; } = null!;
     public Wallet Wallet { get; set; } = null!;
+    public ICollection<InvoiceProducts> InvoiceProducts { get; set; } = null!;
 }
