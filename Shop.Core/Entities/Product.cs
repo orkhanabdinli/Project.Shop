@@ -14,4 +14,5 @@ public class Product : BaseEntities
     public Brand Brand { get; set; } = null!;
     public Category Category { get; set; } = null!;
     public Discount? Discount { get; set; }
+    public ICollection<CartProducts>? CartProducts { get; set; }
 }

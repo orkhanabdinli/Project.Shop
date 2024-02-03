@@ -1,6 +1,8 @@
-﻿namespace Shop.Core.Entities;
+﻿using Shop.Core.Abstract;
 
-public class Discount
+namespace Shop.Core.Entities;
+
+public class Discount : BaseEntities
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
