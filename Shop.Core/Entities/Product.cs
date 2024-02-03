@@ -8,6 +8,7 @@ public class Product : BaseEntities
     public string Name { get; set; } = null!;
     public string? Description { get; set; }
     public decimal? Price { get; set; } = null!;
+    public int? Stock { get; set; } = 0;
     public int? BrandId { get; set; } = null!;
     public int? CategoryId { get; set; } = null!;
     public int? DiscountId { get; set; }

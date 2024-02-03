@@ -8,15 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shop.Core\Shop.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
     <Folder Include="Utilities\Exceptions\" />
     <Folder Include="Utilities\Extencions\" />
     <Folder Include="Utilities\Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shop.DataAccess\Shop.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

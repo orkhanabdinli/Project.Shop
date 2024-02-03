@@ -28,8 +28,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Core\\Shop.Core.csproj": {
-                "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Core\\Shop.Core.csproj"
+              "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
               }
             }
           }
@@ -87,8 +87,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
-                "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
+              "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Business\\Shop.Business.csproj": {
+                "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Business\\Shop.Business.csproj"
               }
             }
           }
@@ -201,8 +201,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Business\\Shop.Business.csproj": {
-                "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Business\\Shop.Business.csproj"
+              "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Core\\Shop.Core.csproj": {
+                "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Core\\Shop.Core.csproj"
               }
             }
           }

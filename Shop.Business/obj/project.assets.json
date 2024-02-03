@@ -11,6 +11,19 @@
         "runtime": {
           "bin/placeholder/Shop.Core.dll": {}
         }
+      },
+      "Shop.DataAccess/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Shop.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Shop.DataAccess.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shop.DataAccess.dll": {}
+        }
       }
     }
   },
@@ -19,11 +32,16 @@
       "type": "project",
       "path": "../Shop.Core/Shop.Core.csproj",
       "msbuildProject": "../Shop.Core/Shop.Core.csproj"
+    },
+    "Shop.DataAccess/1.0.0": {
+      "type": "project",
+      "path": "../Shop.DataAccess/Shop.DataAccess.csproj",
+      "msbuildProject": "../Shop.DataAccess/Shop.DataAccess.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Shop.Core >= 1.0.0"
+      "Shop.DataAccess >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -53,8 +71,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Core\\Shop.Core.csproj": {
-              "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.Core\\Shop.Core.csproj"
+            "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\hp\\Desktop\\Project.Shop\\Shop.DataAccess\\Shop.DataAccess.csproj"
             }
           }
         }
