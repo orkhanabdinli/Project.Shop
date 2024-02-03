@@ -6,6 +6,6 @@ public class CartProducts
     public int? ProductId { get; set; } = null!;
     public int? CartId { get; set; } = null!;
     public int AmountOfProducts { get; set; } = 1;
-    public ICollection<Product> Products { get; set; } = null!;
-    public ICollection<Cart> Carts { get; set; } = null!;
+    public Product Products { get; set; } = null!;
+    public Cart Carts { get; set; } = null!;
 }

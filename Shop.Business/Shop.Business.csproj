@@ -1,22 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-    <Folder Include="Utilities\Exceptions\" />
-    <Folder Include="Utilities\Extencions\" />
-    <Folder Include="Utilities\Helpers\" />
+    <ProjectReference Include="..\Shop.DataAccess\Shop.DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shop.DataAccess\Shop.DataAccess.csproj" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Utilities\Helpers\" />
   </ItemGroup>
 
 </Project>

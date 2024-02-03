@@ -11,5 +11,4 @@ public class InvoiceProducts : BaseEntities
     public int TotalPrice { get; set; }
     public Product Product { get; set; } = null!;
     public Invoice Invoice { get; set; } = null!;
-
 }

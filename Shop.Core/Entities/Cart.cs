@@ -5,6 +5,7 @@ namespace Shop.Core.Entities;
 public class Cart : BaseEntities
 {
     public int Id { get; set; }
+    //public int? UserId { get; set; } = null!;
     public User User { get; set; } = null!;
     public ICollection<CartProducts>? CartProducts { get; set; }
 }
