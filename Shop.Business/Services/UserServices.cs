@@ -6,8 +6,8 @@ namespace Shop.Business.Services;
 public class UserServices
 {
     ShopDbContext shopDbContext = new ShopDbContext();
-    public void Create(string name, string lastname, string birthDay, string birthMonth, string birthYear,
-        string phoneNumber, string email, string password, DateTime createdDate, DateTime lastUpdatedDate)
+    public async void Create(string name, string lastname, string birthDay, string birthMonth, string birthYear, 
+        string phoneNumber, string email, string password)
     {
         string birthDate = $"{birthYear}.{birthMonth}.{birthDay}";
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("You must enter name");
@@ -30,10 +30,10 @@ public class UserServices
             PhoneNumber = phoneNumber,
             Email = email,
             Password = password,
-            CreatedDate = createdDate,
-            LastModifiedDate = lastUpdatedDate
+            CreatedDate = DateTime.Now,
+            LastModifiedDate = DateTime.Now
         };
-        shopDbContext.Users.Add(user);
-        shopDbContext.SaveChanges();
+        await shopDbContext.Users.AddAsync(user);
+        await shopDbContext.SaveChangesAsync();
     }
 }

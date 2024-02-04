@@ -116,4 +116,5 @@ public class ShopDbContext : DbContext
            .HasForeignKey(d => d.Id);
     }
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Brand> Brands { get; set; } = null!;
 }
