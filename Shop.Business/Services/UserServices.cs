@@ -34,7 +34,12 @@ public class UserServices
             CreatedDate = DateTime.Now,
             LastModifiedDate = DateTime.Now
         };
+        Cart cart = new Cart()
+        {
+            Id = user.Id
+        };
         await shopDbContext.Users.AddAsync(user);
+        await shopDbContext.Carts.AddAsync(cart);
         await shopDbContext.SaveChangesAsync();
     }
 }
