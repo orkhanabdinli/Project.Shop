@@ -2,13 +2,13 @@
 
 namespace Shop.Core.Entities;
 
-public class InvoiceProducts : BaseEntities
+public class InvoiceProducts 
 {
     public int  Id { get; set; }
     public int? ProductId { get; set; } = null!;
     public int? InvoiceId { get; set; } = null!;
     public int? AmountOfProducts { get; set; } = 1;
     public int TotalPrice { get; set; }
-    public Product Product { get; set; } = null!;
-    public Invoice Invoice { get; set; } = null!;
+    public Product Products { get; set; } = null!;
+    public Invoice Invoices { get; set; } = null!;
 }

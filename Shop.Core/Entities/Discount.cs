@@ -6,6 +6,6 @@ public class Discount : BaseEntities
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
-    public decimal? Percentage { get; set; } = null!;
-    public ICollection<Product>? Produts { get; set;}
+    public int? Percentage { get; set; } = null!;
+    public ICollection<Product>? Products { get; set;}
 }

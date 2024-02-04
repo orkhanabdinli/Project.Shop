@@ -12,5 +12,6 @@ public class User : BaseEntities
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
     public ICollection<Wallet>? Wallets { get; set; }
+    public ICollection<Invoice>? Invoices { get; set; }
     public Cart? Cart { get; set; }
 }

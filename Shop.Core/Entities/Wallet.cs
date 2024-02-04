@@ -10,4 +10,5 @@ public class Wallet : BaseEntities
     public decimal? Balance { get; set; } = null!;
     public int? UserId { get; set; } = null!;
     public User User { get; set; } = null!;
+    public ICollection<Invoice> Invoices { get; set; }
 }
