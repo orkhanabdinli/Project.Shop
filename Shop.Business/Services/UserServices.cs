@@ -1,4 +1,5 @@
-﻿using Shop.Business.Utilities.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
+using Shop.Business.Utilities.Exceptions;
 using Shop.Core.Entities;
 using Shop.DataAccess;
 
@@ -17,7 +18,7 @@ public class UserServices
         if (age.Days < 6570) throw new AgeException("You must be older than 18");
         if (String.IsNullOrEmpty(phoneNumber)) throw new ArgumentNullException("You must enter phone number");
         if (String.IsNullOrEmpty(email)) throw new ArgumentNullException("You must enter email address");
-        User? user1 = shopDbContext.Users.FirstOrDefault(u => u.PhoneNumber == phoneNumber || u.Email == email);
+        User? user1 = await shopDbContext.Users.FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber || u.Email == email);
         if (user1 is not null && user1.PhoneNumber == phoneNumber) throw new AlreadyExistsException("This phone number is already in use");
         if (user1 is not null && user1.Email == email) throw new AlreadyExistsException("This email is already in use");
         if (String.IsNullOrEmpty(password)) throw new ArgumentNullException("You must enter password");
