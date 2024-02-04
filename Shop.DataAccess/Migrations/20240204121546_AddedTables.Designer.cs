@@ -12,8 +12,8 @@ using Shop.DataAccess;
 namespace Shop.DataAccess.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20240204065421_AddedTablesWithRelations")]
-    partial class AddedTablesWithRelations
+    [Migration("20240204121546_AddedTables")]
+    partial class AddedTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,9 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -48,7 +50,7 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brand");
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.Cart", b =>
@@ -60,7 +62,9 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -72,19 +76,18 @@ namespace Shop.DataAccess.Migrations
 
             modelBuilder.Entity("Shop.Core.Entities.CartProducts", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("AmountOfProducts")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("AmountOfProducts")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId", "ProductId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("CartProducts");
                 });
@@ -101,7 +104,9 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -112,7 +117,7 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.Discount", b =>
@@ -127,7 +132,9 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -136,8 +143,8 @@ namespace Shop.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Percentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("Percentage")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -153,7 +160,9 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -171,31 +180,21 @@ namespace Shop.DataAccess.Migrations
 
             modelBuilder.Entity("Shop.Core.Entities.InvoiceProducts", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int?>("AmountOfProducts")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("InvoiceId")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TotalPrice")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("InvoiceId", "ProductId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("InvoiceProducts");
                 });
@@ -221,7 +220,9 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -231,7 +232,8 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)");
 
                     b.Property<int?>("Stock")
                         .HasColumnType("int");
@@ -300,7 +302,8 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)");
 
                     b.Property<string>("CardName")
                         .IsRequired()
@@ -314,7 +317,9 @@ namespace Shop.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("LastModifiedDate")
                         .HasColumnType("datetime2");
@@ -340,21 +345,21 @@ namespace Shop.DataAccess.Migrations
 
             modelBuilder.Entity("Shop.Core.Entities.CartProducts", b =>
                 {
-                    b.HasOne("Shop.Core.Entities.Cart", "Carts")
+                    b.HasOne("Shop.Core.Entities.Cart", "Cart")
                         .WithMany("CartProducts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Shop.Core.Entities.Product", "Products")
+                    b.HasOne("Shop.Core.Entities.Product", "Product")
                         .WithMany("CartProducts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Carts");
+                    b.Navigation("Cart");
 
-                    b.Navigation("Products");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.Invoice", b =>
@@ -378,21 +383,21 @@ namespace Shop.DataAccess.Migrations
 
             modelBuilder.Entity("Shop.Core.Entities.InvoiceProducts", b =>
                 {
-                    b.HasOne("Shop.Core.Entities.Invoice", "Invoices")
+                    b.HasOne("Shop.Core.Entities.Invoice", "Invoice")
                         .WithMany("InvoiceProducts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Shop.Core.Entities.Product", "Products")
+                    b.HasOne("Shop.Core.Entities.Product", "Product")
                         .WithMany("InvoiceProducts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Invoices");
+                    b.Navigation("Invoice");
 
-                    b.Navigation("Products");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.Product", b =>

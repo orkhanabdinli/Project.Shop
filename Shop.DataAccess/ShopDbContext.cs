@@ -59,11 +59,6 @@ public class ShopDbContext : DbContext
             .WithOne(c => c.User)
             .HasForeignKey<Cart>(c => c.Id);
 
-        modelBuilder.Entity<CartProducts>()
-            .HasOne(cp => cp.Carts)
-            .WithMany(c => c.CartProducts)
-            .HasForeignKey(c => c.Id);
-
         modelBuilder.Entity<Wallet>()
             .Property(w => w.Balance).HasPrecision(8, 2);
 
@@ -83,22 +78,33 @@ public class ShopDbContext : DbContext
             .HasForeignKey(w => w.Id);
 
         modelBuilder.Entity<InvoiceProducts>()
-            .HasOne(ip => ip.Invoices)
-            .WithMany(i => i.InvoiceProducts)
-            .HasForeignKey(i => i.Id);
+            .HasKey(ip => new { ip.InvoiceId, ip.ProductId });
+
+        modelBuilder.Entity<Invoice>()
+           .HasMany(i => i.InvoiceProducts)
+           .WithOne(ip => ip.Invoice)
+           .HasForeignKey(i => i.InvoiceId);
 
         modelBuilder.Entity<Product>()
             .Property(p => p.Price).HasPrecision(8,2);
 
         modelBuilder.Entity<Product>()
             .HasMany(p => p.InvoiceProducts)
-            .WithOne(ip => ip.Products)
-            .HasForeignKey(p => p.Id);
+            .WithOne(ip => ip.Product)
+            .HasForeignKey(p => p.ProductId);
+
+        modelBuilder.Entity<CartProducts>()
+            .HasKey(ip => new { ip.CartId, ip.ProductId });
 
         modelBuilder.Entity<Product>()
             .HasMany(p => p.CartProducts)
-            .WithOne(cp => cp.Products)
-            .HasForeignKey(p => p.Id);
+            .WithOne(cp => cp.Product)
+            .HasForeignKey(p => p.ProductId);
+
+        modelBuilder.Entity<Cart>()
+            .HasMany(c => c.CartProducts)
+            .WithOne(cp => cp.Cart)
+            .HasForeignKey(c => c.CartId);
 
         modelBuilder.Entity<Category>()
             .HasMany(c => c.Products)
