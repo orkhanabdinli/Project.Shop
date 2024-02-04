@@ -68,7 +68,7 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.CartProducts", b =>
@@ -145,13 +145,16 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discount");
+                    b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.Invoice", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -172,7 +175,11 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Invoice");
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.InvoiceProducts", b =>
@@ -226,7 +233,7 @@ namespace Shop.DataAccess.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal?>("Price")
                         .HasPrecision(8, 2)
@@ -237,7 +244,10 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.User", b =>
@@ -326,7 +336,7 @@ namespace Shop.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Wallet");
+                    b.ToTable("Wallets");
                 });
 
             modelBuilder.Entity("Shop.Core.Entities.Cart", b =>
@@ -363,15 +373,11 @@ namespace Shop.DataAccess.Migrations
                 {
                     b.HasOne("Shop.Core.Entities.User", "User")
                         .WithMany("Invoices")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.HasOne("Shop.Core.Entities.Wallet", "Wallet")
                         .WithMany("Invoices")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WalletId");
 
                     b.Navigation("User");
 

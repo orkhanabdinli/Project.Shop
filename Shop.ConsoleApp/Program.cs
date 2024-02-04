@@ -17,3 +17,12 @@ Console.WriteLine("Hello, World!");
 //UserServices userServices = new UserServices();
 
 //userServices.Create("Orkhan", "Abdinli", "1", "11", "2000", "+994508580290", "ao@gmail.com", "orxan2000", DateTime.Now, DateTime.Now);
+
+//Console.Write("Enter name:");
+//string? name = Console.ReadLine();
+//Console.Write("Enter description:");
+//string? description = Console.ReadLine();
+//Console.Write("Enter price:");
+//string price = Console.ReadLine();
+//Console.Write("Enter amount in stock:");
+//int stock = Convert.ToInt32(Console.ReadLine());

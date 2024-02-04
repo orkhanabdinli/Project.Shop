@@ -15,6 +15,11 @@ public class ShopDbContext : DbContext
             .HasKey(c => c.Id);
 
         modelBuilder.Entity<User>()
+            .HasOne(u => u.Cart)
+            .WithOne(c => c.User)
+            .HasForeignKey<Cart>(c => c.Id);
+
+        modelBuilder.Entity<User>()
             .Property(u => u.IsActive)
             .HasDefaultValue(true);
         
@@ -54,10 +59,9 @@ public class ShopDbContext : DbContext
             .HasIndex(u => u.PhoneNumber)
             .IsUnique();
 
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Cart)
-            .WithOne(c => c.User)
-            .HasForeignKey<Cart>(c => c.Id);
+        modelBuilder.Entity<Product>()
+            .HasIndex(p => p.Name)
+            .IsUnique();
 
         modelBuilder.Entity<Wallet>()
             .Property(w => w.Balance).HasPrecision(8, 2);
@@ -66,16 +70,19 @@ public class ShopDbContext : DbContext
             .HasOne(w => w.User)
             .WithMany(u => u.Wallets)
             .HasForeignKey(u => u.Id);
-        
+
+        modelBuilder.Entity<Invoice>()
+            .HasKey(i => i.Id);
+
         modelBuilder.Entity<Invoice>()
             .HasOne(i => i.User)
-            .WithMany(u => u.Invoices)
-            .HasForeignKey(u => u.Id);
+            .WithMany(u => u.Invoices);
+
 
         modelBuilder.Entity<Invoice>()
             .HasOne(i => i.Wallet)
-            .WithMany(w => w.Invoices)
-            .HasForeignKey(w => w.Id);
+            .WithMany(w => w.Invoices);
+            
 
         modelBuilder.Entity<InvoiceProducts>()
             .HasKey(ip => new { ip.InvoiceId, ip.ProductId });
@@ -124,4 +131,14 @@ public class ShopDbContext : DbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Brand> Brands { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Cart> Carts { get; set; } = null!;
+    public DbSet<CartProducts> CartProducts { get; set; } = null!;
+    public DbSet<Discount> Discounts { get; set; } = null!;
+    public DbSet<Invoice> Invoices { get; set; } = null!;
+    public DbSet<InvoiceProducts> InvoiceProducts { get; set; } = null!;
+    public DbSet<Wallet> Wallets { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
+
+
+
 }

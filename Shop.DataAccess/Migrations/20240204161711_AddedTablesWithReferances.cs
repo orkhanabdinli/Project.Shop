@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Shop.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedTables : Migration
+    public partial class AddedTablesWithReferances : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,7 +44,7 @@ namespace Shop.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Discount",
+                name: "Discounts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -57,7 +57,7 @@ namespace Shop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Discount", x => x.Id);
+                    table.PrimaryKey("PK_Discounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,11 +82,11 @@ namespace Shop.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: true),
                     Stock = table.Column<int>(type: "int", nullable: true),
@@ -99,29 +99,29 @@ namespace Shop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_Brands_Id",
+                        name: "FK_Products_Brands_Id",
                         column: x => x.Id,
                         principalTable: "Brands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Categories_Id",
+                        name: "FK_Products_Categories_Id",
                         column: x => x.Id,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Product_Discount_Id",
+                        name: "FK_Products_Discounts_Id",
                         column: x => x.Id,
-                        principalTable: "Discount",
+                        principalTable: "Discounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cart",
+                name: "Carts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -131,9 +131,9 @@ namespace Shop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cart", x => x.Id);
+                    table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cart_Users_Id",
+                        name: "FK_Carts_Users_Id",
                         column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -141,7 +141,7 @@ namespace Shop.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Wallet",
+                name: "Wallets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -155,9 +155,9 @@ namespace Shop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Wallet", x => x.Id);
+                    table.PrimaryKey("PK_Wallets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Wallet_Users_Id",
+                        name: "FK_Wallets_Users_Id",
                         column: x => x.Id,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -176,24 +176,25 @@ namespace Shop.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_CartProducts", x => new { x.CartId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_CartProducts_Cart_CartId",
+                        name: "FK_CartProducts_Carts_CartId",
                         column: x => x.CartId,
-                        principalTable: "Cart",
+                        principalTable: "Carts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CartProducts_Product_ProductId",
+                        name: "FK_CartProducts_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoice",
+                name: "Invoices",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     WalletId = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -202,19 +203,17 @@ namespace Shop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invoice", x => x.Id);
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invoice_Users_Id",
-                        column: x => x.Id,
+                        name: "FK_Invoices_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Invoice_Wallet_Id",
-                        column: x => x.Id,
-                        principalTable: "Wallet",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Invoices_Wallets_WalletId",
+                        column: x => x.WalletId,
+                        principalTable: "Wallets",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -230,15 +229,15 @@ namespace Shop.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_InvoiceProducts", x => new { x.InvoiceId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_InvoiceProducts_Invoice_InvoiceId",
+                        name: "FK_InvoiceProducts_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
-                        principalTable: "Invoice",
+                        principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_InvoiceProducts_Product_ProductId",
+                        name: "FK_InvoiceProducts_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -252,6 +251,22 @@ namespace Shop.DataAccess.Migrations
                 name: "IX_InvoiceProducts_ProductId",
                 table: "InvoiceProducts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_UserId",
+                table: "Invoices",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_WalletId",
+                table: "Invoices",
+                column: "WalletId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Name",
+                table: "Products",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -276,16 +291,16 @@ namespace Shop.DataAccess.Migrations
                 name: "InvoiceProducts");
 
             migrationBuilder.DropTable(
-                name: "Cart");
+                name: "Carts");
 
             migrationBuilder.DropTable(
-                name: "Invoice");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Wallet");
+                name: "Wallets");
 
             migrationBuilder.DropTable(
                 name: "Brands");
@@ -294,7 +309,7 @@ namespace Shop.DataAccess.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Discount");
+                name: "Discounts");
 
             migrationBuilder.DropTable(
                 name: "Users");

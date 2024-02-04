@@ -13,8 +13,8 @@ public class UserServices
         string birthDate = $"{birthYear}.{birthMonth}.{birthDay}";
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("You must enter name");
         if (String.IsNullOrEmpty(lastname)) throw new ArgumentNullException("You must enter lastname");
-        if (DateTime.TryParse(birthDate, out DateTime result)) throw new WrongFormatException("Wrong date format entered");
-        TimeSpan age = DateTime.Now - result;
+        if (DateTime.TryParse(birthDate, out DateTime birthDate1)) throw new WrongFormatException("Wrong date format entered");
+        TimeSpan age = DateTime.Now - birthDate1;
         if (age.Days < 6570) throw new AgeException("You must be older than 18");
         if (String.IsNullOrEmpty(phoneNumber)) throw new ArgumentNullException("You must enter phone number");
         if (String.IsNullOrEmpty(email)) throw new ArgumentNullException("You must enter email address");
@@ -27,7 +27,7 @@ public class UserServices
         {
             Name = name,
             Lastname = lastname,
-            Birthday = result,
+            Birthday = birthDate1,
             PhoneNumber = phoneNumber,
             Email = email,
             Password = password,
