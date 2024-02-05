@@ -22,34 +22,110 @@ public class ShopDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.IsActive)
             .HasDefaultValue(true);
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
         
+        modelBuilder.Entity<User>()
+            .Property(u => u.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
+
         modelBuilder.Entity<Cart>()
             .Property(c => c.IsActive)
             .HasDefaultValue(true);
+        
+        modelBuilder.Entity<Cart>()
+            .Property(c => c.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
+        
+        modelBuilder.Entity<Cart>()
+            .Property(c => c.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
         
         modelBuilder.Entity<Brand>()
             .Property(b => b.IsActive)
             .HasDefaultValue(true);
         
+        modelBuilder.Entity<Brand>()
+            .Property(b => b.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
+        
+        modelBuilder.Entity<Brand>()
+            .Property(b => b.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
+        
         modelBuilder.Entity<Category>()
             .Property(c => c.IsActive)
             .HasDefaultValue(true);
         
+        modelBuilder.Entity<Category>()
+            .Property(c => c.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
+        
+        modelBuilder.Entity<Category>()
+            .Property(c => c.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
+        
         modelBuilder.Entity<Discount>()
             .Property(d => d.IsActive)
             .HasDefaultValue(true);
+
+        modelBuilder.Entity<Discount>()
+            .Property(d => d.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
         
+        modelBuilder.Entity<Discount>()
+            .Property(d => d.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
+
         modelBuilder.Entity<Invoice>()
             .Property(i => i.IsActive)
             .HasDefaultValue(true);
         
+        modelBuilder.Entity<Invoice>()
+            .Property(i => i.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
+        
+        modelBuilder.Entity<Invoice>()
+            .Property(i => i.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
+
         modelBuilder.Entity<Product>()
             .Property(p => p.IsActive)
             .HasDefaultValue(true);
         
+        modelBuilder.Entity<Product>()
+            .Property(p => p.Stock)
+            .HasDefaultValue(0);
+        
+        modelBuilder.Entity<Product>()
+            .Property(p => p.DiscountId)
+            .HasDefaultValue(null);
+        
+        modelBuilder.Entity<Product>()
+            .Property(p => p.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
+        
+        modelBuilder.Entity<Product>()
+            .Property(p => p.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
+        
         modelBuilder.Entity<Wallet>()
             .Property(w => w.IsActive)
             .HasDefaultValue(true);
+        
+        modelBuilder.Entity<Wallet>()
+            .Property(w => w.CreatedDate)
+            .HasDefaultValue(DateTime.Now);
+        
+        modelBuilder.Entity<Wallet>()
+            .Property(w => w.LastModifiedDate)
+            .HasDefaultValue(DateTime.Now);
+        
+        modelBuilder.Entity<CartProducts>()
+            .Property(w => w.AmountOfProducts)
+            .HasDefaultValue(1);
 
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
@@ -78,12 +154,10 @@ public class ShopDbContext : DbContext
             .HasOne(i => i.User)
             .WithMany(u => u.Invoices);
 
-
         modelBuilder.Entity<Invoice>()
             .HasOne(i => i.Wallet)
             .WithMany(w => w.Invoices);
             
-
         modelBuilder.Entity<InvoiceProducts>()
             .HasKey(ip => new { ip.InvoiceId, ip.ProductId });
 
@@ -101,7 +175,7 @@ public class ShopDbContext : DbContext
             .HasForeignKey(p => p.ProductId);
 
         modelBuilder.Entity<CartProducts>()
-            .HasKey(ip => new { ip.CartId, ip.ProductId });
+            .HasKey(cp => new { cp.CartId, cp.ProductId });
 
         modelBuilder.Entity<Product>()
             .HasMany(p => p.CartProducts)
@@ -113,20 +187,20 @@ public class ShopDbContext : DbContext
             .WithOne(cp => cp.Cart)
             .HasForeignKey(c => c.CartId);
 
-        modelBuilder.Entity<Category>()
-            .HasMany(c => c.Products)
-            .WithOne(p => p.Category)
-            .HasForeignKey(c => c.Id);
+        modelBuilder.Entity<Product>()
+           .HasOne(p => p.Category)
+           .WithMany(c => c.Products)
+           .HasForeignKey(p => p.CategoryId);
 
-        modelBuilder.Entity<Brand>()
-           .HasMany(b => b.Products)
-           .WithOne(p => p.Brand)
-           .HasForeignKey(b => b.Id);
-
-        modelBuilder.Entity<Discount>()
-           .HasMany(d => d.Products)
-           .WithOne(p => p.Discount)
-           .HasForeignKey(d => d.Id);
+        modelBuilder.Entity<Product>()
+           .HasOne(p => p.Brand)
+           .WithMany(b => b.Products)
+           .HasForeignKey(p => p.BrandId);
+        
+        modelBuilder.Entity<Product>()
+           .HasOne(p => p.Discount)
+           .WithMany(d => d.Products)
+           .HasForeignKey(p => p.DiscountId);
     }
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Brand> Brands { get; set; } = null!;

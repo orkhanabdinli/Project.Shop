@@ -7,13 +7,13 @@ namespace Shop.Business.Services;
 public class UserServices
 {
     ShopDbContext shopDbContext = new ShopDbContext();
-    public async void Create(string name, string lastname, string birthDay, string birthMonth, string birthYear, 
+    public async Task<User> Create(string name, string lastname, string birthDay, string birthMonth, string birthYear, 
         string phoneNumber, string email, string password)
     {
-        string birthDate = $"{birthYear}.{birthMonth}.{birthDay}";
+        string birthDate = $"{birthYear} {birthMonth} {birthDay}";
+        DateTime birthDate1 = DateTime.Parse(birthDate);
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("You must enter name");
         if (String.IsNullOrEmpty(lastname)) throw new ArgumentNullException("You must enter lastname");
-        if (DateTime.TryParse(birthDate, out DateTime birthDate1)) throw new WrongFormatException("Wrong date format entered");
         TimeSpan age = DateTime.Now - birthDate1;
         if (age.Days < 6570) throw new AgeException("You must be older than 18");
         if (String.IsNullOrEmpty(phoneNumber)) throw new ArgumentNullException("You must enter phone number");
@@ -30,16 +30,10 @@ public class UserServices
             Birthday = birthDate1,
             PhoneNumber = phoneNumber,
             Email = email,
-            Password = password,
-            CreatedDate = DateTime.Now,
-            LastModifiedDate = DateTime.Now
-        };
-        Cart cart = new Cart()
-        {
-            Id = user.Id
+            Password = password
         };
         await shopDbContext.Users.AddAsync(user);
-        await shopDbContext.Carts.AddAsync(cart);
         await shopDbContext.SaveChangesAsync();
+        return user;
     }
 }
