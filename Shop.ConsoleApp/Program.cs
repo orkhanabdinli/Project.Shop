@@ -97,9 +97,12 @@ Console.WriteLine("Hello, World!");
 //    Console.ResetColor();
 //}
 
-UserServices userServices = new UserServices();
-userServices.ShowAllUsers();
+//UserServices userServices = new UserServices();
+//userServices.ShowAllUsers();
 
 //WalletServices walletServices = new WalletServices();
 //walletServices.ShowAllCards("surxan@mail.ru");
 
+//ProductServices productServices = new ProductServices();
+
+//productServices.ShowAllProductsByCategory(1);
