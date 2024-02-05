@@ -21,4 +21,25 @@ public class CategoryServices
         await shopDbContext.SaveChangesAsync();
         return category;
     }
+    public void ChangeName(int categoryId, string newName)
+    {
+        if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
+        Category? category = shopDbContext.Categories.Find(categoryId);
+        if (category is null) throw new NotFoundException("Category is not existing");
+        category.Name = newName;
+        shopDbContext.SaveChanges();
+    }
+    public void ShowAllCategories()
+    {
+        var categories = shopDbContext.Categories.AsNoTracking().ToList();
+        foreach (var category in categories)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {category.Id}  Name: {category.Name}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
 }
