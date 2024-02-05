@@ -1,8 +1,8 @@
 ﻿namespace Shop.Business.Utilities.Exceptions;
 
-public class IsAlreadyActive : Exception
+public class IsAlreadyException : Exception
 {
-    public IsAlreadyActive(string message) : base(message)
+    public IsAlreadyException(string message) : base(message)
     {
 
     }

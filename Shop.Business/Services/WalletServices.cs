@@ -61,7 +61,7 @@ public class WalletServices
         if (cardId < 0) throw new WrongFormatException("Wrong card Id format");
         Wallet? wallet = shopDbContext.Wallets.FirstOrDefault(w => w.Id == cardId && w.UserId == user.Id);
         if (wallet is null) throw new NotFoundException("Card is not exist");
-        if (wallet.IsActive == false)
+        if (wallet.IsActive == false) throw new 
         wallet.IsActive = false;
         shopDbContext.SaveChanges();
     }

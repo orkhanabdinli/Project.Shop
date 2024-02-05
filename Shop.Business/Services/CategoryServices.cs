@@ -42,11 +42,21 @@ public class CategoryServices
             Console.ResetColor();
         }
     }
+    public void ActivateCategory(int categoryId)
+    {
+        if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
+        Category? category = shopDbContext.Categories.Find(categoryId);
+        if (category is null) throw new NotFoundException("Category is not existing");
+        if (category.IsActive == true) throw new IsAlreadyException($"{category.Name} Category is already active");
+        category.IsActive = false;
+        shopDbContext.SaveChanges();
+    }
     public void DeactivateCategory(int categoryId)
     {
         if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
         Category? category = shopDbContext.Categories.Find(categoryId);
         if (category is null) throw new NotFoundException("Category is not existing");
+        if (category.IsActive == false) throw new IsAlreadyException($"{category.Name} Category is already deactive");
         category.IsActive = false;
         shopDbContext.SaveChanges();
     }
