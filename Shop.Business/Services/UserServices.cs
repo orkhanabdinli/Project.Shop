@@ -105,7 +105,8 @@ public class UserServices : IUserServices
     public void ShowAllUsers() 
     {
         ShopDbContext shopDbContext = new ShopDbContext();
-        foreach (var item in shopDbContext.Users)
+        var users = shopDbContext.Users.AsNoTracking().ToList();
+        foreach (var item in users)
         {
             string? admin = String.Empty;
             if (item.IsAdmin == true) 
@@ -121,6 +122,7 @@ public class UserServices : IUserServices
                               $"Phone: {item.PhoneNumber}  Email: {item.Email}\n" +
                               $"Authority: {admin}\n"+
                               "_______________________________________________________________");
+            Console.ResetColor();
         }
     }
 }

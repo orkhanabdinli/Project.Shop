@@ -32,7 +32,7 @@ public class WalletServices
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
         Wallet? wallet = shopDbContext.Wallets.FirstOrDefault(w => w.UserId == user.Id);
         if (wallet is null) throw new NotFoundException("No card were added");
-        var cards = shopDbContext.Wallets.Where(w => w.UserId == user.Id).ToList();
+        var cards = shopDbContext.Wallets.Where(w => w.UserId == user.Id).AsNoTracking().ToList();
         foreach (var item in cards)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
