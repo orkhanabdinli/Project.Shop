@@ -21,4 +21,25 @@ public class BrandServices
         await shopDbContext.SaveChangesAsync();
         return brand;
     }
+    public void ChangeName(int brandId, string newName)
+    {
+        if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
+        Brand? brand = shopDbContext.Brands.Find(brandId);
+        if (brand is null) throw new NotFoundException("Brand is not existing");
+        brand.Name = newName;
+        shopDbContext.SaveChanges();
+    }
+    public void ShowAllBrands()
+    {
+        var brands = shopDbContext.Brands.AsNoTracking().ToList();
+        foreach (var brand in brands) 
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {brand.Id}  Name: {brand.Name}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
 }

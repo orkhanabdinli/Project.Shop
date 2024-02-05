@@ -1,46 +1,16 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Shop.Business.Services;
 using Shop.DataAccess;
+UserServices userServices = new();
+WalletServices walletServices = new();
+ProductServices productServices = new();
+BrandServices brandServices = new();
+CategoryServices categoryServices = new();
+DiscountServices discountServices = new();
 
-Console.WriteLine("Hello, World!");
+Console.ForegroundColor = ConsoleColor.Blue;
+Console.WriteLine("   _____ _    _  ____  _____  _____ _____ _   _  _____              _____  _____      _____  _____   ____       _ ______ _____ _______ \r\n  / ____| |  | |/ __ \\|  __ \\|  __ \\_   _| \\ | |/ ____|       /\\   |  __ \\|  __ \\    |  __ \\|  __ \\ / __ \\     | |  ____/ ____|__   __|\r\n | (___ | |__| | |  | | |__) | |__) || | |  \\| | |  __       /  \\  | |__) | |__) |   | |__) | |__) | |  | |    | | |__ | |       | |   \r\n  \\___ \\|  __  | |  | |  ___/|  ___/ | | | . ` | | |_ |     / /\\ \\ |  ___/|  ___/    |  ___/|  _  /| |  | |_   | |  __|| |       | |   \r\n  ____) | |  | | |__| | |    | |    _| |_| |\\  | |__| |    / ____ \\| |    | |        | |    | | \\ \\| |__| | |__| | |___| |____   | |   \r\n |_____/|_|  |_|\\____/|_|    |_|   |_____|_| \\_|\\_____|   /_/    \\_\\_|    |_|        |_|    |_|  \\_\\\\____/ \\____/|______\\_____|  |_|   \r\n                                                                                                                                       \r\n                                                                                                                                       ");
 
-//ShopDbContext db = new ShopDbContext();
-
-//DateTime dateTime = DateTime.Now;
-//DateTime enteredTime = new DateTime(2003, 05, 05, 12, 45, 45);
-//TimeSpan difference = dateTime - enteredTime;
-//Console.WriteLine(difference.);
-//if (difference.Days / 365 < 18)
-//    Console.WriteLine("You are not 18 yet");
-
-
-//using Shop.Business.Services;
-
-//DateTime enteredTime = new DateTime(2003, 05, 05, 12, 45, 45);
-
-//UserServices userServices = new UserServices();
-
-//userServices.Create("Orkhan", "Abdinli", "1", "11", "2000", "+994508580290", "ao@gmail.com", "orxan2000", DateTime.Now, DateTime.Now);
-
-//Console.Write("Enter name:");
-//string? name = Console.ReadLine();
-//Console.Write("Enter description:");
-//string? description = Console.ReadLine();
-//Console.Write("Enter price:");
-//string price = Console.ReadLine();
-//Console.Write("Enter amount in stock:");
-//int stock = Convert.ToInt32(Console.ReadLine());
-
-//BrandServices brandServices = new BrandServices();
-//await brandServices.Create("Apple");
-
-//CategoryServices categoryServices = new CategoryServices();
-//await categoryServices.Create("Smartphones");
-
-//ProductServices productServices = new ProductServices();
-//await productServices.Create("iPhone 15 ", "", 1500, 20, 1, 1);
-
-//UserServices userServices = new UserServices();
 //try
 //{
 //    Console.Write("Enter name:");
@@ -70,6 +40,25 @@ Console.WriteLine("Hello, World!");
 //    Console.WriteLine(ex.Message);
 //    Console.ResetColor();
 //}
+
+//Console.Write("Enter name:");
+//string? name = Console.ReadLine();
+//Console.Write("Enter description:");
+//string? description = Console.ReadLine();
+//Console.Write("Enter price:");
+//string price = Console.ReadLine();
+//Console.Write("Enter amount in stock:");
+//int stock = Convert.ToInt32(Console.ReadLine());
+
+//BrandServices brandServices = new BrandServices();
+//await brandServices.Create("Apple");
+
+//CategoryServices categoryServices = new CategoryServices();
+//await categoryServices.Create("Smartphones");
+
+//ProductServices productServices = new ProductServices();
+//await productServices.Create("iPhone 15 ", "", 1500, 20, 1, 1);
+
 //Cart cart = new Cart()
 //{
 //    Id = 4
@@ -106,3 +95,5 @@ Console.WriteLine("Hello, World!");
 //ProductServices productServices = new ProductServices();
 
 //productServices.ShowAllProductsByCategory(1);
+
+//brandServices.ShowAllBrands();
