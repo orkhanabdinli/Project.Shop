@@ -32,19 +32,17 @@ public class WalletServices
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
         Wallet? wallet = shopDbContext.Wallets.FirstOrDefault(w => w.UserId == user.Id);
         if (wallet is null) throw new NotFoundException("No card were added");
-        foreach (var item in shopDbContext.Wallets)
+        var cards = shopDbContext.Wallets.Where(w => w.UserId == user.Id).ToList();
+        foreach (var item in cards)
         {
-            if (item.UserId == user.Id)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("______________________________________________________________\n" +
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
                                   "                                                             \n" +
                                   $"Card ID: {item.Id}  Card Name: {item.CardName}\n" +
                                   $"Cand Number: {item.CardNumber}\n" +
                                   $"Balance: {item.Balance}\n" +
                                   "______________________________________________________________");
-                Console.ResetColor();
-            }
+            Console.ResetColor();
         }
     }
     public void ChangeCardName(string email, int cardId, string newCardName)
@@ -57,7 +55,7 @@ public class WalletServices
         wallet.CardName = newCardName;
         shopDbContext.SaveChanges();
     }
-    public async void DeleteCard(string email, int cardId) 
+    public void DeleteCard(string email, int cardId) 
     {
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
         if (cardId < 0) throw new WrongFormatException("Wrong card Id format");

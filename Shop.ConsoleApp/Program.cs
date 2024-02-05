@@ -82,8 +82,8 @@ Console.WriteLine("Hello, World!");
 //Console.WriteLine(DateTime.Now);
 //Console.WriteLine(birthDate1);
 
-WalletServices walletServices = new WalletServices();
-await walletServices.Create("Card7", "1234563512246321", "surxan@mail.ru");
+//WalletServices walletServices = new WalletServices();
+//await walletServices.Create("Card7", "1234563512246321", "surxan@mail.ru");
 
 //try
 //{

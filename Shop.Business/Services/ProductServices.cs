@@ -34,4 +34,39 @@ public class ProductServices
         await shopDbContext.SaveChangesAsync();
         return product;
     }
+    public void ChangeName(int productId, string newName)
+    {
+        if (productId < 0) throw new WrongFormatException("Wrong product Id format");
+        Product? product = shopDbContext.Products.Find(productId);
+        if (product is null) throw new NotFoundException("Product is not exist");
+        Product? product2 = shopDbContext.Products.FirstOrDefault(p => p.Name == newName);
+        if (product2 is not null) throw new AlreadyExistsException($"{newName} product is already exist");
+        product.Name = newName;
+        shopDbContext.SaveChanges();
+    }
+    public void ChangeDescription(int productId, string newDescription)
+    {
+        if (productId < 0) throw new WrongFormatException("Wrong product Id format");
+        Product? product = shopDbContext.Products.Find(productId);
+        if (product is null) throw new NotFoundException("Product is not exist");
+        product.Description = newDescription;
+        shopDbContext.SaveChanges();
+    }
+    public void ChangePrice(int productId, decimal newPrice)
+    {
+        if (productId < 0) throw new WrongFormatException("Wrong product Id format");
+        Product? product = shopDbContext.Products.Find(productId);
+        if (product is null) throw new NotFoundException("Product is not exist");
+        if (newPrice < 0) throw new WrongFormatException("Price must be higher than 0");
+        product.Price = newPrice;
+        shopDbContext.SaveChanges();
+    }public void ChangeStock(int productId, int newStock)
+    {
+        if (productId < 0) throw new WrongFormatException("Wrong product Id format");
+        Product? product = shopDbContext.Products.Find(productId);
+        if (product is null) throw new NotFoundException("Product is not exist");
+        if (newStock < 0) throw new WrongFormatException("Price must be higher than 0");
+        product.Stock = newStock;
+        shopDbContext.SaveChanges();
+    }
 }
