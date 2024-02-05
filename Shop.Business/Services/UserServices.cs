@@ -2,12 +2,13 @@
 using Shop.Business.Utilities.Exceptions;
 using Shop.Core.Entities;
 using Shop.DataAccess;
+using System;
 
 namespace Shop.Business.Services;
 public class UserServices
 {
     ShopDbContext shopDbContext = new ShopDbContext();
-    public async Task<User> Create(string name, string lastname, string birthDay, string birthMonth, string birthYear, 
+    public async Task<User> Create(string name, string lastname, string birthDay, string birthMonth, string birthYear,
         string phoneNumber, string email, string password)
     {
         string birthDate = $"{birthYear} {birthMonth} {birthDay}";
@@ -35,5 +36,91 @@ public class UserServices
         await shopDbContext.Users.AddAsync(user);
         await shopDbContext.SaveChangesAsync();
         return user;
+    }
+    public void ChangePassword(string email, string oldPassword, string newPassword)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        if (user.Password == oldPassword)
+        {
+            user.Password = newPassword;
+            shopDbContext.Entry(user).State = EntityState.Modified;
+            shopDbContext.SaveChangesAsync();
+        }
+        else throw new DoesntMatchException("Wrong password entered");
+    }
+    public void ChangeEmail(string email, string password, string newEmail)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        if (user.Password == password)
+        {
+            user.Email = newEmail;
+            shopDbContext.Entry(user).State = EntityState.Modified;
+            shopDbContext.SaveChangesAsync();
+        }
+        else throw new DoesntMatchException("Wrong password entered");
+    }
+    public void ChangePhone(string email, string password, string newPhone)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        if (user.Password == password)
+        {
+            user.PhoneNumber = newPhone;
+            shopDbContext.Entry(user).State = EntityState.Modified;
+            shopDbContext.SaveChangesAsync();
+        }
+        else throw new DoesntMatchException("Wrong password entered");
+    }
+    public void ChangeNameAndLastname(string email, string newName, string newLastname)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+
+        user.Name = newName;
+        user.Lastname = newLastname;
+        shopDbContext.Entry(user).State = EntityState.Modified;
+        shopDbContext.SaveChangesAsync();
+    }
+    public void ChangeBirthDate(string email, string birthDay, string birthMonth, string birthYear)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+
+        string birthDate = $"{birthYear} {birthMonth} {birthDay}";
+        DateTime birthDate1 = DateTime.Parse(birthDate);
+        user.Birthday = birthDate1;
+        shopDbContext.Entry(user).State = EntityState.Modified;
+        shopDbContext.SaveChangesAsync();
+    }
+    public void ChangeAuthority(int userId)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.Find(userId);
+        if (user.IsAdmin == true) throw new IsAlreadyAdmin("The user is already admin");
+        user.IsAdmin = true;
+        shopDbContext.SaveChangesAsync();
+    }
+    public void ShowAllUsers() 
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        foreach (var item in shopDbContext.Users)
+        {
+            string? admin = String.Empty;
+            if (item.IsAdmin == true) 
+            {
+                admin = "Admin";
+            }
+            else { admin = "Not admin"; }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("_____________________________________________________________\n" +
+                              "                                                             \n" +
+                              $"ID: {item.Id}  Name: {item.Name}  Lastname: {item.Lastname} \n" +
+                              $"Phone: {item.PhoneNumber}  Email: {item.Email}\n" +
+                              $"Authority: {admin}\n"+
+                              "_____________________________________________________________\n");
+        }
     }
 }

@@ -4,7 +4,7 @@ using Shop.DataAccess;
 
 Console.WriteLine("Hello, World!");
 
-ShopDbContext db = new ShopDbContext();
+//ShopDbContext db = new ShopDbContext();
 
 //DateTime dateTime = DateTime.Now;
 //DateTime enteredTime = new DateTime(2003, 05, 05, 12, 45, 45);
@@ -40,36 +40,36 @@ ShopDbContext db = new ShopDbContext();
 //ProductServices productServices = new ProductServices();
 //await productServices.Create("iPhone 15 ", "", 1500, 20, 1, 1);
 
-UserServices userServices = new UserServices();
-try
-{
-    Console.Write("Enter name:");
-    string? name = Console.ReadLine();
-    Console.Write("Enter lastname:");
-    string? lastname = Console.ReadLine();
-    Console.WriteLine("Enter birthday");
-    Console.Write("Enter day:");
-    string? day = Console.ReadLine();
-    Console.Write("Enter month:");
-    string? month = Console.ReadLine();
-    Console.Write("Enter year:");
-    string? year = Console.ReadLine();
-    Console.Write("Enter phone number:");
-    string? phone = Console.ReadLine();
-    Console.Write("Enter email address:");
-    string? email = Console.ReadLine();
-    Console.Write("Create password:");
-    string? password = Console.ReadLine();
+//UserServices userServices = new UserServices();
+//try
+//{
+//    Console.Write("Enter name:");
+//    string? name = Console.ReadLine();
+//    Console.Write("Enter lastname:");
+//    string? lastname = Console.ReadLine();
+//    Console.WriteLine("Enter birthday");
+//    Console.Write("Enter day:");
+//    string? day = Console.ReadLine();
+//    Console.Write("Enter month:");
+//    string? month = Console.ReadLine();
+//    Console.Write("Enter year:");
+//    string? year = Console.ReadLine();
+//    Console.Write("Enter phone number:");
+//    string? phone = Console.ReadLine();
+//    Console.Write("Enter email address:");
+//    string? email = Console.ReadLine();
+//    Console.Write("Create password:");
+//    string? password = Console.ReadLine();
 
 
-    await userServices.Create(name, lastname, day, month, year, phone, email, password);
-}
-catch (Exception ex)
-{
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine(ex.Message);
-    Console.ResetColor();
-}
+//    await userServices.Create(name, lastname, day, month, year, phone, email, password);
+//}
+//catch (Exception ex)
+//{
+//    Console.ForegroundColor = ConsoleColor.Red;
+//    Console.WriteLine(ex.Message);
+//    Console.ResetColor();
+//}
 //Cart cart = new Cart()
 //{
 //    Id = 4
@@ -85,3 +85,17 @@ catch (Exception ex)
 //WalletServices walletServices = new WalletServices();
 //await walletServices.Create("Card1", "1234567887654321", 1);
 
+//try
+//{
+//    UserServices userServices = new UserServices();
+//    userServices.ChangeEmail("ao@gmail.com", "Orxan0111", "orxan@mail.ru");
+//}
+//catch (Exception ex)
+//{
+//    Console.ForegroundColor = ConsoleColor.Red;
+//    Console.WriteLine(ex.Message);
+//    Console.ResetColor();
+//}
+
+UserServices userServices = new UserServices();
+userServices.ShowAllUsers();
