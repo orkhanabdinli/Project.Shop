@@ -22,6 +22,10 @@ public class ShopDbContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.IsActive)
             .HasDefaultValue(true);
+        
+        modelBuilder.Entity<User>()
+            .Property(u => u.IsAdmin)
+            .HasDefaultValue(false);
 
         modelBuilder.Entity<User>()
             .Property(u => u.CreatedDate)
@@ -114,7 +118,11 @@ public class ShopDbContext : DbContext
         modelBuilder.Entity<Wallet>()
             .Property(w => w.IsActive)
             .HasDefaultValue(true);
-        
+
+        modelBuilder.Entity<Wallet>()
+            .Property(w => w.Balance)
+            .HasDefaultValue(0);
+
         modelBuilder.Entity<Wallet>()
             .Property(w => w.CreatedDate)
             .HasDefaultValue(DateTime.Now);
@@ -143,9 +151,12 @@ public class ShopDbContext : DbContext
             .Property(w => w.Balance).HasPrecision(8, 2);
 
         modelBuilder.Entity<Wallet>()
+            .HasKey(w => w.Id);
+
+        modelBuilder.Entity<Wallet>()
             .HasOne(w => w.User)
             .WithMany(u => u.Wallets)
-            .HasForeignKey(u => u.Id);
+            .HasForeignKey(w => w.UserId);
 
         modelBuilder.Entity<Invoice>()
             .HasKey(i => i.Id);

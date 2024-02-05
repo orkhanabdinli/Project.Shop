@@ -18,8 +18,8 @@ namespace Shop.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(3756)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(4215)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(6105)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(6562)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
@@ -34,8 +34,8 @@ namespace Shop.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(5206)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(5661)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(7588)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(8072)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
@@ -51,8 +51,8 @@ namespace Shop.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Percentage = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(6688)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(7117)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(9098)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(9644)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
@@ -72,8 +72,9 @@ namespace Shop.DataAccess.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(396)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(864)),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(2825)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(3324)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
@@ -94,8 +95,8 @@ namespace Shop.DataAccess.Migrations
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
                     DiscountId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 275, DateTimeKind.Local).AddTicks(585)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 275, DateTimeKind.Local).AddTicks(1195)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(3363)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(3927)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
@@ -123,8 +124,8 @@ namespace Shop.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(2105)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(2639)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(4381)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(4937)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
@@ -142,24 +143,24 @@ namespace Shop.DataAccess.Migrations
                 name: "Wallets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CardName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Balance = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: true),
+                    Balance = table.Column<decimal>(type: "decimal(8,2)", precision: 8, scale: 2, nullable: false, defaultValue: 0m),
                     UserId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 275, DateTimeKind.Local).AddTicks(2369)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 275, DateTimeKind.Local).AddTicks(2881)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(5819)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(6336)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Wallets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Wallets_Users_Id",
-                        column: x => x.Id,
+                        name: "FK_Wallets_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -195,8 +196,8 @@ namespace Shop.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     WalletId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(8090)),
-                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 9, 26, 45, 274, DateTimeKind.Local).AddTicks(8603)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(828)),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(1416)),
                     IsActive = table.Column<bool>(type: "bit", nullable: true, defaultValue: true)
                 },
                 constraints: table =>
@@ -292,6 +293,11 @@ namespace Shop.DataAccess.Migrations
                 table: "Users",
                 column: "PhoneNumber",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wallets_UserId",
+                table: "Wallets",
+                column: "UserId");
         }
 
         /// <inheritdoc />

@@ -22,5 +22,4 @@ public class DiscountServices
         await shopDbContext.SaveChangesAsync();
         return discount;
     }
-
 }

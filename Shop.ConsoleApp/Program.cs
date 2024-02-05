@@ -47,7 +47,7 @@ try
     string? name = Console.ReadLine();
     Console.Write("Enter lastname:");
     string? lastname = Console.ReadLine();
-    Console.Write("Enter birthday");
+    Console.WriteLine("Enter birthday");
     Console.Write("Enter day:");
     string? day = Console.ReadLine();
     Console.Write("Enter month:");
@@ -81,3 +81,7 @@ catch (Exception ex)
 //DateTime birthDate1 = DateTime.Parse(birthDate);
 //Console.WriteLine(DateTime.Now);
 //Console.WriteLine(birthDate1);
+
+//WalletServices walletServices = new WalletServices();
+//await walletServices.Create("Card1", "1234567887654321", 1);
+
