@@ -42,11 +42,21 @@ public class BrandServices
             Console.ResetColor();
         }
     }
-    public void DeactivateCategory(int brandId)
+    public void ActivateBrand(int brandId)
     {
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
         Brand? brand = shopDbContext.Brands.Find(brandId);
         if (brand is null) throw new NotFoundException("Brand is not existing");
+        if (brand.IsActive == true) throw new IsAlreadyActive($"{brand.Name} Brand is already active");
+        brand.IsActive = true;
+        shopDbContext.SaveChanges();
+    }
+    public void DeactivateBrand(int brandId)
+    {
+        if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
+        Brand? brand = shopDbContext.Brands.Find(brandId);
+        if (brand is null) throw new NotFoundException("Brand is not existing");
+        if (brand.IsActive == false) throw new IsAlreadyActive($"{brand.Name} Brand is already deactive");
         brand.IsActive = false;
         shopDbContext.SaveChanges();
     }
