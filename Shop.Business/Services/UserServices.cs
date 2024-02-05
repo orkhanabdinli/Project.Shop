@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shop.Business.Interfaces;
 using Shop.Business.Utilities.Exceptions;
 using Shop.Core.Entities;
 using Shop.DataAccess;
-using System;
 
 namespace Shop.Business.Services;
-public class UserServices
+public class UserServices : IUserServices
 {
     ShopDbContext shopDbContext = new ShopDbContext();
     public async Task<User> Create(string name, string lastname, string birthDay, string birthMonth, string birthYear,
@@ -120,7 +120,7 @@ public class UserServices
                               $"ID: {item.Id}  Name: {item.Name}  Lastname: {item.Lastname} \n" +
                               $"Phone: {item.PhoneNumber}  Email: {item.Email}\n" +
                               $"Authority: {admin}\n"+
-                              "_____________________________________________________________\n");
+                              "_______________________________________________________________");
         }
     }
 }

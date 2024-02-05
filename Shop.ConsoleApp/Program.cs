@@ -82,8 +82,8 @@ Console.WriteLine("Hello, World!");
 //Console.WriteLine(DateTime.Now);
 //Console.WriteLine(birthDate1);
 
-//WalletServices walletServices = new WalletServices();
-//await walletServices.Create("Card1", "1234567887654321", 1);
+WalletServices walletServices = new WalletServices();
+await walletServices.Create("Card7", "1234563512246321", "surxan@mail.ru");
 
 //try
 //{
@@ -97,5 +97,9 @@ Console.WriteLine("Hello, World!");
 //    Console.ResetColor();
 //}
 
-UserServices userServices = new UserServices();
-userServices.ShowAllUsers();
+//UserServices userServices = new UserServices();
+//userServices.ShowAllUsers();
+
+//WalletServices walletServices = new WalletServices();
+//walletServices.ShowAllCards("surxan@mail.ru");
+
