@@ -37,6 +37,12 @@ public class UserServices : IUserServices
         await shopDbContext.SaveChangesAsync();
         return user;
     }
+    public void LogIn(string email, string password)
+    {
+        if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password)) throw new WrongFormatException("Email address or password can not be null"); 
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+        if (user is null) throw new NotFoundException("Incorrect email address or password");
+    }
     public void ChangePassword(string email, string oldPassword, string newPassword)
     {
         ShopDbContext shopDbContext = new ShopDbContext();
