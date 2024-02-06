@@ -26,6 +26,8 @@ public class CategoryServices
         if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
         Category? category = shopDbContext.Categories.Find(categoryId);
         if (category is null) throw new NotFoundException("Category is not existing");
+        Category? category1 = shopDbContext.Categories.FirstOrDefault(c => c.Name == newName);
+        if (category1 is not null) throw new AlreadyExistsException($"{newName} category is already exist");
         category.Name = newName;
         shopDbContext.SaveChanges();
     }
@@ -34,14 +36,21 @@ public class CategoryServices
         var categories = shopDbContext.Categories.AsNoTracking().ToList();
         foreach (var category in categories)
         {
+            string isActive = String.Empty;
+            if (category.IsActive == true)
+            {
+                isActive = "Active";
+            }
+            else isActive = "Not active";
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("______________________________________________________________\n" +
                               "                                                             \n" +
-                             $"ID: {category.Id}  Name: {category.Name}\n" +
+                             $"ID: {category.Id}  Name: {category.Name}  Status: {isActive}\n" +
                               "______________________________________________________________");
             Console.ResetColor();
         }
     }
+   
     public void ActivateCategory(int categoryId)
     {
         if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");

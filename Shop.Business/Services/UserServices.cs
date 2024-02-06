@@ -44,6 +44,7 @@ public class UserServices : IUserServices
         if (user.Password == oldPassword)
         {
             user.Password = newPassword;
+            user.LastModifiedDate = DateTime.UtcNow;
             shopDbContext.Entry(user).State = EntityState.Modified;
             shopDbContext.SaveChangesAsync();
         }

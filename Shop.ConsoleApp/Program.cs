@@ -97,3 +97,7 @@ Console.WriteLine("   _____ _    _  ____  _____  _____ _____ _   _  _____       
 //productServices.ShowAllProductsByCategory(1);
 
 //brandServices.ShowAllBrands();
+
+//userServices.ChangePassword("surxan@mail.ru", "surxay1968", "SuRxAy1968");
+
+categoryServices.ShowAllCategories();

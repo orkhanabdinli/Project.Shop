@@ -22,4 +22,32 @@ public class DiscountServices
         await shopDbContext.SaveChangesAsync();
         return discount;
     }
+    public void ChangeName(int discountId, string newName)
+    {
+        if (discountId < 0) throw new ArgumentOutOfRangeException("Wrong discount Id format");
+        Discount? discount = shopDbContext.Discounts.Find(discountId);
+        if (discount is null) throw new NotFoundException("Discount is not existing");
+        discount.Name = newName;
+        shopDbContext.SaveChanges();
+    }
+    public void ChangePercentage(int discountId, int newPercent)
+    {
+        if (discountId < 0) throw new ArgumentOutOfRangeException("Wrong discount Id format");
+        Discount? discount = shopDbContext.Discounts.Find(discountId);
+        if (discount is null) throw new NotFoundException("Discount is not existing");
+        if (newPercent <= 0 || newPercent > 100) throw new WrongFormatException("Percentage must be between 1 and 100");
+        discount.Percentage = newPercent;
+        shopDbContext.SaveChanges();
+    }
+ 
+    public void DeactivateDiscount(int discountId)
+    {
+        if (discountId < 0) throw new ArgumentOutOfRangeException("Wrong discount Id format");
+        Discount? discount = shopDbContext.Discounts.Find(discountId);
+        if (discount is null) throw new NotFoundException("Discount is not existing");
+        if (discount.IsActive == false) throw new IsAlreadyException($"{discount.Name} Discount is already deactive");
+        discount.IsActive = false;
+        shopDbContext.SaveChanges();
+    }
+
 }

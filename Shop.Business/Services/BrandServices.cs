@@ -26,6 +26,8 @@ public class BrandServices
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
         Brand? brand = shopDbContext.Brands.Find(brandId);
         if (brand is null) throw new NotFoundException("Brand is not existing");
+        Brand? brand1 = shopDbContext.Brands.FirstOrDefault(b => b.Name == newName);
+        if (brand1 is not null) throw new AlreadyExistsException($"{newName} Brand is already exist");
         brand.Name = newName;
         shopDbContext.SaveChanges();
     }
