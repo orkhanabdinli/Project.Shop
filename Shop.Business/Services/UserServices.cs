@@ -44,9 +44,10 @@ public class UserServices : IUserServices
         if (user.Password == oldPassword)
         {
             user.Password = newPassword;
-            user.LastModifiedDate = DateTime.UtcNow;
+            user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time")); 
             shopDbContext.Entry(user).State = EntityState.Modified;
-            shopDbContext.SaveChangesAsync();
+            shopDbContext.SaveChanges();
         }
         else throw new DoesntMatchException("Wrong password entered");
     }
@@ -57,8 +58,10 @@ public class UserServices : IUserServices
         if (user.Password == password)
         {
             user.Email = newEmail;
+            user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
             shopDbContext.Entry(user).State = EntityState.Modified;
-            shopDbContext.SaveChangesAsync();
+            shopDbContext.SaveChanges();
         }
         else throw new DoesntMatchException("Wrong password entered");
     }
@@ -69,8 +72,10 @@ public class UserServices : IUserServices
         if (user.Password == password)
         {
             user.PhoneNumber = newPhone;
+            user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
             shopDbContext.Entry(user).State = EntityState.Modified;
-            shopDbContext.SaveChangesAsync();
+            shopDbContext.SaveChanges();
         }
         else throw new DoesntMatchException("Wrong password entered");
     }
@@ -81,8 +86,10 @@ public class UserServices : IUserServices
 
         user.Name = newName;
         user.Lastname = newLastname;
+        user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
         shopDbContext.Entry(user).State = EntityState.Modified;
-        shopDbContext.SaveChangesAsync();
+        shopDbContext.SaveChanges();
     }
     public void ChangeBirthDate(string email, string birthDay, string birthMonth, string birthYear)
     {
@@ -92,8 +99,10 @@ public class UserServices : IUserServices
         string birthDate = $"{birthYear} {birthMonth} {birthDay}";
         DateTime birthDate1 = DateTime.Parse(birthDate);
         user.Birthday = birthDate1;
+        user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
         shopDbContext.Entry(user).State = EntityState.Modified;
-        shopDbContext.SaveChangesAsync();
+        shopDbContext.SaveChanges();
     }
     public void ChangeAuthority(int userId)
     {
@@ -101,7 +110,9 @@ public class UserServices : IUserServices
         User? user = shopDbContext.Users.Find(userId);
         if (user.IsAdmin == true) throw new IsAlreadyAdmin("The user is already admin");
         user.IsAdmin = true;
-        shopDbContext.SaveChangesAsync();
+        user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
+        shopDbContext.SaveChanges();
     }
     public void ShowAllUsers() 
     {
@@ -110,7 +121,38 @@ public class UserServices : IUserServices
         foreach (var item in users)
         {
             string? admin = String.Empty;
+            string? isActive = String.Empty;
             if (item.IsAdmin == true) 
+            {
+                admin = "Admin";
+            }
+            else { admin = "Not admin"; }
+            
+            if (item.IsActive == true) 
+            {
+                isActive = "Active";
+            }
+            else { isActive = "Not active"; }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("_____________________________________________________________\n" +
+                              "                                                             \n" +
+                              $"ID: {item.Id}  Name: {item.Name}  Lastname: {item.Lastname} \n" +
+                              $"Phone: {item.PhoneNumber}  Email: {item.Email}\n" +
+                              $"Authority: {admin}\n" +
+                              $"Status: {isActive}\n" +
+                              "_______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public void ShowActiveUsers()
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        var users = shopDbContext.Users.Where(u => u.IsActive == true).AsNoTracking().ToList();
+        foreach (var item in users)
+        {
+            string? admin = String.Empty;
+            if (item.IsAdmin == true)
             {
                 admin = "Admin";
             }
@@ -121,7 +163,7 @@ public class UserServices : IUserServices
                               "                                                             \n" +
                               $"ID: {item.Id}  Name: {item.Name}  Lastname: {item.Lastname} \n" +
                               $"Phone: {item.PhoneNumber}  Email: {item.Email}\n" +
-                              $"Authority: {admin}\n"+
+                              $"Authority: {admin}\n" +
                               "_______________________________________________________________");
             Console.ResetColor();
         }

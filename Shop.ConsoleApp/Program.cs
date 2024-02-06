@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Shop.Business.Services;
 using Shop.DataAccess;
+using System.Collections.ObjectModel;
 UserServices userServices = new();
 WalletServices walletServices = new();
 ProductServices productServices = new();
@@ -100,4 +101,14 @@ Console.WriteLine("   _____ _    _  ____  _____  _____ _____ _   _  _____       
 
 //userServices.ChangePassword("surxan@mail.ru", "surxay1968", "SuRxAy1968");
 
-categoryServices.ShowAllCategories();
+//categoryServices.ShowAllCategories();
+
+//ReadOnlyCollection<TimeZoneInfo> zones = TimeZoneInfo.GetSystemTimeZones();
+//Console.WriteLine("The local system has the following {0} time zones", zones.Count);
+//foreach (TimeZoneInfo zone in zones)
+//    Console.WriteLine(zone.Id);
+
+//DateTime Time = TimeZoneInfo.ConvertTime(DateTime.Now,
+//                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
+//Console.WriteLine(Time);
+userServices.ShowAllUsers();

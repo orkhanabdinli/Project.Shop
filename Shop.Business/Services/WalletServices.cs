@@ -30,9 +30,8 @@ public class WalletServices
     public void ShowAllCards(string email)
     {
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
-        Wallet? wallet = shopDbContext.Wallets.FirstOrDefault(w => w.UserId == user.Id);
-        if (wallet is null) throw new NotFoundException("No card were added");
         var cards = shopDbContext.Wallets.Where(w => w.UserId == user.Id && w.IsActive == true).AsNoTracking().ToList();
+        if (cards is null) throw new NotFoundException("No card were added");
         foreach (var item in cards)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -49,9 +48,10 @@ public class WalletServices
     {
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
         if (cardId < 0) throw new WrongFormatException("Wrong card Id format");
-        Wallet? wallet = shopDbContext.Wallets.FirstOrDefault(w => w.Id == cardId && w.UserId == user.Id);
+        Wallet? wallet = shopDbContext.Wallets.FirstOrDefault(w => w.Id == cardId && w.UserId == user.Id && w.IsActive == true);
         if (wallet is null) throw new NotFoundException("Card is not exist");
-        Wallet? wallet1 = shopDbContext.Wallets.FirstOrDefault(w => w.CardName == newCardName);
+        Wallet? wallet1 = shopDbContext.Wallets.FirstOrDefault(w => w.CardName == newCardName && w.UserId == user.Id && w.IsActive == true);
+        if (wallet1 is not null) throw new AlreadyExistsException($"Card with name: {newCardName} is already exists");
         wallet.CardName = newCardName;
         wallet.LastModifiedDate = DateTime.UtcNow;
         shopDbContext.SaveChanges();
