@@ -8,10 +8,12 @@ public enum Menu1
 
 public enum Menu2
 {
-    LogInAgain = 1
+    GoToRegister = 1,
+    LogInAgain 
 }
 
 public enum Menu3
 {
-    RegisterAgain = 1
+    GoToLogIn = 1,
+    RegisterAgain 
 }

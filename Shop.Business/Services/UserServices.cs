@@ -12,7 +12,8 @@ public class UserServices : IUserServices
         string phoneNumber, string email, string password)
     {
         string birthDate = $"{birthYear} {birthMonth} {birthDay}";
-        DateTime birthDate1 = DateTime.Parse(birthDate);
+        bool isDate = DateTime.TryParse(birthDate, out DateTime birthDate1);
+        if (isDate != true) throw new WrongFormatException("Wrong birth date format");
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("You must enter name");
         if (String.IsNullOrEmpty(lastname)) throw new ArgumentNullException("You must enter lastname");
         TimeSpan age = DateTime.Now - birthDate1;
@@ -37,11 +38,12 @@ public class UserServices : IUserServices
         await shopDbContext.SaveChangesAsync();
         return user;
     }
-    public void LogIn(string email, string password)
+    public bool LogIn(string email, string password)
     {
         if (String.IsNullOrEmpty(email) || String.IsNullOrEmpty(password)) throw new WrongFormatException("Email address or password can not be null"); 
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
         if (user is null) throw new NotFoundException("Incorrect email address or password");
+        return true;
     }
     public void ChangePassword(string email, string oldPassword, string newPassword)
     {
@@ -226,5 +228,11 @@ public class UserServices : IUserServices
                               "_______________________________________________________________");
             Console.ResetColor();
         }
+    }
+    public bool IsAdmin(string email, string password)
+    {
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+        if (user.IsAdmin == true) return true;
+        return false;
     }
 }

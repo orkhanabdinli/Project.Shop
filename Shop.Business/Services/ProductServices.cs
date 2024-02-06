@@ -108,6 +108,50 @@ public class ProductServices
         var products = shopDbContext.Products.AsNoTracking().ToList();
         foreach (var product in products)
         {
+            string isActive = String.Empty;
+            if (product.IsActive == true) isActive = "Active";
+            else isActive = "Not active";
+            Brand? brand = shopDbContext.Brands.Find(product.BrandId);
+            Category? category = shopDbContext.Categories.Find(product.CategoryId);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("_____________________________________________________________\n" +
+                              "                                                             \n" +
+                              $"ID: {product.Id}\n" +
+                              $"Name: {product.Name}\n" +
+                              $"Brand: {brand.Name}\n" +
+                              $"Category: {category.Name}\n" +
+                              $"Description: {product.Description}\n" +
+                              $"Price: {product.Price}  Stock: {product.Stock}\n" +
+                              $"Status: {isActive}\n" +
+                              "_____________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public void ShowActiveProducts()
+    {
+        var products = shopDbContext.Products.Where(p => p.IsActive == true).AsNoTracking().ToList();
+        foreach (var product in products)
+        {
+            Brand? brand = shopDbContext.Brands.Find(product.BrandId);
+            Category? category = shopDbContext.Categories.Find(product.CategoryId);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("_____________________________________________________________\n" +
+                              "                                                             \n" +
+                              $"ID: {product.Id}\n" +
+                              $"Name: {product.Name}\n" +
+                              $"Brand: {brand.Name}\n" +
+                              $"Category: {category.Name}\n" +
+                              $"Description: {product.Description}\n" +
+                              $"Price: {product.Price}  Stock: {product.Stock}\n" +
+                              "_____________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public void ShowDeactiveProducts()
+    {
+        var products = shopDbContext.Products.Where(p => p.IsActive == true).AsNoTracking().ToList();
+        foreach (var product in products)
+        {
             Brand? brand = shopDbContext.Brands.Find(product.BrandId);
             Category? category = shopDbContext.Categories.Find(product.CategoryId);
             Console.ForegroundColor = ConsoleColor.Yellow;
