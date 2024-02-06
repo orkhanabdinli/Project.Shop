@@ -39,7 +39,15 @@ public class DiscountServices
         discount.Percentage = newPercent;
         shopDbContext.SaveChanges();
     }
- 
+    public void ActivateDiscount(int discountId)
+    {
+        if (discountId < 0) throw new ArgumentOutOfRangeException("Wrong discount Id format");
+        Discount? discount = shopDbContext.Discounts.Find(discountId);
+        if (discount is null) throw new NotFoundException("Discount is not existing");
+        if (discount.IsActive == true) throw new IsAlreadyException($"{discount.Name} Discount is already active");
+        discount.IsActive = true;
+        shopDbContext.SaveChanges();
+    }
     public void DeactivateDiscount(int discountId)
     {
         if (discountId < 0) throw new ArgumentOutOfRangeException("Wrong discount Id format");
