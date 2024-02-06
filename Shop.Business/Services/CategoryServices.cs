@@ -63,7 +63,6 @@ public class CategoryServices
             Console.ResetColor();
         }
     }
-
     public void ActivateCategory(int categoryId)
     {
         if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
