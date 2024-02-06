@@ -44,6 +44,32 @@ public class BrandServices
             Console.ResetColor();
         }
     }
+    public void ShowActiveBrands()
+    {
+        var brands = shopDbContext.Brands.Where(b => b.IsActive == true).AsNoTracking().ToList();
+        foreach (var brand in brands)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {brand.Id}  Name: {brand.Name}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public void ShowDeactiveBrands()
+    {
+        var brands = shopDbContext.Brands.Where(b => b.IsActive == false).AsNoTracking().ToList();
+        foreach (var brand in brands)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {brand.Id}  Name: {brand.Name}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
     public void ActivateBrand(int brandId)
     {
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");

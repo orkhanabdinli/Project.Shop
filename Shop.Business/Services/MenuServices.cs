@@ -37,12 +37,18 @@ public class MenuServices
         Console.Clear();
         try
         {
-            userServices.LogIn(email, password);
+            bool LoginSucceed = userServices.LogIn(email, password);
+            bool IsAdmin = userServices.IsAdmin(email, password);
+            if (LoginSucceed == true && IsAdmin == true)
+            {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Logged id succsessfully");
+            Console.WriteLine("__________________________________\n" + 
+                              "\n" +
+                              "     Logged in succsessfully\n" +
+                              "__________________________________");
             Console.ResetColor();
-            bool isAdmin = userServices.IsAdmin(email, password);
-            if (isAdmin == true) ;
+                AdminMenu(email, password);
+            }
         }
         catch (Exception ex)
         {
@@ -143,32 +149,69 @@ public class MenuServices
                           "CHOOSE THE OPTION: ");
         }
     }
-    public void UserMenu()
+    public void AdminMenu(string email, string password)
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("_______________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<<< LOG IN >>>>>>>>>>>>\n" +
-                          "_______________________________\n" +
-                          "\n" +
-                          "Please enter your email address: ");
-        Console.ResetColor();
-        string? email = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("\n" +
-                          "Please enter your password: ");
-        Console.ResetColor();
-        string? password = Console.ReadLine();
-        Console.Clear();
-        try
+        Console.Write("__________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<< ADMIN MENU >>>>>>>>>>>\n" +
+                      "__________________________________\n" +
+                      "\n"+
+                      "[1|Producs]\n" +
+                      "[2|Brands]\n" +
+                      "[3|Categories]\n" +
+                      "[4|Discounts]\n" +
+                      "[5|Users]\n"+
+                      "[6|Edit profile]\n" +
+                      "\n" +
+                      "CHOOSE THE OPTION: ");
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 6))
         {
-            bool LoginSucceed = userServices.LogIn(email, password);
-            bool IsAdmin = userServices.IsAdmin(email, password);
-            if (LoginSucceed == true && IsAdmin == true)
+            switch (optionNumber)
             {
-
+                case 1:
+                    {
+                        ProductsMenu();
+                    }
+                    break;
             }
-
         }
+
+    }
+    public void ProductsMenu()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<< Products Menu >>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n" +
+                          " [1|Add]\n" +
+                          " [2|Activate]\n" +
+                          " [3|Deactivate]\n" +
+                          " [4|Change name]\n" +
+                          " [5|Change description]\n" +
+                          " [6|Change price]\n" +
+                          " [7|Change stock]\n" +
+                          " [8|Change brand]\n" +
+                          " [9|Change category]\n" +
+                          "[10|Change discount]");
+    }
+    public void BrandsMenu()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<< Brands Menu >>>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n" +
+                          " [1|Add]\n" +
+                          " [2|Activate]\n" +
+                          " [3|Deactivate]\n" +
+                          " [4|Change name]\n" + +
+                          "[10|Change discount]");
     }
 }
