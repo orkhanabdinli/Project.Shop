@@ -134,7 +134,16 @@ public class UserServices : IUserServices
                  TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
         shopDbContext.SaveChanges();
     }
-
+    public void DeactivateUser(int userId)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.Find(userId);
+        if (user.IsActive == false) throw new IsAlreadyException("The user is already not active");
+        user.IsActive = false;
+        user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
+        shopDbContext.SaveChanges();
+    }
     public void ShowAllUsers() 
     {
         ShopDbContext shopDbContext = new ShopDbContext();
