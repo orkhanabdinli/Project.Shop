@@ -119,11 +119,22 @@ public class UserServices : IUserServices
         ShopDbContext shopDbContext = new ShopDbContext();
         User? user = shopDbContext.Users.Find(userId);
         if (user.IsAdmin == false) throw new IsAlreadyException("The user is already not admin");
-        user.IsAdmin = true;
+        user.IsAdmin = false;
         user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
                  TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
         shopDbContext.SaveChanges();
     }
+    public void ActivateUser(int userId)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.Find(userId);
+        if (user.IsActive == true) throw new IsAlreadyException("The user is already active");
+        user.IsActive = true;
+        user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
+        shopDbContext.SaveChanges();
+    }
+
     public void ShowAllUsers() 
     {
         ShopDbContext shopDbContext = new ShopDbContext();
