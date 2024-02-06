@@ -108,7 +108,17 @@ public class UserServices : IUserServices
     {
         ShopDbContext shopDbContext = new ShopDbContext();
         User? user = shopDbContext.Users.Find(userId);
-        if (user.IsAdmin == true) throw new IsAlreadyAdmin("The user is already admin");
+        if (user.IsAdmin == true) throw new IsAlreadyException("The user is already admin");
+        user.IsAdmin = true;
+        user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
+        shopDbContext.SaveChanges();
+    }
+    public void DisableAdmin(int userId)
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        User? user = shopDbContext.Users.Find(userId);
+        if (user.IsAdmin == false) throw new IsAlreadyException("The user is already not admin");
         user.IsAdmin = true;
         user.LastModifiedDate = TimeZoneInfo.ConvertTime(DateTime.Now,
                  TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));

@@ -11,6 +11,7 @@ public interface IUserServices
     void ChangePhone(string email, string password, string newPhone);
     void ChangeNameAndLastname(string email, string newName, string newLastname);
     void ChangeBirthDate(string email, string birthDay, string birthMonth, string birthYear);
-    void ChangeAuthority(int userId);
+    void MakeAdmin(int userId);
+    void DisableAdmin(int userId);
     void ShowAllUsers();
 }
