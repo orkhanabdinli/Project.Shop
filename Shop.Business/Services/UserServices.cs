@@ -104,7 +104,7 @@ public class UserServices : IUserServices
         shopDbContext.Entry(user).State = EntityState.Modified;
         shopDbContext.SaveChanges();
     }
-    public void ChangeAuthority(int userId)
+    public void MakeAdmin(int userId)
     {
         ShopDbContext shopDbContext = new ShopDbContext();
         User? user = shopDbContext.Users.Find(userId);
@@ -149,6 +149,29 @@ public class UserServices : IUserServices
     {
         ShopDbContext shopDbContext = new ShopDbContext();
         var users = shopDbContext.Users.Where(u => u.IsActive == true).AsNoTracking().ToList();
+        foreach (var item in users)
+        {
+            string? admin = String.Empty;
+            if (item.IsAdmin == true)
+            {
+                admin = "Admin";
+            }
+            else { admin = "Not admin"; }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("_____________________________________________________________\n" +
+                              "                                                             \n" +
+                              $"ID: {item.Id}  Name: {item.Name}  Lastname: {item.Lastname} \n" +
+                              $"Phone: {item.PhoneNumber}  Email: {item.Email}\n" +
+                              $"Authority: {admin}\n" +
+                              "_______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public void ShowDeactiveUsers()
+    {
+        ShopDbContext shopDbContext = new ShopDbContext();
+        var users = shopDbContext.Users.Where(u =>u.IsActive == false).AsNoTracking().ToList();
         foreach (var item in users)
         {
             string? admin = String.Empty;
