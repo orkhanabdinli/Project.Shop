@@ -50,7 +50,20 @@ public class CategoryServices
             Console.ResetColor();
         }
     }
-   
+    public void ShowActiveCategories()
+    {
+        var categories = shopDbContext.Categories.Where(c => c.IsActive == true).AsNoTracking().ToList();
+        foreach (var category in categories)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {category.Id}  Name: {category.Name}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+
     public void ActivateCategory(int categoryId)
     {
         if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
