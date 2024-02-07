@@ -9,6 +9,7 @@ public class MenuServices
     BrandServices brandServices = new();
     CategoryServices categoryServices = new();
     DiscountServices discountServices = new();
+
     public void HomeMenu()
     {
         Console.ForegroundColor = ConsoleColor.Blue;
@@ -56,6 +57,7 @@ public class MenuServices
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please choose valid option");
+            HomeMenu();
         }
     }
     public void LoginMenu()
@@ -83,6 +85,7 @@ public class MenuServices
             if (LoginSucceed == true && IsAdmin == true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
+
                 Console.WriteLine("__________________________________\n" +
                                   "\n" +
                                   "     Logged in succsessfully\n" +
@@ -98,7 +101,7 @@ public class MenuServices
                                   "     Logged in succsessfully\n" +
                                   "__________________________________");
                 Console.ResetColor();
-                AdminMenu(emailOrPhone, password);
+                //UserMenu(emailOrPhone, password);
             }
         }
         catch (Exception ex)
@@ -147,72 +150,76 @@ public class MenuServices
             Console.WriteLine("Please choose valid option");
         }
     }
-    public async void RegisterMenu()
+    public void RegisterMenu()
     {
-        MenuServices menuServices = new();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("___________________________________\n" +
-                      "\n" +
-                      "<<<<<<<<<<<<< REGISTER >>>>>>>>>>>>\n" +
-                      "___________________________________\n" +
-                      "\n");
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Name: ");
-        Console.ResetColor();
-        string? name = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Lastname: ");
-        Console.ResetColor();
-        string? lastname = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("Enter birthday");
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Enter day:");
-        Console.ResetColor();
-        string? day = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Enter month:");
-        Console.ResetColor();
-        string? month = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Enter year:");
-        Console.ResetColor();
-        string? year = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Enter phone number:");
-        Console.ResetColor();
-        string? phone = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Enter email address:");
-        Console.ResetColor();
-        string? email = Console.ReadLine();
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("*");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("Create password:");
-        Console.ResetColor();
-        string? password = Console.ReadLine();
-        Console.Clear();
         try
         {
-            await userServices.Create(name, lastname, day, month, year, phone, email, password);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Register succeed");
+            MenuServices menuServices = new();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<<<< REGISTER >>>>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Name: ");
             Console.ResetColor();
+            string? name = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Lastname: ");
+            Console.ResetColor();
+            string? lastname = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Enter birthday");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Enter day:");
+            Console.ResetColor();
+            string? day = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Enter month:");
+            Console.ResetColor();
+            string? month = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Enter year:");
+            Console.ResetColor();
+            string? year = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Enter phone number:");
+            Console.ResetColor();
+            string? phone = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Enter email address:");
+            Console.ResetColor();
+            string? email = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Create password:");
+            Console.ResetColor();
+            string? password = Console.ReadLine();
+            Console.Clear();
+            userServices.Create(name, lastname, day, month, year, phone, email, password);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("_______________________________\n" +
+                                  "\n" +
+                              "      Register succeed\n" +
+                              "_______________________________");
+            Console.ResetColor();
+            LoginMenu();
         }
         catch (Exception ex)
         {
@@ -238,18 +245,18 @@ public class MenuServices
                     case (int)Menu3.GoToLogIn:
                         {
                             Console.Clear();
-                            menuServices.LoginMenu();
+                            LoginMenu();
                         }
                         break;
                     case (int)Menu3.RegisterAgain:
                         {
                             Console.Clear();
-                            menuServices.RegisterMenu();
+                            RegisterMenu();
                         }
                         break;
                     default:
                         Console.Clear();
-                        menuServices.HomeMenu();
+                        HomeMenu();
                         break;
 
                 }
@@ -261,7 +268,76 @@ public class MenuServices
     }
     public void UserMenu(string emailOrPhone, string password)
     {
-        Console.WriteLine("Hello");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("__________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<< ADMIN MENU >>>>>>>>>>>\n" +
+                      "__________________________________\n" +
+                      "\n" +
+                      "[1|Producs]\n" +
+                      "[2|Brands]\n" +
+                      "[3|Categories]\n" +
+                      "[4|Discounts]\n" +
+                      "[5|Users]\n" +
+                      "[6|Edit profile]\n" +
+                      "[0|Log out]\n" +
+                      "\n" +
+                      "CHOOSE THE OPTION: ");
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 6))
+        {
+            switch (optionNumber)
+            {
+                case (int)Adminmenu.Products:
+                    {
+                        Console.Clear();
+                        ProductsMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Adminmenu.Brands:
+                    {
+                        Console.Clear();
+                        BrandsMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Adminmenu.Category:
+                    {
+                        CategoriesMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Adminmenu.Discounts:
+                    {
+                        DiscountsMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Adminmenu.Users:
+                    {
+                        EditUsersMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Adminmenu.EditProfile:
+                    {
+                        EditProfile(emailOrPhone);
+                    }
+                    break;
+                default:
+                    {
+                        Console.Clear();
+                        emailOrPhone = null;
+                        password = null;
+                        HomeMenu();
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            AdminMenu(emailOrPhone, password);
+        }
     }
     public void AdminMenu(string? emailOrPhone, string? password)
     {
@@ -299,21 +375,25 @@ public class MenuServices
                     break;
                 case (int)Adminmenu.Category:
                     {
-                        CategoriesMenu();
+                        Console.Clear();
+                        CategoriesMenu(emailOrPhone, password);
                     }
                     break;
                 case (int)Adminmenu.Discounts:
                     {
-                        DiscountsMenu();
+                        Console.Clear();
+                        DiscountsMenu(emailOrPhone, password);
                     }
                     break;
                 case (int)Adminmenu.Users:
                     {
-                        UsersMenu();
+                        Console.Clear();
+                        EditUsersMenu(emailOrPhone, password);
                     }
                     break;
                 case (int)Adminmenu.EditProfile:
                     {
+                        Console.Clear();
                         EditProfile(emailOrPhone);
                     }
                     break;
@@ -336,7 +416,12 @@ public class MenuServices
             AdminMenu(emailOrPhone, password);
         }
     }
-    public async void ProductsMenu(string? emailOrPhone, string? password)
+
+
+    //----------        -------------------------------------------------------------------------------------------------------------
+    //----------PRODUCTS-------------------------------------------------------------------------------------------------------------
+    //----------        -------------------------------------------------------------------------------------------------------------
+    public void ProductsMenu(string? emailOrPhone, string? password)
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("___________________________________\n" +
@@ -434,12 +519,12 @@ public class MenuServices
             ProductsMenu(emailOrPhone, password);
         }
     }
-    public async void ProductAdd(string? emailOrPhone, string? password)
+    public void ProductAdd(string? emailOrPhone, string? password)
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("___________________________________\n" +
                       "\n" +
-                      "<<<<<<<<<<<< Add Product >>>>>>>>>>\n" +
+                      "<<<<<<<<<<<< ADD PRODUCT >>>>>>>>>>\n" +
                       "___________________________________\n" +
                       "\n");
         if (brandServices.IsBrandsExist() == false)
@@ -495,7 +580,7 @@ public class MenuServices
                 Console.Write("Category ID: ");
                 Console.ResetColor();
                 int? categoryId = Convert.ToInt32(Console.ReadLine());
-                await productServices.Create(name, description, price, stock, brandId, categoryId);
+                productServices.Create(name, description, price, stock, brandId, categoryId);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("__________________________________\n" +
@@ -534,12 +619,12 @@ public class MenuServices
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("___________________________________\n" +
                               "\n" +
-                              "<<<<<<<<< Activate Product >>>>>>>>\n" +
+                              "<<<<<<<<< ACTIVATE PRODUCT >>>>>>>>\n" +
                               "___________________________________\n");
 
                 Console.Write("___________________________________\n" +
                               "\n" +
-                              "<<<<<<<<< Deactive Products >>>>>>>\n");
+                              "<<<<<<<<< DEACTIVE PRODUCTS >>>>>>>\n");
                 productServices.ShowDeactiveProducts();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("\n" +
@@ -563,7 +648,7 @@ public class MenuServices
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("___________________________________\n" +
                                   "\n" +
-                                 $"     {ex.Message}\n" +
+                                 $"   {ex.Message}\n" +
                                   "___________________________________\n" +
                                   "");
 
@@ -632,7 +717,7 @@ public class MenuServices
                       "<<<<<<<<< APPLYING DISCOUNT >>>>>>>\n" +
                       "___________________________________\n" +
                       "\n");
-        if (productServices.IsProductsExist() == false)
+        if (brandServices.IsAnyActiveBrand() == false || categoryServices.IsAnyActiveCategory() == false || productServices.IsAnyActiveProduct() == false)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -640,7 +725,7 @@ public class MenuServices
             Console.ResetColor();
             ProductsMenu(emailOrPhone, password);
         }
-        if (discountServices.IsDiscountExist() == false)
+        if (discountServices.IsAnyActiveDiscount() == false)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
@@ -1182,11 +1267,12 @@ public class MenuServices
             ProductsMenu(emailOrPhone, password);
         }
     }
-    //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------------------------------------------------------------------------
-    public async void BrandsMenu(string? emailOrPhone, string? password)
+
+
+    //----------      ----------------------------------------------------------------------------------------------------------------
+    //----------BRANDS----------------------------------------------------------------------------------------------------------------
+    //----------      ----------------------------------------------------------------------------------------------------------------
+    public void BrandsMenu(string? emailOrPhone, string? password)
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("___________________________________\n" +
@@ -1204,7 +1290,7 @@ public class MenuServices
                           "CHOOSE THE OPTION: ");
         Console.ResetColor();
         string? option = Console.ReadLine();
-        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 11))
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 5))
         {
             Console.Clear();
             switch (optionNumber)
@@ -1269,10 +1355,11 @@ public class MenuServices
             await brandServices.Create(name);
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("__________________________________\n" +
+            Console.WriteLine("___________________________________\n" +
                               "\n" +
                               "     Brand added succsessfully\n" +
-                              "__________________________________");
+                              "___________________________________");
+            BrandsMenu(emailOrPhone, password);
         }
         catch (Exception ex)
         {
@@ -1287,7 +1374,7 @@ public class MenuServices
             BrandAdd(emailOrPhone, password);
         }
     }
-    public void ActivateBrand(string? emailOrPhone, string? password)
+    public async void ActivateBrand(string? emailOrPhone, string? password)
     {
         if (brandServices.IsAnyDeactiveBrand() == false)
         {
@@ -1340,7 +1427,7 @@ public class MenuServices
             }
         }
     }
-    public void DeactivateBrand(string? emailOrPhone, string? password)
+    public async void DeactivateBrand(string? emailOrPhone, string? password)
     {
         if (brandServices.IsAnyActiveBrand() == false)
         {
@@ -1356,12 +1443,12 @@ public class MenuServices
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("___________________________________\n" +
                               "\n" +
-                              "<<<<<<<<< ACTIVATE BRAND >>>>>>>>>\n" +
+                              "<<<<<<<<< DEACTIVATE BRAND >>>>>>>>\n" +
                               "___________________________________\n");
 
                 Console.Write("___________________________________\n" +
                               "\n" +
-                              "<<<<<<<<< DEACTIVE BRANDS >>>>>>>\n");
+                              "<<<<<<<<<<< ACTIVE BRANDS >>>>>>>>>\n");
                 brandServices.ShowActiveBrands();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("\n" +
@@ -1389,7 +1476,7 @@ public class MenuServices
                                   "___________________________________\n" +
                                   "");
 
-                ActivateBrand(emailOrPhone, password);
+                DeactivateBrand(emailOrPhone, password);
             }
         }
     }
@@ -1475,85 +1562,919 @@ public class MenuServices
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void CategoriesMenu()
+    //-----------          -------------------------------------------------------------------------------------------------------------
+    //-----------CATEGORIES-------------------------------------------------------------------------------------------------------------
+    //-----------          -------------------------------------------------------------------------------------------------------------
+    public void CategoriesMenu(string? emailOrPhone, string? password)
     {
-        Console.Clear();
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<< CATEGORIES MENU >>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Add]\n" +
-                          "[2|Activate]\n" +
-                          "[3|Deactivate]\n" +
-                          "[4|Change name]\n" +
-                          "[5|Show all categories]\n" +
-                          "[0]Back");
+                         "\n" +
+                         "<<<<<<<<<< CATEGORIES MENU >>>>>>>>>\n" +
+                         "___________________________________\n" +
+                         "\n" +
+                         "[1|Add]\n" +
+                         "[2|Activate]\n" +
+                         "[3|Deactivate]\n" +
+                         "[4|Change name]\n" +
+                         "[5|Show all categories]\n" +
+                         "[0]Back]\n" +
+                         "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 5))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)Categoriesmenu.Add:
+                    {
+                        CategoryAdd(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Categoriesmenu.Activate:
+                    {
+                        ActivateCategory(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Categoriesmenu.Deactivate:
+                    {
+                        DeactivateCategory(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Categoriesmenu.ChangeName:
+                    {
+                        ChangeCategoryName(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Categoriesmenu.ShowAllCategories:
+                    {
+                        ShowAllCategories(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    AdminMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            CategoriesMenu(emailOrPhone, password);
+        }
     }
-    public void DiscountsMenu()
+    public void CategoryAdd(string? emailOrPhone, string? password)
     {
-        Console.Clear();
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<< DISCOUNTS MENU >>>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Add]\n" +
-                          "[2|Activate]\n" +
-                          "[3|Deactivate]\n" +
-                          "[4|Change name]\n" +
-                          "[5|Change percentage]\n" +
-                          "[6|Show all Discounts]\n" +
-                          "[0]Back");
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<< ADD CATEGORY >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Name: ");
+            Console.ResetColor();
+            string? name = Console.ReadLine();
+            if (name == "0") CategoriesMenu(emailOrPhone, password);
+            categoryServices.Create(name);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("__________________________________\n" +
+                              "\n" +
+                              "  Category added succsessfully\n" +
+                              "__________________________________");
+            CategoriesMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("________________________________________________\n" +
+                              "\n" +
+                             $"{ex.Message}\n" +
+                              "________________________________________________\n" +
+                              "");
+            Console.ResetColor();
+            CategoryAdd(emailOrPhone, password);
+        }
     }
-    public void UsersMenu()
+    public async void ActivateCategory(string? emailOrPhone, string? password)
     {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<<<< Users Menu >>>>>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Activate]\n" +
-                          "[2|Deactivate]\n" +
-                          "[3|Show all users]\n" +
-                          "[4|Make admin]\n" +
-                          "[5|Disable admin]\n" +
-                          "[0]Back");
+        if (categoryServices.IsAnyDeactiveCategory() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No deactive categories");
+            Console.ResetColor();
+            CategoriesMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<< ACTIVATE CATEGORY >>>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<< DEACTIVE CATEGORIES >>>>>>>\n");
+                categoryServices.ShowDeactiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose category ID: ");
+                Console.ResetColor();
+                int? catId = Convert.ToInt32(Console.ReadLine());
+                if (catId == 0) CategoriesMenu(emailOrPhone, password);
+                categoryServices.ActivateCategory(catId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Activated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                CategoriesMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                ActivateCategory(emailOrPhone, password);
+            }
+        }
     }
+    public async void DeactivateCategory(string? emailOrPhone, string? password)
+    {
+        if (categoryServices.IsAnyActiveCategory() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No active categories");
+            Console.ResetColor();
+            CategoriesMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<< DEACTIVATE CATEGORY >>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< ACTIVE CATEGORIES >>>>>>>\n");
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose category ID: ");
+                Console.ResetColor();
+                int? catId = Convert.ToInt32(Console.ReadLine());
+                if (catId == 0) CategoriesMenu(emailOrPhone, password);
+                categoryServices.DeactivateCategory(catId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "    Deactivated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                CategoriesMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                DeactivateCategory(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeCategoryName(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CHANGE NAME >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (categoryServices.IsCategoriesExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No categories available");
+            Console.ResetColor();
+            CategoriesMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category ID: ");
+                Console.ResetColor();
+                int? catId = Convert.ToInt32(Console.ReadLine());
+                if (catId == 0) CategoriesMenu(emailOrPhone, password);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new name: ");
+                Console.ResetColor();
+                string? newName = Console.ReadLine();
+                Console.Clear();
+                categoryServices.ChangeName(catId, newName);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                CategoriesMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeCategoryName(emailOrPhone, password);
+            }
+        }
+    }
+    public void ShowAllCategories(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<< ALL CATEGORIES >>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (categoryServices.IsCategoriesExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No categories available");
+            Console.ResetColor();
+            CategoriesMenu(emailOrPhone, password);
+        }
+        else
+        {
+            categoryServices.ShowAllCategories();
+            CategoriesMenu(emailOrPhone, password);
+        }
+    }
+
+
+    //-----------         --------------------------------------------------------------------------------------------------------------
+    //-----------DISCOUNTS--------------------------------------------------------------------------------------------------------------
+    //-----------         --------------------------------------------------------------------------------------------------------------
+    public void DiscountsMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("__________________________________\n" +
+                         "\n" +
+                         "<<<<<<<<<< DISCOUNTS MENU >>>>>>>>>\n" +
+                         "___________________________________\n" +
+                         "\n" +
+                         "[1|Add]\n" +
+                         "[2|Activate]\n" +
+                         "[3|Deactivate]\n" +
+                         "[4|Change name]\n" +
+                         "[5|Change percentage]\n" +
+                         "[6|Show all discounts]\n" +
+                         "[0]Back]\n" +
+                         "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 6))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)Discountsmenu.Add:
+                    {
+                        DiscountAdd(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Discountsmenu.Activate:
+                    {
+                        ActivateDiscount(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Discountsmenu.Deactivate:
+                    {
+                        DeactivateDiscount(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Discountsmenu.ChangeName:
+                    {
+                        ChangeDiscountName(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Discountsmenu.ChangePercentage:
+                    {
+                        ChangeDiscountPercent(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Discountsmenu.ShowAllDiscounts:
+                    {
+                        ShowAllDiscounts(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    AdminMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            DiscountsMenu(emailOrPhone, password);
+        }
+    }
+    public void DiscountAdd(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<< ADD DISCOUNT >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Name: ");
+            Console.ResetColor();
+            string? name = Console.ReadLine();
+            if (name == "0") DiscountsMenu(emailOrPhone, password);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Percentage: ");
+            Console.ResetColor();
+            int? percent = Convert.ToInt32(Console.ReadLine());
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Duration in days: ");
+            Console.ResetColor();
+            int? duration = Convert.ToInt32(Console.ReadLine());
+            discountServices.Create(name, percent, duration);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("__________________________________\n" +
+                              "\n" +
+                              "   Discount added succsessfully\n" +
+                              "__________________________________");
+            DiscountsMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("________________________________________________\n" +
+                              "\n" +
+                             $"{ex.Message}\n" +
+                              "________________________________________________\n" +
+                              "");
+            Console.ResetColor();
+            DiscountAdd(emailOrPhone, password);
+        }
+    }
+    public void ActivateDiscount(string? emailOrPhone, string? password)
+    {
+        if (discountServices.IsAnyDeactiveBrand() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No deactive discounts");
+            Console.ResetColor();
+            DiscountsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<< ACTIVATE DISCOUNT >>>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<< DEACTIVE DISCOUNTs >>>>>>>\n");
+                discountServices.ShowDeactiveDiscounts();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose discount ID: ");
+                Console.ResetColor();
+                int? disId = Convert.ToInt32(Console.ReadLine());
+                if (disId == 0) DiscountsMenu(emailOrPhone, password);
+                discountServices.ActivateDiscount(disId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Activated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                DiscountsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                ActivateDiscount(emailOrPhone, password);
+            }
+        }
+    }
+    public void DeactivateDiscount(string? emailOrPhone, string? password)
+    {
+        if (discountServices.IsAnyActiveDiscount() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No active discounts");
+            Console.ResetColor();
+            DiscountsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<< DEACTIVATE DISCOUNT >>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< ACTIVE DISCOUNTS >>>>>>>>\n");
+                discountServices.ShowActiveDiscounts();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose discount ID: ");
+                Console.ResetColor();
+                int? disId = Convert.ToInt32(Console.ReadLine());
+                if (disId == 0) CategoriesMenu(emailOrPhone, password);
+                discountServices.DeactivateDiscount(disId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "    Deactivated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                DiscountsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                DeactivateDiscount(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeDiscountName(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CHANGE NAME >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (discountServices.IsAnyActiveDiscount() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No discounts available");
+            Console.ResetColor();
+            DiscountsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< DISCOUNTS >>>>>>>>>>>>");
+                discountServices.ShowActiveDiscounts();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose discount ID: ");
+                Console.ResetColor();
+                int? disId = Convert.ToInt32(Console.ReadLine());
+                if (disId == 0) CategoriesMenu(emailOrPhone, password);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new name: ");
+                Console.ResetColor();
+                string? newName = Console.ReadLine();
+                Console.Clear();
+                discountServices.ChangeName(disId, newName);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                DiscountsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeDiscountName(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeDiscountPercent(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<< CHANGE PERCENTAGE >>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (discountServices.IsDiscountExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No discounts available");
+            Console.ResetColor();
+            DiscountsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< DISCOUNTS >>>>>>>>>>>>");
+                discountServices.ShowActiveDiscounts();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose discount ID: ");
+                Console.ResetColor();
+                int? disId = Convert.ToInt32(Console.ReadLine());
+                if (disId == 0)
+                {
+                    Console.Clear();
+                    DiscountsMenu(emailOrPhone, password);
+                }
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new percent: ");
+                Console.ResetColor();
+                int? newPercent = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                discountServices.ChangePercentage(disId, newPercent);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                DiscountsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeDiscountPercent(emailOrPhone, password);
+            }
+        }
+    }
+    public void ShowAllDiscounts(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<< ALL DISCOUNTS >>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (discountServices.IsDiscountExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No discounts available");
+            Console.ResetColor();
+            DiscountsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            discountServices.ShowAllDiscounts();
+            CategoriesMenu(emailOrPhone, password);
+        }
+    }
+
+
+    //-----------         --------------------------------------------------------------------------------------------------------------
+    //-----------EDIT USER--------------------------------------------------------------------------------------------------------------
+    //-----------         --------------------------------------------------------------------------------------------------------------
+    public async void EditUsersMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("__________________________________\n" +
+                         "\n" +
+                         "<<<<<<<<< EDIT USERS MENU >>>>>>>>>\n" +
+                         "___________________________________\n" +
+                         "\n" +
+                         "[1|Activate]\n" +
+                         "[2|Deactivate]\n" +
+                         "[3|Make admin]\n" +
+                         "[4|Disable admin]\n" +
+                         "[5|Show all users]\n" +
+                         "[0]Back]\n" +
+                         "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 5))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)EditUsersmenu.Activate:
+                    {
+                        ActivateUser(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditUsersmenu.Deactivate:
+                    {
+                        DeactivateUser(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditUsersmenu.MakeAdmin:
+                    {
+                        MakeAdmin(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditUsersmenu.DisableAdmin:
+                    {
+                        ChangeDiscountName(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditUsersmenu.ShowAllUsers:
+                    {
+                        ChangeDiscountPercent(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    AdminMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            EditUsersMenu(emailOrPhone, password);
+        }
+    }
+    public void ActivateUser(string? emailOrPhone, string? password)
+    {
+        if (userServices.IsAnyDeactiveUser() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No deactive users");
+            Console.ResetColor();
+            EditUsersMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<<< ACTIVATE USER >>>>>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<<< DEACTIVE USERS >>>>>>>>>\n");
+                userServices.ShowDeactiveUsers();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose user ID: ");
+                Console.ResetColor();
+                int? userId = Convert.ToInt32(Console.ReadLine());
+                if (userId == 0) EditUsersMenu(emailOrPhone, password);
+                userServices.ActivateUser(userId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Activated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                EditUsersMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                ActivateUser(emailOrPhone, password);
+            }
+        }
+    }
+    public void DeactivateUser(string? emailOrPhone, string? password)
+    {
+        if (userServices.IsAnyActiveUser() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No active users");
+            Console.ResetColor();
+            EditUsersMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< DEACTIVATE USER >>>>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<<<< ACTIVE USERS >>>>>>>>>>\n");
+                userServices.ShowActiveUsers();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose user ID: ");
+                Console.ResetColor();
+                int? userId = Convert.ToInt32(Console.ReadLine());
+                if (userId == 0) EditUsersMenu(emailOrPhone, password);
+                userServices.DeactivateUser(userId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "    Deactivated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                EditUsersMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                DeactivateUser(emailOrPhone, password);
+            }
+        }
+    }
+
+    public void MakeAdmin(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<<< MAKE ADMIN >>>>>>>>>>>\n" +
+                          "___________________________________\n");
+
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<< NOT ADMIN USERS >>>>>>>>\n");
+            userServices.ShowNotAdminUsers();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("\n" +
+                          "Choose user ID: ");
+            Console.ResetColor();
+            int? userId = Convert.ToInt32(Console.ReadLine());
+            if (userId == 0) EditUsersMenu(emailOrPhone, password);
+            userServices.MakeAdmin(userId);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("__________________________________\n" +
+                              "\n" +
+                              "     Admin set succsessfully\n" +
+                              "__________________________________");
+            Console.ResetColor();
+            EditUsersMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"     {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+
+            MakeAdmin(emailOrPhone, password);
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void EditProfile(string emailOrPhone)
     {
         Console.Clear();

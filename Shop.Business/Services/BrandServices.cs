@@ -34,7 +34,7 @@ public class BrandServices
     public void ShowAllBrands()
     {
         var brands = shopDbContext.Brands.AsNoTracking().ToList();
-        foreach (var brand in brands) 
+        foreach (var brand in brands)
         {
             string IsActive = String.Empty;
             if (brand.IsActive == true) IsActive = "Active";
@@ -73,27 +73,31 @@ public class BrandServices
             Console.ResetColor();
         }
     }
-    public void ActivateBrand(int? brandId)
+    public async Task ActivateBrand(int? brandId)
     {
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
-        Brand? brand = shopDbContext.Brands.Find(brandId);
+        var brand = await shopDbContext.Brands.FindAsync(brandId);
         if (brand is null) throw new NotFoundException("Brand is not existing");
         if (brand.IsActive == true) throw new IsAlreadyException($"{brand.Name} Brand is already active");
         brand.IsActive = true;
-        shopDbContext.SaveChanges();
+        await shopDbContext.Products.Where(p => p.BrandId == brandId).ForEachAsync(p => p.IsActive = true);
+        await shopDbContext.Products.Where(p => p.BrandId == brandId).ForEachAsync(p => p.LastModifiedDate = DateTime.UtcNow);
+        await shopDbContext.SaveChangesAsync();
     }
-    public void DeactivateBrand(int? brandId)
+    public async Task DeactivateBrand(int? brandId)
     {
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
-        Brand? brand = shopDbContext.Brands.Find(brandId);
+        var brand = await shopDbContext.Brands.FindAsync(brandId);
         if (brand is null) throw new NotFoundException("Brand is not existing");
         if (brand.IsActive == false) throw new IsAlreadyException($"{brand.Name} Brand is already deactive");
         brand.IsActive = false;
-        shopDbContext.SaveChanges();
+        await shopDbContext.Products.Where(p => p.BrandId == brandId).ForEachAsync(p => p.IsActive = false);
+        await shopDbContext.Products.Where(p => p.BrandId == brandId).ForEachAsync(p => p.LastModifiedDate = DateTime.UtcNow);
+        await shopDbContext.SaveChangesAsync();
     }
     public bool IsBrandsExist()
     {
-        var brands = shopDbContext.Brands.Where(b => b.IsActive == true).AsNoTracking().ToList(); 
+        var brands = shopDbContext.Brands.Where(b => b.IsActive == true).AsNoTracking().ToList();
         if (brands is not null) return true;
         else return false;
     }

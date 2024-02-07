@@ -73,7 +73,7 @@ public class ShopDbContext : DbContext
         
         modelBuilder.Entity<Discount>()
             .Property(d => d.Duration)
-            .HasDefaultValue(7);
+            .HasDefaultValue(1);
 
         modelBuilder.Entity<Discount>()
             .Property(d => d.IsActive)

@@ -21,7 +21,7 @@ public class CategoryServices
         await shopDbContext.SaveChangesAsync();
         return category;
     }
-    public void ChangeName(int categoryId, string newName)
+    public void ChangeName(int? categoryId, string? newName)
     {
         if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
         Category? category = shopDbContext.Categories.Find(categoryId);
@@ -76,28 +76,56 @@ public class CategoryServices
             Console.ResetColor();
         }
     }
-    public void ActivateCategory(int categoryId)
+    public async Task ActivateCategory(int? catId)
     {
-        if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
-        Category? category = shopDbContext.Categories.Find(categoryId);
+        if (catId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
+        var category = await shopDbContext.Categories.FindAsync(catId);
         if (category is null) throw new NotFoundException("Category is not existing");
         if (category.IsActive == true) throw new IsAlreadyException($"{category.Name} Category is already active");
-        category.IsActive = false;
-        shopDbContext.SaveChanges();
+        category.IsActive = true;
+        await shopDbContext.Products.Where(p => p.CategoryId == catId).ForEachAsync(p => p.IsActive = true);
+        await shopDbContext.Products.Where(p => p.CategoryId == catId).ForEachAsync(p => p.LastModifiedDate = DateTime.UtcNow);
+        await shopDbContext.SaveChangesAsync();
     }
-    public void DeactivateCategory(int categoryId)
+    public async Task DeactivateCategory(int? catId)
     {
-        if (categoryId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
-        Category? category = shopDbContext.Categories.Find(categoryId);
+        if (catId < 0) throw new ArgumentOutOfRangeException("Wrong category Id format");
+        var category = await shopDbContext.Categories.FindAsync(catId);
         if (category is null) throw new NotFoundException("Category is not existing");
-        if (category.IsActive == false) throw new IsAlreadyException($"{category.Name} Category is already deactive");
+        if (category.IsActive == false) throw new IsAlreadyException($"{category.Name} Category is already not active");
         category.IsActive = false;
-        shopDbContext.SaveChanges();
+        await shopDbContext.Products.Where(p => p.CategoryId == catId).ForEachAsync(p => p.IsActive = false);
+        await shopDbContext.Products.Where(p => p.CategoryId == catId).ForEachAsync(p => p.LastModifiedDate = DateTime.UtcNow);
+        await shopDbContext.SaveChangesAsync();
     }
     public bool IsCategoriesExist()
     {
         var categories = shopDbContext.Categories.Where(c => c.IsActive == true).AsNoTracking().ToList();
         if (categories is not null) return true;
         else return false;
+    }
+    public bool IsAnyActiveCategory()
+    {
+        var category = shopDbContext.Categories.FirstOrDefault(c => c.IsActive == true);
+        if (category is not null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsAnyDeactiveCategory()
+    {
+        var category = shopDbContext.Categories.FirstOrDefault(c => c.IsActive == false);
+        if (category is not null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

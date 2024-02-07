@@ -113,6 +113,10 @@ public class ProductServices
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
+        Brand? brand = shopDbContext.Brands.Find(product.BrandId);
+        if (brand.IsActive == false) throw new NotFoundException($"Activate {brand.Name} brand first");
+        Category? category = shopDbContext.Categories.Find(product.CategoryId);
+        if (category.IsActive == false) throw new NotFoundException($"Activate {category.Name} category first");
         if (product is null) throw new NotFoundException("Product is not exist");
         if (product.IsActive == true) throw new IsAlreadyException("Product is already active");
         product.IsActive = true;

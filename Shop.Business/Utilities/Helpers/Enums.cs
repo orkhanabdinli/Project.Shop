@@ -51,3 +51,29 @@ public enum Brandsmenu
     ChangeName,
     ShowAllBrands
 }
+
+public enum Categoriesmenu
+{
+    Add = 1,
+    Activate,
+    Deactivate,
+    ChangeName,
+    ShowAllCategories
+}
+public enum Discountsmenu
+{
+    Add = 1,
+    Activate,
+    Deactivate,
+    ChangeName,
+    ChangePercentage,
+    ShowAllDiscounts
+}
+public enum EditUsersmenu
+{
+    Activate = 1,
+    Deactivate,
+    MakeAdmin,
+    DisableAdmin,
+    ShowAllUsers
+}
