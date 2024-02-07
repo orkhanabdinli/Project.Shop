@@ -10,6 +10,7 @@ public class MenuServices
     ProductServices productServices = new();
     BrandServices brandServices = new();
     CategoryServices categoryServices = new();
+    DiscountServices discountServices = new();
     public void HomeMenu()
     {
         Console.ForegroundColor = ConsoleColor.Blue;
@@ -305,7 +306,7 @@ public class MenuServices
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("___________________________________\n" +
                       "\n" +
-                      "<<<<<<<<<< Products Menu >>>>>>>>>>\n" +
+                      "<<<<<<<<<< PRODUCTS MENU >>>>>>>>>>\n" +
                       "___________________________________\n" +
                           "\n" +
                           " [1|Add]\n" +
@@ -342,7 +343,17 @@ public class MenuServices
                     break;
                 case (int)Productsmenu.Deactivate:
                     {
-
+                        DeactivateProduct(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ApplyDiscount:
+                    {
+                        ApplyDiscount(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ChangeName:
+                    {
+                        ChangeName(emailOrPhone, password);
                     }
                     break;
                 default:
@@ -358,87 +369,6 @@ public class MenuServices
             Console.ResetColor();
             ProductsMenu(emailOrPhone, password);
         }
-    }
-    public void BrandsMenu()
-    {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<<< Brands Menu >>>>>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Add]\n" +
-                          "[2|Activate]\n" +
-                          "[3|Deactivate]\n" +
-                          "[4|Change name]\n" +
-                          "[5|Show all brands]\n" +
-                          "[0]Back");
-    }
-    public void CategoriesMenu()
-    {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<< Categories Menu >>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Add]\n" +
-                          "[2|Activate]\n" +
-                          "[3|Deactivate]\n" +
-                          "[4|Change name]\n" +
-                          "[5|Show all categories]\n" +
-                          "[0]Back");
-    }
-    public void DiscountsMenu()
-    {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<< Categories Menu >>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Add]\n" +
-                          "[2|Activate]\n" +
-                          "[3|Deactivate]\n" +
-                          "[4|Change name]\n" +
-                          "[5|Change percentage]\n" +
-                          "[6|Show all Discounts]\n" +
-                          "[0]Back");
-    }
-    public void UsersMenu()
-    {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<<<< Users Menu >>>>>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Activate]\n" +
-                          "[2|Deactivate]\n" +
-                          "[3|Show all users]\n" +
-                          "[4|Make admin]\n" +
-                          "[5|Disable admin]\n" +
-                          "[0]Back");
-    }
-    public void EditProfile(string emailOrPhone)
-    {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<<< Edit Profile >>>>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Change name and lastname]\n" +
-                          "[2|Change email]\n" +
-                          "[3|Change password]\n" +
-                          "[4|Change phone number]\n" +
-                          "[5|Change birth date]\n" +
-                          "[0]Back");
     }
     public async void ProductAdd(string? emailOrPhone, string? password)
     {
@@ -542,8 +472,7 @@ public class MenuServices
 
                 Console.Write("___________________________________\n" +
                               "\n" +
-                              "<<<<<<<<< Deactive Products >>>>>>>\n" +
-                              "___________________________________\n");
+                              "<<<<<<<<< Deactive Products >>>>>>>\n");
                 productServices.ShowDeactiveProducts();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("\n" +
@@ -552,12 +481,14 @@ public class MenuServices
                 int? prodId = Convert.ToInt32(Console.ReadLine());
 
                 productServices.Activate(prodId);
+                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("__________________________________\n" +
                                   "\n" +
                                   "      Activated succsessfully\n" +
                                   "__________________________________");
                 Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
             }
             catch (Exception ex)
             {
@@ -565,14 +496,13 @@ public class MenuServices
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("___________________________________\n" +
                                   "\n" +
-                                 $"{ex.Message}\n" +
+                                 $"     {ex.Message}\n" +
                                   "___________________________________\n" +
                                   "");
-                Console.ResetColor();
+                
                 ActivateProduct(emailOrPhone, password);
             }
         }
-
     }
     public void DeactivateProduct(string? emailOrPhone, string? password)
     {
@@ -587,7 +517,6 @@ public class MenuServices
         {
             try
             {
-                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("___________________________________\n" +
                               "\n" +
@@ -596,8 +525,7 @@ public class MenuServices
 
                 Console.Write("___________________________________\n" +
                               "\n" +
-                              "<<<<<<<<< Active Products >>>>>>>>>\n" +
-                              "___________________________________\n");
+                              "<<<<<<<<< Active Products >>>>>>>>>\n");
                 productServices.ShowActiveProducts();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("\n" +
@@ -606,6 +534,7 @@ public class MenuServices
                 int? prodId = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
                 productServices.Deactivate(prodId);
+                Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("__________________________________\n" +
                                   "\n" +
@@ -613,17 +542,263 @@ public class MenuServices
                                   "__________________________________");
                 Console.ResetColor();
                 ProductsMenu(emailOrPhone, password);
-
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("___________________________________\n" +
                                   "\n" +
-                                 $"{ex.Message}\n" +
+                                 $"  {ex.Message}\n" +
                                   "___________________________________\n" +
                                   "");
-                ProductsMenu(emailOrPhone, password);
+                Console.ResetColor();
+                DeactivateProduct(emailOrPhone, password);
             }
         }
+    }
+    public void ApplyDiscount(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<< APPLYING DISCOUNT >>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        if (discountServices.IsDiscountExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No discounts available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category: ");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ShowProductsByBrandAndCategory(brandId, categoryId);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose product: ");
+                Console.ResetColor();
+                int? productId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                discountServices.ShowActiveDiscounts();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose discount: ");
+                Console.ResetColor();
+                int? discountId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                discountServices.ApplyDiscounToProduct(productId, discountId);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ApplyDiscount(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeName(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CHANGE NAME >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category: ");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ShowProductsByBrandAndCategory(brandId, categoryId);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose product: ");
+                Console.ResetColor();
+                int? productId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new name: ");
+                Console.ResetColor();
+                string? newName = Console.ReadLine();
+                Console.Clear();
+                productServices.ChangeName(productId, newName);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeName(emailOrPhone, password);
+            }
+        }
+
+
+    }
+
+
+
+
+
+    public void BrandsMenu()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<< BRANDS MENU >>>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n" +
+                          "[1|Add]\n" +
+                          "[2|Activate]\n" +
+                          "[3|Deactivate]\n" +
+                          "[4|Change name]\n" +
+                          "[5|Show all brands]\n" +
+                          "[0]Back");
+    }
+    public void CategoriesMenu()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<< CATEGORIES MENU >>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n" +
+                          "[1|Add]\n" +
+                          "[2|Activate]\n" +
+                          "[3|Deactivate]\n" +
+                          "[4|Change name]\n" +
+                          "[5|Show all categories]\n" +
+                          "[0]Back");
+    }
+    public void DiscountsMenu()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<< DISCOUNTS MENU >>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n" +
+                          "[1|Add]\n" +
+                          "[2|Activate]\n" +
+                          "[3|Deactivate]\n" +
+                          "[4|Change name]\n" +
+                          "[5|Change percentage]\n" +
+                          "[6|Show all Discounts]\n" +
+                          "[0]Back");
+    }
+    public void UsersMenu()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<<< Users Menu >>>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n" +
+                          "[1|Activate]\n" +
+                          "[2|Deactivate]\n" +
+                          "[3|Show all users]\n" +
+                          "[4|Make admin]\n" +
+                          "[5|Disable admin]\n" +
+                          "[0]Back");
+    }
+    public void EditProfile(string emailOrPhone)
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<< Edit Profile >>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n" +
+                          "[1|Change name and lastname]\n" +
+                          "[2|Change email]\n" +
+                          "[3|Change password]\n" +
+                          "[4|Change phone number]\n" +
+                          "[5|Change birth date]\n" +
+                          "[0]Back");
     }
 }

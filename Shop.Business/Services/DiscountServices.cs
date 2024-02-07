@@ -82,10 +82,10 @@ public class DiscountServices
         foreach (var discount in discounts)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("______________________________________________________________\n" +
+            Console.WriteLine("____________________________________________________\n" +
                               "                                                             \n" +
                              $"ID: {discount.Id}  Name: {discount.Name}\n" +
-                              "______________________________________________________________");
+                              "____________________________________________________");
             Console.ResetColor();
         }
     }
@@ -95,11 +95,33 @@ public class DiscountServices
         foreach (var discount in discounts)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("______________________________________________________________\n" +
+            Console.WriteLine("____________________________________________________\n" +
                               "                                                             \n" +
                              $"ID: {discount.Id}  Name: {discount.Name}\n" +
-                              "______________________________________________________________");
+                              "____________________________________________________");
             Console.ResetColor();
         }
+    }
+    public void ApplyDiscounToProduct(int? productId, int? discountId)
+    {
+        DateTime now = TimeZoneInfo.ConvertTime(DateTime.Now,
+                 TimeZoneInfo.FindSystemTimeZoneById("Azerbaijan Standard Time"));
+        if (productId < 0) throw new WrongFormatException("Wrong product ID format");
+        if (discountId < 0) throw new WrongFormatException("Wrong discount ID format");
+        Product? product = shopDbContext.Products.Find(productId);
+        if (product is null && product.IsActive == false) throw new NotFoundException("Product is not xisting");
+        Discount? discount = shopDbContext.Discounts.Find(discountId);
+        TimeSpan difference = now - discount.LastModifiedDate;
+        if (difference.Days > discount.Duration) throw new NotFiniteNumberException("The discount is expired");
+        if (discount is null && discount.IsActive == false) throw new NotFoundException("Discount is not xisting");
+        product.DiscountId = discountId;
+        product.Price = product.Price - product.Price * discount.Percentage / 100;
+        shopDbContext.SaveChanges();
+    }
+    public bool IsDiscountExist()
+    {
+        var discounts = shopDbContext.Discounts.Where(d => d.IsActive == true).AsNoTracking().ToList();
+        if (discounts is not null) return true;
+        else return false;
     }
 }

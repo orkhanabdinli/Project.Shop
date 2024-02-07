@@ -97,4 +97,28 @@ public class BrandServices
         if (brands is not null) return true;
         else return false;
     }
+    public bool IsAnyActiveBrand()
+    {
+        var brand = shopDbContext.Brands.FirstOrDefault(b => b.IsActive == true);
+        if (brand is not null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsAnyDeactiveBrand()
+    {
+        var brand = shopDbContext.Brands.FirstOrDefault(b => b.IsActive == false);
+        if (brand is not null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

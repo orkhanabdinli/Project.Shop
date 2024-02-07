@@ -39,10 +39,11 @@ public class ProductServices
         await shopDbContext.SaveChangesAsync();
         return product;
     }
-    public void ChangeName(int? productId, string newName)
+    public void ChangeName(int? productId, string? newName)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
+        if (String.IsNullOrEmpty(newName)) throw new ArgumentException("New name can not be null");
         if (product is null) throw new NotFoundException("Product is not exist");
         Product? product2 = shopDbContext.Products.FirstOrDefault(p => p.Name == newName);
         if (product2 is not null) throw new AlreadyExistsException($"{newName} product is already exist");
@@ -137,7 +138,7 @@ public class ProductServices
             Brand? brand = shopDbContext.Brands.Find(product.BrandId);
             Category? category = shopDbContext.Categories.Find(product.CategoryId);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("_____________________________________________________________\n" +
+            Console.WriteLine("___________________________________________________\n" +
                               "                                                             \n" +
                               $"ID: {product.Id}\n" +
                               $"Name: {product.Name}\n" +
@@ -146,7 +147,7 @@ public class ProductServices
                               $"Description: {product.Description}\n" +
                               $"Price: {product.Price}  Stock: {product.Stock}\n" +
                               $"Status: {isActive}\n" +
-                              "_____________________________________________________________");
+                              "___________________________________________________");
             Console.ResetColor();
         }
     }
@@ -182,7 +183,7 @@ public class ProductServices
             Brand? brand = shopDbContext.Brands.Find(product.BrandId);
             Category? category = shopDbContext.Categories.Find(product.CategoryId);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("_____________________________________________________________\n" +
+            Console.WriteLine("___________________________________________________\n" +
                               "                                                             \n" +
                               $"ID: {product.Id}\n" +
                               $"Name: {product.Name}\n" +
@@ -190,7 +191,7 @@ public class ProductServices
                               $"Category: {category.Name}\n" +
                               $"Description: {product.Description}\n" +
                               $"Price: {product.Price}  Stock: {product.Stock}\n" +
-                              "_____________________________________________________________");
+                              "___________________________________________________");
             Console.ResetColor();
         }
     }
@@ -202,7 +203,7 @@ public class ProductServices
             Brand? brand = shopDbContext.Brands.Find(product.BrandId);
             Category? category = shopDbContext.Categories.Find(product.CategoryId);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("_____________________________________________________________\n" +
+            Console.WriteLine("___________________________________________________\n" +
                               "                                                             \n" +
                               $"ID: {product.Id}\n" +
                               $"Name: {product.Name}\n" +
@@ -210,7 +211,7 @@ public class ProductServices
                               $"Category: {category.Name}\n" +
                               $"Description: {product.Description}\n" +
                               $"Price: {product.Price}  Stock: {product.Stock}\n" +
-                              "_____________________________________________________________");
+                              "___________________________________________________");
             Console.ResetColor();
         }
     }
@@ -219,7 +220,8 @@ public class ProductServices
         if (brandId < 0) throw new WrongFormatException("Wrong brand Id format");
         Brand? brand = shopDbContext.Brands.Find(brandId);
         if (brand is null) throw new NotFoundException("Brand is not existing");
-        var products = shopDbContext.Products.Where(p => p.BrandId == brandId).AsNoTracking().ToList();
+        var products = shopDbContext.Products.Where(p => p.BrandId == brandId && p.IsActive ==true).AsNoTracking().ToList();
+        if (products is null) throw new NotFoundException("No products found");
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine($"<<{brand.Name}>>");
         Console.ResetColor();
@@ -227,14 +229,14 @@ public class ProductServices
         {
             Category? category = shopDbContext.Categories.Find(product.CategoryId);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("_____________________________________________________________\n" +
+            Console.WriteLine("_____________________________________________________\n" +
                               "                                                             \n" +
                               $"ID: {product.Id}\n" +
                               $"Name: {product.Name}\n" +
                               $"Category: {category.Name}\n" +
                               $"Description: {product.Description}\n" +
                               $"Price: {product.Price}  Stock: {product.Stock}\n" +
-                              "_____________________________________________________________");
+                              "_____________________________________________________");
             Console.ResetColor();
         }
     }
@@ -243,7 +245,8 @@ public class ProductServices
         if (categoryId < 0) throw new WrongFormatException("Wrong category Id format");
         Category? category = shopDbContext.Categories.Find(categoryId);
         if (category is null) throw new NotFoundException("Category is not existing");
-        var products = shopDbContext.Products.Where(p => p.CategoryId == categoryId).AsNoTracking().ToList();
+        var products = shopDbContext.Products.Where(p => p.CategoryId == categoryId && p.IsActive == true).AsNoTracking().ToList();
+        if (products is null) throw new NotFoundException("No products found");
         Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine($"<<{category.Name}>>");
         Console.ResetColor();
@@ -251,15 +254,50 @@ public class ProductServices
         {
             Brand? brand = shopDbContext.Brands.Find(product.BrandId);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("_____________________________________________________________\n" +
+            Console.WriteLine("_____________________________________________________\n" +
                               "                                                             \n" +
                               $"ID: {product.Id}\n" +
                               $"Name: {product.Name}\n" +
                               $"Brand: {brand.Name}\n" +
                               $"Description: {product.Description}\n" +
                               $"Price: {product.Price}  Stock: {product.Stock}\n" +
-                              "_____________________________________________________________");
+                              "_____________________________________________________");
             Console.ResetColor();
         }
+    }
+    public void ShowProductsByBrandAndCategory(int? brandId, int? categoryId)
+    {
+        if (categoryId < 0) throw new WrongFormatException("Wrong category Id format");
+        if (brandId < 0) throw new WrongFormatException("Wrong brand Id format");
+        Category? category = shopDbContext.Categories.Find(categoryId);
+        if (category is null) throw new NotFoundException("Category is not existing");
+        Brand? brand = shopDbContext.Brands.Find(brandId);
+        if (brand is null) throw new NotFoundException("Brand is not existing");
+        var products = shopDbContext.Products.Where(p => p.BrandId == brandId && p.CategoryId == categoryId && p.IsActive == true).AsNoTracking().ToList();
+        if (products is null) throw new NotFoundException("No products found");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine("_____________________________________________________\n" + 
+                          "\n" +
+                         $"             {brand.Name} / {category.Name}\n"+
+                         "_____________________________________________________");
+        Console.ResetColor();
+        foreach (var product in products)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("_____________________________________________________\n" +
+                              "                                                             \n" +
+                              $"ID: {product.Id}\n" +
+                              $"Name: {product.Name}\n" +
+                              $"Description: {product.Description}\n" +
+                              $"Price: {product.Price}  Stock: {product.Stock}\n" +
+                              "_____________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public bool IsProductsExist()
+    {
+        var products = shopDbContext.Products.Where(p => p.IsActive == true).AsNoTracking().ToList();
+        if (products is not null) return true;
+        else return false;
     }
 }

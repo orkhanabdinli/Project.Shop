@@ -32,12 +32,13 @@ public enum Productsmenu
 {
     Add = 1,
     Activate,
-    Deactivate,                      
+    Deactivate, 
+    ApplyDiscount,
     ChangeName,
     ChangeDescription,
     ChangePrice,          
     ChangeStock,                     
     ChangeBrand,                    
-    ChangeCategory,                    
+    ChangeCategory,   
     ShowAllProducts          
 }
