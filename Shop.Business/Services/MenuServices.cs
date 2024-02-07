@@ -291,9 +291,16 @@ public class MenuServices
                     }
             }
         }
-
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            AdminMenu(emailOrPhone, password);
+        }
     }
-    public async void ProductsMenu(string emailOrPhone, string password)
+    public async void ProductsMenu(string? emailOrPhone, string? password)
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("___________________________________\n" +
@@ -330,99 +337,12 @@ public class MenuServices
                     break;
                 case (int)Productsmenu.Activate:
                     {
-                        if (productServices.IsAnyDeactiveProduct() == false)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("No deactive products");
-                            Console.ResetColor();
-                            ProductsMenu(emailOrPhone, password);
-                        }
-                        else
-                        {
-                            try
-                            {
-                                Console.Clear();
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.Write("___________________________________\n" +
-                                              "\n" +
-                                              "<<<<<<<<< Activate Product >>>>>>>>\n" +
-                                              "___________________________________\n");
-
-                                Console.Write("___________________________________\n" +
-                                              "\n" +
-                                              "<<<<<<<<< Deactive Products >>>>>>>\n" +
-                                              "___________________________________\n");
-                                productServices.ShowDeactiveProducts();
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.Write("\n" +
-                                              "Choose product ID: ");
-                                Console.ResetColor();
-                                int? prodId = Convert.ToInt32(Console.ReadLine());
-
-                                productServices.Activate(prodId);
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine("__________________________________\n" +
-                                                  "\n" +
-                                                  "      Activated succsessfully\n" +
-                                                  "__________________________________");
-                                Console.ResetColor();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("___________________________________\n" +
-                                                  "\n" +
-                                                 $"{ex.Message}\n" +
-                                                  "___________________________________\n" +
-                                                  "");
-                                goto case (int)Productsmenu.Activate;
-                            }
-                        }
+                        ActivateProduct(emailOrPhone, password);
                     }
                     break;
                 case (int)Productsmenu.Deactivate:
                     {
-                        if (productServices.IsAnyActiveProduct() == false)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("No active products");
-                            Console.ResetColor();
-                            ProductsMenu(emailOrPhone, password);
-                        }
-                        else
-                        {
-                            try
-                            {
-                                Console.Clear();
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.Write("___________________________________\n" +
-                                              "\n" +
-                                              "<<<<<<<< Deactivate Product >>>>>>>\n" +
-                                              "___________________________________\n");
 
-                                Console.Write("___________________________________\n" +
-                                              "\n" +
-                                              "<<<<<<<<<< Active Products >>>>>>>>\n" +
-                                              "___________________________________\n");
-                                productServices.ShowDeactiveProducts();
-                                Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.Write("\n" +
-                                              "Choose product ID: ");
-                                Console.ResetColor();
-                                int? prodId = Convert.ToInt32(Console.ReadLine());
-
-                                productServices.Activate(prodId);
-                                Console.WriteLine("")
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("___________________________________\n" +
-                                                  "\n" +
-                                                 $"{ex.Message}\n" +
-                                                  "___________________________________\n" +
-                                                  "");
-                                goto case (int)Productsmenu.Activate;
-                            }
-                        }
                     }
                     break;
                 default:
@@ -435,6 +355,8 @@ public class MenuServices
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
         }
     }
     public void BrandsMenu()
@@ -518,7 +440,7 @@ public class MenuServices
                           "[5|Change birth date]\n" +
                           "[0]Back");
     }
-    public async void ProductAdd(string emailOrPhone, string password)
+    public async void ProductAdd(string? emailOrPhone, string? password)
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("___________________________________\n" +
@@ -596,6 +518,111 @@ public class MenuServices
                                   "________________________________________________\n" +
                                   "");
                 Console.ResetColor();
+            }
+        }
+    }
+    public void ActivateProduct(string? emailOrPhone, string? password)
+    {
+        if (productServices.IsAnyDeactiveProduct() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No deactive products");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< Activate Product >>>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< Deactive Products >>>>>>>\n" +
+                              "___________________________________\n");
+                productServices.ShowDeactiveProducts();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose product ID: ");
+                Console.ResetColor();
+                int? prodId = Convert.ToInt32(Console.ReadLine());
+
+                productServices.Activate(prodId);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Activated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"{ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ActivateProduct(emailOrPhone, password);
+            }
+        }
+
+    }
+    public void DeactivateProduct(string? emailOrPhone, string? password)
+    {
+        if (productServices.IsAnyActiveProduct() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No active products");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<< Deactivate Product >>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< Active Products >>>>>>>>>\n" +
+                              "___________________________________\n");
+                productServices.ShowActiveProducts();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose product ID: ");
+                Console.ResetColor();
+                int? prodId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.Deactivate(prodId);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "    Deactivated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"{ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                ProductsMenu(emailOrPhone, password);
             }
         }
     }

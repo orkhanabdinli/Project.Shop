@@ -126,9 +126,9 @@ public class ProductServices
         product.IsActive = false;
         shopDbContext.SaveChanges();
     }
-    public void ShowAllProducts()
+    public async void ShowAllProducts()
     {
-        var products = shopDbContext.Products.AsNoTracking().ToList();
+        var products = await shopDbContext.Products.AsNoTracking().ToListAsync();
         foreach (var product in products)
         {
             string isActive = String.Empty;
@@ -197,7 +197,6 @@ public class ProductServices
     public void ShowDeactiveProducts()
     {
         var products = shopDbContext.Products.Where(p => p.IsActive == false).AsNoTracking().ToList();
-        if (products is null) throw new NotFoundException("No deactive products");
         foreach (var product in products)
         {
             Brand? brand = shopDbContext.Brands.Find(product.BrandId);
