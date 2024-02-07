@@ -1,6 +1,7 @@
 ﻿using Shop.Business.Interfaces;
 using Shop.Business.Utilities.Exceptions;
 using Shop.Business.Utilities.Helpers;
+using Shop.Core.Entities;
 
 namespace Shop.Business.Services;
 
@@ -325,7 +326,7 @@ public class MenuServices
                           "CHOOSE THE OPTION: ");
         Console.ResetColor();
         string? option = Console.ReadLine();
-        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 6))
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 11))
         {
             Console.Clear();
             switch (optionNumber)
@@ -354,6 +355,36 @@ public class MenuServices
                 case (int)Productsmenu.ChangeName:
                     {
                         ChangeName(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ChangeDescription:
+                    {
+                        ChangeDescription(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ChangePrice:
+                    {
+                        ChangePrice(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ChangeStock:
+                    {
+                        ChangeStock(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ChangeBrand:
+                    {
+                        ChangeBrand(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ChangeCategory:
+                    {
+                        ChangeCategory(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Productsmenu.ShowAllProducts:
+                    {
+                        ShowAllProducts(emailOrPhone, password);
                     }
                     break;
                 default:
@@ -402,6 +433,7 @@ public class MenuServices
                 Console.Write("Name: ");
                 Console.ResetColor();
                 string? name = Console.ReadLine();
+                if (name == "0") ProductsMenu(emailOrPhone, password);
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("Description: ");
                 Console.ResetColor();
@@ -479,7 +511,7 @@ public class MenuServices
                               "Choose product ID: ");
                 Console.ResetColor();
                 int? prodId = Convert.ToInt32(Console.ReadLine());
-
+                if (prodId == 0) ProductsMenu(emailOrPhone, password);
                 productServices.Activate(prodId);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -532,6 +564,7 @@ public class MenuServices
                               "Choose product ID: ");
                 Console.ResetColor();
                 int? prodId = Convert.ToInt32(Console.ReadLine());
+                if (prodId == 0) ProductsMenu(emailOrPhone, password);
                 Console.Clear();
                 productServices.Deactivate(prodId);
                 Console.Clear();
@@ -594,6 +627,7 @@ public class MenuServices
                 Console.Write("Choose category: ");
                 Console.ResetColor();
                 int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0) ProductsMenu(emailOrPhone, password);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("___________________________________\n" +
@@ -669,6 +703,7 @@ public class MenuServices
                 Console.Write("Choose category: ");
                 Console.ResetColor();
                 int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0) ProductsMenu(emailOrPhone, password);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("___________________________________\n" +
@@ -712,9 +747,446 @@ public class MenuServices
                 ChangeName(emailOrPhone, password);
             }
         }
-
-
     }
+    public void ChangeDescription(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<< CHANGE DESCRIPTION >>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category: ");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0) ProductsMenu(emailOrPhone, password);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ShowProductsByBrandAndCategory(brandId, categoryId);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose product: ");
+                Console.ResetColor();
+                int? productId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new description: ");
+                Console.ResetColor();
+                string? newName = Console.ReadLine();
+                Console.Clear();
+                productServices.ChangeDescription(productId, newName);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeDescription(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangePrice(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CHANGE PRICE >>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category: ");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0) ProductsMenu(emailOrPhone, password);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ShowProductsByBrandAndCategory(brandId, categoryId);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose product: ");
+                Console.ResetColor();
+                int? productId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new price: ");
+                Console.ResetColor();
+                decimal? newPrice = Convert.ToDecimal(Console.ReadLine());
+                Console.Clear();
+                productServices.ChangePrice(productId, newPrice);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangePrice(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeStock(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CHANGE STOCK >>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category: ");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0) ProductsMenu(emailOrPhone, password);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ShowProductsByBrandAndCategory(brandId, categoryId);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose product: ");
+                Console.ResetColor();
+                int? productId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new amount in stock: ");
+                Console.ResetColor();
+                int? newStock = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ChangeStock(productId, newStock);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeStock(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeBrand(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CHANGE BRAND >>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category: ");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0) ProductsMenu(emailOrPhone, password);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ShowProductsByBrandAndCategory(brandId, categoryId);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose product: ");
+                Console.ResetColor();
+                int? productId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new brand ID: ");
+                Console.ResetColor();
+                int? newBrandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ChangeBrand(productId, newBrandId);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeBrand(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeCategory(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<< CHANGE CATEGORY >>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<< CATEGORIES >>>>>>>>>>>>");
+
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose category: ");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0) ProductsMenu(emailOrPhone, password);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ShowProductsByBrandAndCategory(brandId, categoryId);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose product: ");
+                Console.ResetColor();
+                int? productId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new category ID: ");
+                Console.ResetColor();
+                int? newCategoryId = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                productServices.ChangeCategory(productId, newCategoryId);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                ProductsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeCategory(emailOrPhone, password);
+            }
+        }
+    }
+    public void ShowAllProducts(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<< ALL PRODUCTS >>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            ProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            productServices.ShowAllProducts();
+            Console.WriteLine("Press ENTER to go back");
+            ProductsMenu(emailOrPhone, password);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

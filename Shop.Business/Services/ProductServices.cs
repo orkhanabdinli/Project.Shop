@@ -50,7 +50,7 @@ public class ProductServices
         product.Name = newName;
         shopDbContext.SaveChanges();
     }
-    public void ChangeDescription(int? productId, string newDescription)
+    public void ChangeDescription(int? productId, string? newDescription)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -58,7 +58,7 @@ public class ProductServices
         product.Description = newDescription;
         shopDbContext.SaveChanges();
     }
-    public void ChangePrice(int? productId, decimal newPrice)
+    public void ChangePrice(int? productId, decimal? newPrice)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -127,9 +127,9 @@ public class ProductServices
         product.IsActive = false;
         shopDbContext.SaveChanges();
     }
-    public async void ShowAllProducts()
+    public void ShowAllProducts()
     {
-        var products = await shopDbContext.Products.AsNoTracking().ToListAsync();
+        var products = shopDbContext.Products.AsNoTracking().ToList();
         foreach (var product in products)
         {
             string isActive = String.Empty;
