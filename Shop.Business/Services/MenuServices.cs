@@ -1,7 +1,4 @@
-﻿using Shop.Business.Interfaces;
-using Shop.Business.Utilities.Exceptions;
-using Shop.Business.Utilities.Helpers;
-using Shop.Core.Entities;
+﻿using Shop.Business.Utilities.Helpers;
 
 namespace Shop.Business.Services;
 
@@ -24,6 +21,42 @@ public class MenuServices
                       "\n" +
                       "CHOOSE THE OPTION: ");
         Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 2))
+        {
+            switch (optionNumber)
+            {
+                case (int)Menu1.LogIn:
+                    {
+                        Console.Clear();
+                        LoginMenu();
+                    }
+                    break;
+                case (int)Menu1.Register:
+                    {
+                        Console.Clear();
+                        RegisterMenu();
+                    }
+                    break;
+                default:
+                    {
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("__________________________________\n" +
+                                          "\n" +
+                                          "         CLOSING THE APP...\n" +
+                                          "__________________________________\n");
+                        Console.ResetColor();
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+        }
     }
     public void LoginMenu()
     {
@@ -260,7 +293,8 @@ public class MenuServices
                     break;
                 case (int)Adminmenu.Brands:
                     {
-                        BrandsMenu();
+                        Console.Clear();
+                        BrandsMenu(emailOrPhone, password);
                     }
                     break;
                 case (int)Adminmenu.Category:
@@ -334,7 +368,6 @@ public class MenuServices
                 case (int)Productsmenu.Add:
                     {
                         ProductAdd(emailOrPhone, password);
-                        ProductsMenu(emailOrPhone, password);
                     }
                     break;
                 case (int)Productsmenu.Activate:
@@ -469,6 +502,7 @@ public class MenuServices
                                   "\n" +
                                   "   Product added succsessfully\n" +
                                   "__________________________________");
+                ProductsMenu(emailOrPhone, password);
             }
             catch (Exception ex)
             {
@@ -480,6 +514,7 @@ public class MenuServices
                                   "________________________________________________\n" +
                                   "");
                 Console.ResetColor();
+                ProductAdd(emailOrPhone, password);
             }
         }
     }
@@ -531,7 +566,7 @@ public class MenuServices
                                  $"     {ex.Message}\n" +
                                   "___________________________________\n" +
                                   "");
-                
+
                 ActivateProduct(emailOrPhone, password);
             }
         }
@@ -1144,7 +1179,297 @@ public class MenuServices
         else
         {
             productServices.ShowAllProducts();
-            Console.WriteLine("Press ENTER to go back");
+            ProductsMenu(emailOrPhone, password);
+        }
+    }
+    //----------------------------------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------------------------------------
+    public async void BrandsMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("___________________________________\n" +
+                         "\n" +
+                         "<<<<<<<<<<< BRANDS MENU >>>>>>>>>>>\n" +
+                         "___________________________________\n" +
+                         "\n" +
+                         "[1|Add]\n" +
+                         "[2|Activate]\n" +
+                         "[3|Deactivate]\n" +
+                         "[4|Change name]\n" +
+                         "[5|Show all brands]\n" +
+                         "[0]Back]\n" +
+                         "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 11))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)Brandsmenu.Add:
+                    {
+                        BrandAdd(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Brandsmenu.Activate:
+                    {
+                        ActivateBrand(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Brandsmenu.Deactivate:
+                    {
+                        DeactivateBrand(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Brandsmenu.ChangeName:
+                    {
+                        ChangeBrandName(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Brandsmenu.ShowAllBrands:
+                    {
+                        ShowAllBrands(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    AdminMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            BrandsMenu(emailOrPhone, password);
+        }
+    }
+    public async void BrandAdd(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<<< ADD BRAND >>>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Name: ");
+            Console.ResetColor();
+            string? name = Console.ReadLine();
+            if (name == "0") BrandsMenu(emailOrPhone, password);
+            await brandServices.Create(name);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("__________________________________\n" +
+                              "\n" +
+                              "     Brand added succsessfully\n" +
+                              "__________________________________");
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("________________________________________________\n" +
+                              "\n" +
+                             $"{ex.Message}\n" +
+                              "________________________________________________\n" +
+                              "");
+            Console.ResetColor();
+            BrandAdd(emailOrPhone, password);
+        }
+    }
+    public void ActivateBrand(string? emailOrPhone, string? password)
+    {
+        if (brandServices.IsAnyDeactiveBrand() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No deactive brands");
+            Console.ResetColor();
+            BrandsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< ACTIVATE BRAND >>>>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< DEACTIVE BRANDS >>>>>>>\n");
+                brandServices.ShowDeactiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose brand ID: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                if (brandId == 0) BrandsMenu(emailOrPhone, password);
+                brandServices.ActivateBrand(brandId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Activated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                BrandsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                ActivateBrand(emailOrPhone, password);
+            }
+        }
+    }
+    public void DeactivateBrand(string? emailOrPhone, string? password)
+    {
+        if (brandServices.IsAnyActiveBrand() == false)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No active brands");
+            Console.ResetColor();
+            BrandsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< ACTIVATE BRAND >>>>>>>>>\n" +
+                              "___________________________________\n");
+
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< DEACTIVE BRANDS >>>>>>>\n");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("\n" +
+                              "Choose brand ID: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                if (brandId == 0) BrandsMenu(emailOrPhone, password);
+                brandServices.DeactivateBrand(brandId);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "    Deactivated succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                BrandsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"     {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+
+                ActivateBrand(emailOrPhone, password);
+            }
+        }
+    }
+    public void ChangeBrandName(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CHANGE NAME >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (brandServices.IsBrandsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No brands available");
+            Console.ResetColor();
+            BrandsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                  "<<<<<<<<<<<<< BRANDS >>>>>>>>>>>>>>");
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Choose brand: ");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                if (brandId == 0) BrandsMenu(emailOrPhone, password);
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Enter new name: ");
+                Console.ResetColor();
+                string? newName = Console.ReadLine();
+                Console.Clear();
+                brandServices.ChangeName(brandId, newName);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("__________________________________\n" +
+                                  "\n" +
+                                  "      Applied succsessfully\n" +
+                                  "__________________________________");
+                Console.ResetColor();
+                BrandsMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                ChangeBrandName(emailOrPhone, password);
+            }
+        }
+    }
+    public void ShowAllBrands(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< ALL BRANDS >>>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (brandServices.IsBrandsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No brands available");
+            Console.ResetColor();
+            BrandsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            brandServices.ShowAllBrands();
             ProductsMenu(emailOrPhone, password);
         }
     }
@@ -1180,34 +1505,6 @@ public class MenuServices
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    public void BrandsMenu()
-    {
-        Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
-                          "\n" +
-                          "<<<<<<<<<<< BRANDS MENU >>>>>>>>>>>\n" +
-                          "___________________________________\n" +
-                          "\n" +
-                          "[1|Add]\n" +
-                          "[2|Activate]\n" +
-                          "[3|Deactivate]\n" +
-                          "[4|Change name]\n" +
-                          "[5|Show all brands]\n" +
-                          "[0]Back");
-    }
     public void CategoriesMenu()
     {
         Console.Clear();

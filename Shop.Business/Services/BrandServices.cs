@@ -8,7 +8,7 @@ namespace Shop.Business.Services;
 public class BrandServices
 {
     ShopDbContext shopDbContext = new ShopDbContext();
-    public async Task<Brand> Create(string name)
+    public async Task<Brand> Create(string? name)
     {
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("You must enter name");
         Brand? brand1 = await shopDbContext.Brands.FirstOrDefaultAsync(b => b.Name == name);
@@ -21,7 +21,7 @@ public class BrandServices
         await shopDbContext.SaveChangesAsync();
         return brand;
     }
-    public void ChangeName(int brandId, string newName)
+    public void ChangeName(int? brandId, string? newName)
     {
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
         Brand? brand = shopDbContext.Brands.Find(brandId);
@@ -73,7 +73,7 @@ public class BrandServices
             Console.ResetColor();
         }
     }
-    public void ActivateBrand(int brandId)
+    public void ActivateBrand(int? brandId)
     {
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
         Brand? brand = shopDbContext.Brands.Find(brandId);
@@ -82,7 +82,7 @@ public class BrandServices
         brand.IsActive = true;
         shopDbContext.SaveChanges();
     }
-    public void DeactivateBrand(int brandId)
+    public void DeactivateBrand(int? brandId)
     {
         if (brandId < 0) throw new ArgumentOutOfRangeException("Wrong brand Id format");
         Brand? brand = shopDbContext.Brands.Find(brandId);

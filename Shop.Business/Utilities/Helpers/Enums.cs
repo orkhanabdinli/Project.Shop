@@ -42,3 +42,12 @@ public enum Productsmenu
     ChangeCategory,   
     ShowAllProducts          
 }
+
+public enum Brandsmenu
+{
+    Add = 1,
+    Activate,
+    Deactivate,
+    ChangeName,
+    ShowAllBrands
+}
