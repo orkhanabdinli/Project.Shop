@@ -36,10 +36,13 @@ public class BrandServices
         var brands = shopDbContext.Brands.AsNoTracking().ToList();
         foreach (var brand in brands) 
         {
+            string IsActive = String.Empty;
+            if (brand.IsActive == true) IsActive = "Active";
+            else IsActive = "Not active";
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("______________________________________________________________\n" +
                               "                                                             \n" +
-                             $"ID: {brand.Id}  Name: {brand.Name}\n" +
+                             $"ID: {brand.Id}  Name: {brand.Name}  Status: {IsActive}\n" +
                               "______________________________________________________________");
             Console.ResetColor();
         }
@@ -87,5 +90,11 @@ public class BrandServices
         if (brand.IsActive == false) throw new IsAlreadyException($"{brand.Name} Brand is already deactive");
         brand.IsActive = false;
         shopDbContext.SaveChanges();
+    }
+    public bool IsBrandsExist()
+    {
+        var brands = shopDbContext.Brands.Where(b => b.IsActive == true).AsNoTracking().ToList(); 
+        if (brands is not null) return true;
+        else return false;
     }
 }

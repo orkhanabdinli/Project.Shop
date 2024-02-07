@@ -19,89 +19,42 @@ while (Default)
     string? option = Console.ReadLine();
     if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 2))
     {
-
         switch (optionNumber)
         {
             case (int)Menu1.LogIn:
                 {
                     Console.Clear();
                     menuServices.LoginMenu();
-
-                here:
-                    string? option1 = Console.ReadLine();
-                    int optionNumber1;
-                    bool isInt1 = int.TryParse(option1, out optionNumber1);
-                    if (isInt1)
-                    {
-                        if (optionNumber1 >= 0 && optionNumber1 <= 2)
-                        {
-                            switch (optionNumber1)
-                            {
-                                case (int)Menu2.GoToRegister:
-                                    {
-                                        Console.Clear();
-                                        menuServices.RegisterMenu();
-                                    }
-                                    break;
-                                case (int)Menu2.LogInAgain:
-                                    {
-                                        Console.Clear();
-                                        menuServices.LoginMenu();
-                                    }
-                                    break;
-                                default:
-                                    Console.Clear();
-                                    menuServices.HomeMenu();
-                                    break;
-
-                            }
-                        }
-                        goto here;
-                    }
                 }
                 break;
             case (int)Menu1.Register:
                 {
                     Console.Clear();
                     menuServices.RegisterMenu();
-
-                    string? option1 = Console.ReadLine();
-                    int optionNumber1;
-                    bool isInt1 = int.TryParse(option1, out optionNumber1);
-                    if (isInt1)
-                    {
-                        if (optionNumber1 >= 0 && optionNumber1 <= 2)
-                        {
-                            switch (optionNumber1)
-                            {
-                                case (int)Menu3.GoToLogIn:
-                                    {
-                                        Console.Clear();
-                                        menuServices.LoginMenu();
-                                    }
-                                    break;
-                                case (int)Menu3.RegisterAgain:
-                                    {
-                                        Console.Clear();
-                                        menuServices.RegisterMenu();
-                                    }
-                                    break;
-                                default:
-                                    Console.Clear();
-                                    menuServices.HomeMenu();
-                                    break;
-
-                            }
-                        }
-                    }
-
+                }
+                break;
+            default:
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("__________________________________\n" +
+                                      "\n" +
+                                      "         CLOSING THE APP...\n" +
+                                      "__________________________________\n");
+                    Console.ResetColor();
+                    Default = false;
                 }
                 break;
         }
-
     }
-    Console.Clear();
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("Please choose valid option");
+    else
+    {
+        if (Default == true)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+        }
+    }
 }
 

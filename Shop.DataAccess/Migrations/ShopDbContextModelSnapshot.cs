@@ -33,7 +33,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(6105));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(1032));
 
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(6562));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(1468));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -62,7 +62,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(4381));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 319, DateTimeKind.Local).AddTicks(9418));
 
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -72,7 +72,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(4937));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 319, DateTimeKind.Local).AddTicks(9910));
 
                     b.HasKey("Id");
 
@@ -110,7 +110,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(7588));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(2317));
 
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -120,7 +120,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(8072));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(2716));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -142,7 +142,12 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(9098));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(4081));
+
+                    b.Property<int?>("Duration")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(7);
 
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -152,7 +157,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(9644));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(4595));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -177,7 +182,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(828));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(5707));
 
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -187,7 +192,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(1416));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(6222));
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -242,7 +247,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(3363));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(8000));
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -258,7 +263,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(3927));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 320, DateTimeKind.Local).AddTicks(8510));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -301,7 +306,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(2825));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 319, DateTimeKind.Local).AddTicks(8010));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -320,7 +325,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 631, DateTimeKind.Local).AddTicks(3324));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 319, DateTimeKind.Local).AddTicks(8450));
 
                     b.Property<string>("Lastname")
                         .IsRequired()
@@ -374,7 +379,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(5819));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 321, DateTimeKind.Local).AddTicks(356));
 
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -384,7 +389,7 @@ namespace Shop.DataAccess.Migrations
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 2, 5, 15, 19, 53, 632, DateTimeKind.Local).AddTicks(6336));
+                        .HasDefaultValue(new DateTime(2024, 2, 7, 2, 7, 57, 321, DateTimeKind.Local).AddTicks(824));
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");

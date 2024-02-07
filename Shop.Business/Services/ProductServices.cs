@@ -7,26 +7,31 @@ namespace Shop.Business.Services;
 
 public class ProductServices
 {
-    ShopDbContext shopDbContext = new ShopDbContext();
-    public async Task<Product> Create(string name, string? description, decimal price, int stock, int brandId, int categoryId)
+    ShopDbContext shopDbContext = new();
+    BrandServices brandServices = new();
+    CategoryServices categoryServices = new();
+    public async Task<Product> Create(string? name, string? description, decimal? price, string? stock, int? brandId, int? categoryId)
     {
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("You must enter name");
         Product? product1 = await shopDbContext.Products.FirstOrDefaultAsync(b => b.Name == name);
         if (product1 is not null) throw new AlreadyExistsException($"{name} product is already exist");
         if (price < 0) throw new WrongFormatException("Price must be higher than 0");
-        if (stock < 0) throw new WrongFormatException("Amount in stock must be higher than 0");
+        if (int.TryParse(stock, out int stock1)) throw new WrongFormatException("Wrong price format");
+        if (stock1 < 0) throw new WrongFormatException("Amount in stock must be higher than 0");
         if (brandId < 0) throw new WrongFormatException("Wrong brand Id format");
         Brand? brand = await shopDbContext.Brands.FindAsync(brandId);
         if (brand is null) throw new NotFoundException("Brand is not existing");
+        if (brand.IsActive == false) throw new NotFoundException("Brand is not active");
         if (categoryId < 0) throw new WrongFormatException("Wrong category Id format");
         Category? category = await shopDbContext.Categories.FindAsync(categoryId);
         if (category is null) throw new NotFoundException("Category is not existing");
+        if (category.IsActive == false) throw new NotFoundException("Category is not active");
         Product product = new Product()
-        { 
+        {
             Name = name,
             Description = description,
             Price = price,
-            Stock = stock,
+            Stock = stock1,
             CategoryId = categoryId,
             BrandId = brandId
         };
@@ -34,7 +39,7 @@ public class ProductServices
         await shopDbContext.SaveChangesAsync();
         return product;
     }
-    public void ChangeName(int productId, string newName)
+    public void ChangeName(int? productId, string newName)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -42,17 +47,17 @@ public class ProductServices
         Product? product2 = shopDbContext.Products.FirstOrDefault(p => p.Name == newName);
         if (product2 is not null) throw new AlreadyExistsException($"{newName} product is already exist");
         product.Name = newName;
-        shopDbContext.SaveChanges();    
+        shopDbContext.SaveChanges();
     }
-    public void ChangeDescription(int productId, string newDescription)
+    public void ChangeDescription(int? productId, string newDescription)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
         if (product is null) throw new NotFoundException("Product is not exist");
-        product.Description = newDescription;   
+        product.Description = newDescription;
         shopDbContext.SaveChanges();
     }
-    public void ChangePrice(int productId, decimal newPrice)
+    public void ChangePrice(int? productId, decimal newPrice)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -61,7 +66,7 @@ public class ProductServices
         product.Price = newPrice;
         shopDbContext.SaveChanges();
     }
-    public void ChangeStock(int productId, int newStock)
+    public void ChangeStock(int? productId, int? newStock)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -69,8 +74,8 @@ public class ProductServices
         if (newStock < 0) throw new WrongFormatException("Price must be higher than 0");
         product.Stock = newStock;
         shopDbContext.SaveChanges();
-    }   
-    public void ChangeBrand(int productId, int newBrandId)
+    }
+    public void ChangeBrand(int? productId, int? newBrandId)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -81,7 +86,7 @@ public class ProductServices
         product.BrandId = newBrandId;
         shopDbContext.SaveChanges();
     }
-    public void ChangeCategory(int productId, int newCategoryId)
+    public void ChangeCategory(int? productId, int? newCategoryId)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -92,7 +97,7 @@ public class ProductServices
         product.CategoryId = newCategoryId;
         shopDbContext.SaveChanges();
     }
-    public void ChangeDiscount(int productId, int newDiscountId)
+    public void ChangeDiscount(int? productId, int? newDiscountId)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -103,7 +108,7 @@ public class ProductServices
         product.DiscountId = newDiscountId;
         shopDbContext.SaveChanges();
     }
-    public void Activate(int productId)
+    public void Activate(int? productId)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -112,7 +117,7 @@ public class ProductServices
         product.IsActive = true;
         shopDbContext.SaveChanges();
     }
-    public void Deactivate(int productId)
+    public void Deactivate(int? productId)
     {
         if (productId < 0) throw new WrongFormatException("Wrong product Id format");
         Product? product = shopDbContext.Products.Find(productId);
@@ -145,6 +150,30 @@ public class ProductServices
             Console.ResetColor();
         }
     }
+    public bool IsAnyActiveProduct()
+    {
+        var product = shopDbContext.Products.FirstOrDefault(p => p.IsActive == true);
+        if (product is not null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool IsAnyDeactiveProduct()
+    {
+        var product = shopDbContext.Products.FirstOrDefault(p => p.IsActive == false);
+        if (product is not null)
+        { 
+            return true; 
+        }
+        else 
+        {
+            return false;
+        }
+    }
     public void ShowActiveProducts()
     {
         var products = shopDbContext.Products.Where(p => p.IsActive == true).AsNoTracking().ToList();
@@ -168,6 +197,7 @@ public class ProductServices
     public void ShowDeactiveProducts()
     {
         var products = shopDbContext.Products.Where(p => p.IsActive == false).AsNoTracking().ToList();
+        if (products is null) throw new NotFoundException("No deactive products");
         foreach (var product in products)
         {
             Brand? brand = shopDbContext.Brands.Find(product.BrandId);
@@ -185,7 +215,7 @@ public class ProductServices
             Console.ResetColor();
         }
     }
-    public void ShowAllProductsByBrand(int brandId)
+    public void ShowAllProductsByBrand(int? brandId)
     {
         if (brandId < 0) throw new WrongFormatException("Wrong brand Id format");
         Brand? brand = shopDbContext.Brands.Find(brandId);
@@ -200,8 +230,8 @@ public class ProductServices
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("_____________________________________________________________\n" +
                               "                                                             \n" +
-                              $"ID: {product.Id}\n" + 
-                              $"Name: {product.Name}\n" + 
+                              $"ID: {product.Id}\n" +
+                              $"Name: {product.Name}\n" +
                               $"Category: {category.Name}\n" +
                               $"Description: {product.Description}\n" +
                               $"Price: {product.Price}  Stock: {product.Stock}\n" +
@@ -209,13 +239,13 @@ public class ProductServices
             Console.ResetColor();
         }
     }
-    public void ShowAllProductsByCategory(int categoryId)
+    public void ShowAllProductsByCategory(int? categoryId)
     {
         if (categoryId < 0) throw new WrongFormatException("Wrong category Id format");
         Category? category = shopDbContext.Categories.Find(categoryId);
         if (category is null) throw new NotFoundException("Category is not existing");
         var products = shopDbContext.Products.Where(p => p.CategoryId == categoryId).AsNoTracking().ToList();
-        Console.ForegroundColor = ConsoleColor.DarkYellow; 
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.WriteLine($"<<{category.Name}>>");
         Console.ResetColor();
         foreach (var product in products)

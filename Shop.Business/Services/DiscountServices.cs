@@ -57,5 +57,49 @@ public class DiscountServices
         discount.IsActive = false;
         shopDbContext.SaveChanges();
     }
-
+    public void ShowAllDiscounts()
+    {
+        var discounts = shopDbContext.Discounts.AsNoTracking().ToList();
+        foreach ( var discount in discounts )
+        {
+            string IsActive = String.Empty;
+            if (discount.IsActive == true)
+            {
+                IsActive = "Active";
+            }
+            else IsActive = "Not active";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {discount.Id}  Name: {discount.Name}  Status: {IsActive}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public void ShowActiveDiscounts()
+    {
+        var discounts = shopDbContext.Discounts.Where(d => d.IsActive == true).AsNoTracking().ToList();
+        foreach (var discount in discounts)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {discount.Id}  Name: {discount.Name}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
+    public void ShowDeactiveDiscounts()
+    {
+        var discounts = shopDbContext.Discounts.Where(d => d.IsActive == false).AsNoTracking().ToList();
+        foreach (var discount in discounts)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________\n" +
+                              "                                                             \n" +
+                             $"ID: {discount.Id}  Name: {discount.Name}\n" +
+                              "______________________________________________________________");
+            Console.ResetColor();
+        }
+    }
 }

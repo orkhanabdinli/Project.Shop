@@ -94,4 +94,10 @@ public class CategoryServices
         category.IsActive = false;
         shopDbContext.SaveChanges();
     }
+    public bool IsCategoriesExist()
+    {
+        var categories = shopDbContext.Categories.Where(c => c.IsActive == true).AsNoTracking().ToList();
+        if (categories is not null) return true;
+        else return false;
+    }
 }

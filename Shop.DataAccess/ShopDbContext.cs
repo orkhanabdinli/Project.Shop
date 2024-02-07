@@ -72,6 +72,10 @@ public class ShopDbContext : DbContext
             .HasDefaultValue(DateTime.Now);
         
         modelBuilder.Entity<Discount>()
+            .Property(d => d.Duration)
+            .HasDefaultValue(7);
+
+        modelBuilder.Entity<Discount>()
             .Property(d => d.IsActive)
             .HasDefaultValue(true);
 

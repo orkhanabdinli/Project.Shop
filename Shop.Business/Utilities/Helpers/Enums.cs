@@ -17,3 +17,27 @@ public enum Menu3
     GoToLogIn = 1,
     RegisterAgain 
 }
+
+public enum Adminmenu
+{
+    Products = 1,
+    Brands,
+    Category,
+    Discounts,
+    Users,
+    EditProfile
+}
+
+public enum Productsmenu
+{
+    Add = 1,
+    Activate,
+    Deactivate,                      
+    ChangeName,
+    ChangeDescription,
+    ChangePrice,          
+    ChangeStock,                     
+    ChangeBrand,                    
+    ChangeCategory,                    
+    ShowAllProducts          
+}
