@@ -77,3 +77,11 @@ public enum EditUsersmenu
     DisableAdmin,
     ShowAllUsers
 }
+public enum EditProfilesmenu
+{
+    ChangePassword = 1,
+    ChangeEmail,
+    ChangePhone,
+    ChangeNameAndLastname,
+    ChangeBirthDate
+}

@@ -42,7 +42,7 @@ public class UserServices
     {
         if (String.IsNullOrEmpty(emailOrPhone) || String.IsNullOrEmpty(password)) throw new WrongFormatException("Email address/phone or password can not be null"); 
         User? user = shopDbContext.Users.FirstOrDefault(u => (u.Email == emailOrPhone && u.Password == password) || (u.PhoneNumber == emailOrPhone && u.Password == password));
-        if (user is null) throw new NotFoundException("     Incorrect email address or password");
+        if (user is null || user.IsActive == false) throw new NotFoundException("     Incorrect email address or password");
         return true;
     }
     public void ChangePassword(string email, string oldPassword, string newPassword)
@@ -62,6 +62,8 @@ public class UserServices
     {
         ShopDbContext shopDbContext = new ShopDbContext();
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        var user1 = shopDbContext.Users.FirstOrDefault(u => u.Email == newEmail);
+        if (user1 is not null) throw new IsAlreadyException("This email is already in use");
         if (user.Password == password)
         {
             user.Email = newEmail;
@@ -75,6 +77,8 @@ public class UserServices
     {
         ShopDbContext shopDbContext = new ShopDbContext();
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        var user1 = shopDbContext.Users.FirstOrDefault(u => u.PhoneNumber == newPhone);
+        if (user1 is not null) throw new IsAlreadyException("This phone number is already in use");
         if (user.Password == password)
         {
             user.PhoneNumber = newPhone;

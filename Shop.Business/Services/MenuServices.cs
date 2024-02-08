@@ -101,7 +101,7 @@ public class MenuServices
                                   "     Logged in succsessfully\n" +
                                   "__________________________________");
                 Console.ResetColor();
-                //UserMenu(emailOrPhone, password);
+                UserMenu(emailOrPhone, password);
             }
         }
         catch (Exception ex)
@@ -271,15 +271,13 @@ public class MenuServices
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("__________________________________\n" +
                       "\n" +
-                      "<<<<<<<<<<< ADMIN MENU >>>>>>>>>>>\n" +
+                      "<<<<<<<<<<< USER MENU >>>>>>>>>>>>\n" +
                       "__________________________________\n" +
                       "\n" +
                       "[1|Producs]\n" +
-                      "[2|Brands]\n" +
-                      "[3|Categories]\n" +
-                      "[4|Discounts]\n" +
-                      "[5|Users]\n" +
-                      "[6|Edit profile]\n" +
+                      "[2|Cart]\n" +
+                      "[3|Wallet]\n" +
+                      "[4|Edit profile]\n" +
                       "[0|Log out]\n" +
                       "\n" +
                       "CHOOSE THE OPTION: ");
@@ -317,7 +315,7 @@ public class MenuServices
                     break;
                 case (int)Adminmenu.EditProfile:
                     {
-                        EditProfile(emailOrPhone);
+                        EditProfile(emailOrPhone, password);
                     }
                     break;
                 default:
@@ -394,7 +392,7 @@ public class MenuServices
                 case (int)Adminmenu.EditProfile:
                     {
                         Console.Clear();
-                        EditProfile(emailOrPhone);
+                        EditProfile(emailOrPhone, password);
                     }
                     break;
                 default:
@@ -2268,12 +2266,12 @@ public class MenuServices
                     break;
                 case (int)EditUsersmenu.DisableAdmin:
                     {
-                        ChangeDiscountName(emailOrPhone, password);
+                        DisableAdmin(emailOrPhone, password);
                     }
                     break;
                 case (int)EditUsersmenu.ShowAllUsers:
                     {
-                        ChangeDiscountPercent(emailOrPhone, password);
+                        ShowAllUsers(emailOrPhone, password);
                     }
                     break;
                 default:
@@ -2318,7 +2316,11 @@ public class MenuServices
                               "Choose user ID: ");
                 Console.ResetColor();
                 int? userId = Convert.ToInt32(Console.ReadLine());
-                if (userId == 0) EditUsersMenu(emailOrPhone, password);
+                if (userId == 0)
+                {
+                    Console.Clear();
+                    EditUsersMenu(emailOrPhone, password);
+                }
                 userServices.ActivateUser(userId);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -2371,7 +2373,11 @@ public class MenuServices
                               "Choose user ID: ");
                 Console.ResetColor();
                 int? userId = Convert.ToInt32(Console.ReadLine());
-                if (userId == 0) EditUsersMenu(emailOrPhone, password);
+                if (userId == 0)
+                {
+                    Console.Clear();
+                    EditUsersMenu(emailOrPhone, password);
+                }
                 userServices.DeactivateUser(userId);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -2396,7 +2402,6 @@ public class MenuServices
             }
         }
     }
-
     public void MakeAdmin(string? emailOrPhone, string? password)
     {
         try
@@ -2416,7 +2421,11 @@ public class MenuServices
                           "Choose user ID: ");
             Console.ResetColor();
             int? userId = Convert.ToInt32(Console.ReadLine());
-            if (userId == 0) EditUsersMenu(emailOrPhone, password);
+            if (userId == 0)
+            {
+                Console.Clear();
+                EditUsersMenu(emailOrPhone, password);
+            }
             userServices.MakeAdmin(userId);
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
@@ -2439,56 +2448,374 @@ public class MenuServices
 
             MakeAdmin(emailOrPhone, password);
         }
+    }
+    public void DisableAdmin(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<< DISABLE ADMIN >>>>>>>>>\n" +
+                          "___________________________________\n");
 
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<<< ADMIN USERS >>>>>>>>>>\n");
+            userServices.ShowAdminUsers();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("\n" +
+                          "Choose user ID: ");
+            Console.ResetColor();
+            int? userId = Convert.ToInt32(Console.ReadLine());
+            if (userId == 0)
+            {
+                Console.Clear();
+                EditUsersMenu(emailOrPhone, password);
+            }
+            userServices.DisableAdmin(userId);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("__________________________________\n" +
+                              "\n" +
+                              " Admin disabled succsessfully\n" +
+                              "__________________________________");
+            Console.ResetColor();
+            EditUsersMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"     {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
 
+            DisableAdmin(emailOrPhone, password);
+        }
+    }
+    public void ShowAllUsers(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<<< ALL Users >>>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
 
+        discountServices.ShowAllDiscounts();
+        EditUsersMenu(emailOrPhone, password);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void EditProfile(string emailOrPhone)
+    //-----------            -----------------------------------------------------------------------------------------------------------
+    //-----------EDIT PROFILE-----------------------------------------------------------------------------------------------------------
+    //-----------            -----------------------------------------------------------------------------------------------------------
+    public async void EditProfile(string? emailOrPhone, string? password)
     {
-        Console.Clear();
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("___________________________________\n" +
+        Console.WriteLine("__________________________________\n" +
+                         "\n" +
+                         "<<<<<<<<<<< EDIT PROFILE >>>>>>>>>>\n" +
+                         "___________________________________\n" +
+                         "\n" +
+                         "[1|Change password]\n" +
+                         "[2|Change email]\n" +
+                         "[3|Change phone]\n" +
+                         "[4|Change name and lastname]\n" +
+                         "[5|Change birth date]\n" +
+                         "[0]Back]\n" +
+                         "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 5))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)EditProfilesmenu.ChangePassword:
+                    {
+                        ChangePassword(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditProfilesmenu.ChangeEmail:
+                    {
+                        ChangeEmail(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditProfilesmenu.ChangePhone:
+                    {
+                        ChangePhone(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditProfilesmenu.ChangeNameAndLastname:
+                    {
+                        ChangeNameAndLastname(emailOrPhone, password);
+                    }
+                    break;
+                case (int)EditProfilesmenu.ChangeBirthDate:
+                    {
+                        ChangeBirthDate(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    AdminMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            EditUsersMenu(emailOrPhone, password);
+        }
+    }
+    public void ChangePassword(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
                           "\n" +
-                          "<<<<<<<<<<< Edit Profile >>>>>>>>>>\n" +
+                          "<<<<<<<<<< CHANGE PASSWORD >>>>>>>>\n" +
                           "___________________________________\n" +
+                          "\n");
+            Console.Write("Old password: ");
+            Console.ResetColor();
+            string? oldPassword = Console.ReadLine();
+            if (oldPassword == "0")
+            {
+                Console.Clear();
+                EditProfile(emailOrPhone, password);
+            }
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("New password: ");
+            Console.ResetColor();
+            string? newPassword = Console.ReadLine();
+            userServices.ChangePassword(emailOrPhone, oldPassword, newPassword);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("____________________________________\n" +
+                              "\n" +
+                              " Password changed succsessfully\n" +
+                              "____________________________________");
+            EditProfile(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            ChangePassword(emailOrPhone, password);
+        }
+    }
+    public void ChangeEmail(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
                           "\n" +
-                          "[1|Change name and lastname]\n" +
-                          "[2|Change email]\n" +
-                          "[3|Change password]\n" +
-                          "[4|Change phone number]\n" +
-                          "[5|Change birth date]\n" +
-                          "[0]Back");
+                          "<<<<<<<<<<< CHANGE EMAIL >>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n");
+            Console.Write("Password: ");
+            Console.ResetColor();
+            string? _password = Console.ReadLine();
+            if (_password == "0")
+            {
+                Console.Clear();
+                EditProfile(emailOrPhone, password);
+            }
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("New email: ");
+            Console.ResetColor();
+            string? newEmail = Console.ReadLine();
+            userServices.ChangeEmail(emailOrPhone, _password, newEmail);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("____________________________________\n" +
+                              "\n" +
+                              "   Email changed succsessfully\n" +
+                              "____________________________________");
+            EditProfile(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            ChangeEmail(emailOrPhone, password);
+        }
+    }
+    public void ChangePhone(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<< CHANGE PHONE >>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n");
+            Console.Write("Password: ");
+            Console.ResetColor();
+            string? _password = Console.ReadLine();
+            if (_password == "0")
+            {
+                Console.Clear();
+                EditProfile(emailOrPhone, password);
+            }
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("New phone: ");
+            Console.ResetColor();
+            string? newPhone = Console.ReadLine();
+            userServices.ChangePhone(emailOrPhone, _password, newPhone);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("____________________________________\n" +
+                              "\n" +
+                              "   Phone changed succsessfully\n" +
+                              "____________________________________");
+            EditProfile(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            ChangePhone(emailOrPhone, password);
+        }
+    }
+    public void ChangeNameAndLastname(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<< CHANGE NAME & LASTNAME >>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        Console.Write("New name: ");
+        Console.ResetColor();
+        string? newName = Console.ReadLine();
+        if (newName == "0")
+        {
+            Console.Clear();
+            EditProfile(emailOrPhone, password);
+        }
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("New lastname: ");
+        Console.ResetColor();
+        string? newLastname = Console.ReadLine();
+        userServices.ChangeNameAndLastname(emailOrPhone, newName, newLastname);
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("____________________________________\n" +
+                          "\n" +
+                          "     Changed succsessfully\n" +
+                          "____________________________________");
+        EditProfile(emailOrPhone, password);
+    }
+    public void ChangeBirthDate(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<< CHANGE BIRTHDATE >>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Enter new birthday");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Day:");
+            Console.ResetColor();
+            string? day = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Month:");
+            Console.ResetColor();
+            string? month = Console.ReadLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("*");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Year:");
+            Console.ResetColor();
+            string? year = Console.ReadLine();
+            userServices.ChangeBirthDate(emailOrPhone, day, month, year);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("____________________________________\n" +
+                              "\n" +
+                              "     Changed succsessfully\n" +
+                              "____________________________________");
+            EditProfile(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            ChangeBirthDate(emailOrPhone, password);
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
