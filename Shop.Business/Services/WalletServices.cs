@@ -65,12 +65,12 @@ public class WalletServices
         wallet.IsActive = false;
         shopDbContext.SaveChanges();
     }
-    public void AddToBalance(string? emailOrPhone, int? walletId, decimal? addMoney)
+    public void AddToBalance(string? emailOrPhone, int? walletId, decimal addMoney)
     {
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
         var wallet = shopDbContext.Wallets.FirstOrDefault(w => w.Id == walletId);
         if (wallet is null || wallet.IsActive == false) throw new NotFoundException("Card is not exist");
-        wallet.Balance = wallet.Balance + addMoney;
+        wallet.Balance =  + addMoney;
         shopDbContext.Entry(wallet).State = EntityState.Modified;
         shopDbContext.SaveChanges();
 

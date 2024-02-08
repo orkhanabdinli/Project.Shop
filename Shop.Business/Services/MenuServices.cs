@@ -1,6 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using Shop.Business.Utilities.Helpers;
-using Shop.Core.Entities;
+﻿using Shop.Business.Utilities.Helpers;
 using Shop.DataAccess;
 
 namespace Shop.Business.Services;
@@ -14,6 +12,7 @@ public class MenuServices
     CategoryServices categoryServices = new();
     DiscountServices discountServices = new();
     CartServices cartServices = new();
+    WalletServices walletServices = new();
 
     public void HomeMenu()
     {
@@ -3194,8 +3193,10 @@ public class MenuServices
                       "___________________________________\n" +
                           "\n" +
                           " [1|Add card]\n" +
-                          " [2|Show all cards]\n" +
-                          " [3|Change card name]\n" +
+                          " [2|Activate card]\n" +
+                          " [3|Deactivate card]\n" +
+                          " [4|Show all cards]\n" +
+                          " [4|Change card name]\n" +
                           " [4|Add to balance]\n" +
                           " [0]Back]\n" +
                           "\n" +
@@ -3207,14 +3208,29 @@ public class MenuServices
             Console.Clear();
             switch (optionNumber)
             {
-                case (int)Cartmenu.ShowProductsInCart:
+                case (int)Walletmenu.AddCard:
                     {
-                        GetCartProducts(emailOrPhone, password);
+                        AddWallet(emailOrPhone, password);
                     }
                     break;
-                case (int)Cartmenu.RemoveFromCart:
+                case (int)Walletmenu.ActivateCard:
                     {
-                        RemoveFromCart(emailOrPhone, password);
+                        
+                    }
+                    break;
+                case (int)Walletmenu.DectivateCard:
+                    {
+                        
+                    }
+                    break;
+                case (int)Walletmenu.ShowAllCards:
+                    {
+                        
+                    }
+                    break;
+                case (int)Walletmenu.AddToBalance:
+                    {
+                        
                     }
                     break;
                 default:
@@ -3229,6 +3245,51 @@ public class MenuServices
             Console.WriteLine("Please choose valid option");
             Console.ResetColor();
             UserMenu(emailOrPhone, password);
+        }
+    }
+    public void AddWallet(string emailOrPhone, string password) 
+    {
+        try
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<< ADD CARD TO WALLET >>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n");
+            Console.Write("Enter card name: ");
+            Console.ResetColor();
+            string? name = Console.ReadLine();
+            if (name == "0")
+            {
+                Console.Clear();
+                WalletMenu(emailOrPhone, password);
+            }
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Enter card number: ");
+            Console.ResetColor();
+            string? number = Console.ReadLine();
+            walletServices.Create(name, number, emailOrPhone);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "     Card successfully added\n" +
+                          "___________________________________\n" +
+                          "\n");
+            WalletMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            WalletMenu(emailOrPhone, password);
         }
     }
 }

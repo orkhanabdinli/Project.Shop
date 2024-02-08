@@ -116,3 +116,13 @@ public enum Cartmenu
     ShowProductsInCart = 1,
     RemoveFromCart
 }
+
+public enum Walletmenu
+{
+    AddCard = 1,
+    ActivateCard,
+    DectivateCard,
+    ShowAllCards,
+    ChangeCardName,
+    AddToBalance
+}
