@@ -3196,6 +3196,7 @@ public class MenuServices
                           " [1|Add card]\n" +
                           " [2|Show all cards]\n" +
                           " [3|Change card name]\n" +
+                          " [4|Add to balance]\n" +
                           " [0]Back]\n" +
                           "\n" +
                           "CHOOSE THE OPTION: ");
