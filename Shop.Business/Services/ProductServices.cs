@@ -10,14 +10,13 @@ public class ProductServices
     ShopDbContext shopDbContext = new();
     BrandServices brandServices = new();
     CategoryServices categoryServices = new();
-    public async Task<Product> Create(string? name, string? description, decimal? price, string? stock, int? brandId, int? categoryId)
+    public async Task<Product> Create(string? name, string? description, decimal? price, int? stock, int? brandId, int? categoryId)
     {
         if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("You must enter name");
         Product? product1 = await shopDbContext.Products.FirstOrDefaultAsync(b => b.Name == name);
         if (product1 is not null) throw new AlreadyExistsException($"{name} product is already exist");
         if (price < 0) throw new WrongFormatException("Price must be higher than 0");
-        if (int.TryParse(stock, out int stock1)) throw new WrongFormatException("Wrong price format");
-        if (stock1 < 0) throw new WrongFormatException("Amount in stock must be higher than 0");
+        if (stock < 0) throw new WrongFormatException("Amount in stock must be higher than 0");
         if (brandId < 0) throw new WrongFormatException("Wrong brand Id format");
         Brand? brand = await shopDbContext.Brands.FindAsync(brandId);
         if (brand is null) throw new NotFoundException("Brand is not existing");
@@ -31,7 +30,7 @@ public class ProductServices
             Name = name,
             Description = description,
             Price = price,
-            Stock = stock1,
+            Stock = stock,
             CategoryId = categoryId,
             BrandId = brandId
         };

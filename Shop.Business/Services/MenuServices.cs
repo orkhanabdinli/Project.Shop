@@ -454,7 +454,7 @@ public class MenuServices
             ProductsMenu(emailOrPhone, password);
         }
     }
-    public void ProductAdd(string? emailOrPhone, string? password)
+    public async void ProductAdd(string? emailOrPhone, string? password)
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("___________________________________\n" +
@@ -500,7 +500,7 @@ public class MenuServices
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write("Stock: ");
                 Console.ResetColor();
-                string? stock = Console.ReadLine();
+                int? stock = Convert.ToInt32(Console.ReadLine());
                 brandServices.ShowActiveBrands();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("*");
@@ -515,7 +515,7 @@ public class MenuServices
                 Console.Write("Category ID: ");
                 Console.ResetColor();
                 int? categoryId = Convert.ToInt32(Console.ReadLine());
-                productServices.Create(name, description, price, stock, brandId, categoryId);
+                 productServices.Create(name, description, price, stock, brandId, categoryId);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("__________________________________\n" +
@@ -1492,7 +1492,7 @@ public class MenuServices
         else
         {
             brandServices.ShowAllBrands();
-            ProductsMenu(emailOrPhone, password);
+            BrandsMenu(emailOrPhone, password);
         }
     }
 
