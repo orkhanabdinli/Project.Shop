@@ -45,10 +45,10 @@ public class UserServices
         if (user is null || user.IsActive == false) throw new NotFoundException("     Incorrect email address or password");
         return true;
     }
-    public void ChangePassword(string email, string oldPassword, string newPassword)
+    public void ChangePassword(string emailOrPhone, string oldPassword, string newPassword)
     {
         ShopDbContext shopDbContext = new ShopDbContext();
-        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
         if (user.Password == oldPassword)
         {
             user.Password = newPassword;
@@ -58,10 +58,10 @@ public class UserServices
         }
         else throw new DoesntMatchException("Wrong password entered");
     }
-    public void ChangeEmail(string email, string password, string newEmail)
+    public void ChangeEmail(string emailOrPhone, string password, string newEmail)
     {
         ShopDbContext shopDbContext = new ShopDbContext();
-        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
         var user1 = shopDbContext.Users.FirstOrDefault(u => u.Email == newEmail);
         if (user1 is not null) throw new IsAlreadyException("This email is already in use");
         if (user.Password == password)
@@ -73,10 +73,10 @@ public class UserServices
         }
         else throw new DoesntMatchException("Wrong password entered");
     }
-    public void ChangePhone(string email, string password, string newPhone)
+    public void ChangePhone(string emailOrPhone, string password, string newPhone)
     {
         ShopDbContext shopDbContext = new ShopDbContext();
-        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
         var user1 = shopDbContext.Users.FirstOrDefault(u => u.PhoneNumber == newPhone);
         if (user1 is not null) throw new IsAlreadyException("This phone number is already in use");
         if (user.Password == password)
@@ -88,24 +88,24 @@ public class UserServices
         }
         else throw new DoesntMatchException("Wrong password entered");
     }
-    public void ChangeNameAndLastname(string email, string newName, string newLastname)
+    public void ChangeNameAndLastname(string emailOrPhone, string newName, string newLastname)
     {
         ShopDbContext shopDbContext = new ShopDbContext();
-        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
-
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
         user.Name = newName;
         user.Lastname = newLastname;
         user.LastModifiedDate = DateTime.UtcNow;
         shopDbContext.Entry(user).State = EntityState.Modified;
         shopDbContext.SaveChanges();
     }
-    public void ChangeBirthDate(string email, string birthDay, string birthMonth, string birthYear)
+    public void ChangeBirthDate(string emailOrPhone, string birthDay, string birthMonth, string birthYear)
     {
         ShopDbContext shopDbContext = new ShopDbContext();
-        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
-
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
         string birthDate = $"{birthYear} {birthMonth} {birthDay}";
         DateTime birthDate1 = DateTime.Parse(birthDate);
+        TimeSpan age = DateTime.Now - birthDate1;
+        if (age.Days < 6570) throw new AgeException("You must be older than 18");
         user.Birthday = birthDate1;
         user.LastModifiedDate = DateTime.UtcNow;
         shopDbContext.Entry(user).State = EntityState.Modified;

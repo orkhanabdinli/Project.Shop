@@ -56,7 +56,7 @@ public class WalletServices
         wallet.LastModifiedDate = DateTime.UtcNow;
         shopDbContext.SaveChanges();
     }
-    public void DeleteCard(string email, int cardId) 
+    public void DeleteCard(string? email, int? cardId) 
     {
         User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == email);
         if (cardId < 0) throw new WrongFormatException("Wrong card Id format");
@@ -64,5 +64,25 @@ public class WalletServices
         if (wallet is null && wallet.IsActive == false) throw new NotFoundException("Card is not exist");
         wallet.IsActive = false;
         shopDbContext.SaveChanges();
+    }
+    public void AddToBalance(string? emailOrPhone, int? walletId, decimal? cardId)
+    {
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
+
+
+    }
+    public void ShowCards(string? emailOrPhone)
+    {
+        User? user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
+        var wallets = shopDbContext.Wallets.Where(w => w.UserId == user.Id);
+        if (wallets is null) throw new NotFoundException("You dont have any card");
+        foreach ( var wallet in wallets) 
+        {
+            string isActive = String.Empty;
+            if(wallet.IsActive == true) { isActive = "Active"; }
+            else { isActive = "Not active"; }
+            Console.WriteLine($"ID: {wallet.Id}  Card name: {wallet.CardName}  Card number: {wallet.CardNumber}\n"+
+                              $"Status: {isActive}");
+        }
     }
 }

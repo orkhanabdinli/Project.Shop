@@ -227,7 +227,12 @@ public class ProductServices
         var products = shopDbContext.Products.Where(p => p.BrandId == brandId && p.IsActive ==true).AsNoTracking().ToList();
         if (products is null) throw new NotFoundException("No products found");
         Console.ForegroundColor = ConsoleColor.DarkYellow;
-        Console.WriteLine($"<<{brand.Name}>>");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                     $"           {brand.Name}\n" +
+                      "___________________________________\n" +
+                      "\n"); ;
         Console.ResetColor();
         foreach (var product in products)
         {
@@ -303,5 +308,18 @@ public class ProductServices
         var products = shopDbContext.Products.Where(p => p.IsActive == true).AsNoTracking().ToList();
         if (products is not null) return true;
         else return false;
+    }
+    public void GetProductByName(string? name)
+    {
+        if (String.IsNullOrEmpty(name)) throw new ArgumentNullException("Name can not be null");
+        var product = shopDbContext.Products.FirstOrDefault(p => p.Name == name);
+        if (product is null) throw new NotFoundException("Product is not found");
+        Console.WriteLine("_____________________________________________________\n" +
+                              "                                                             \n" +
+                              $"ID: {product.Id}\n" +
+                              $"Name: {product.Name}\n" +
+                              $"Description: {product.Description}\n" +
+                              $"Price: {product.Price}  Stock: {product.Stock}\n" +
+                              "_____________________________________________________");
     }
 }

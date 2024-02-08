@@ -1,14 +1,19 @@
-﻿using Shop.Business.Utilities.Helpers;
+﻿using Microsoft.Identity.Client;
+using Shop.Business.Utilities.Helpers;
+using Shop.Core.Entities;
+using Shop.DataAccess;
 
 namespace Shop.Business.Services;
 
 public class MenuServices
 {
+    ShopDbContext shopDbContext = new();
     UserServices userServices = new();
     ProductServices productServices = new();
     BrandServices brandServices = new();
     CategoryServices categoryServices = new();
     DiscountServices discountServices = new();
+    CartServices cartServices = new();
 
     public void HomeMenu()
     {
@@ -84,6 +89,8 @@ public class MenuServices
             bool IsAdmin = userServices.IsAdmin(emailOrPhone, password);
             if (LoginSucceed == true && IsAdmin == true)
             {
+                var user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
+                cartServices.Create(user.Id);
                 Console.ForegroundColor = ConsoleColor.Green;
 
                 Console.WriteLine("__________________________________\n" +
@@ -148,6 +155,7 @@ public class MenuServices
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please choose valid option");
+            HomeMenu();
         }
     }
     public void RegisterMenu()
@@ -264,77 +272,7 @@ public class MenuServices
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please choose valid option");
-        }
-    }
-    public void UserMenu(string emailOrPhone, string password)
-    {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.Write("__________________________________\n" +
-                      "\n" +
-                      "<<<<<<<<<<< USER MENU >>>>>>>>>>>>\n" +
-                      "__________________________________\n" +
-                      "\n" +
-                      "[1|Producs]\n" +
-                      "[2|Cart]\n" +
-                      "[3|Wallet]\n" +
-                      "[4|Edit profile]\n" +
-                      "[0|Log out]\n" +
-                      "\n" +
-                      "CHOOSE THE OPTION: ");
-        string? option = Console.ReadLine();
-        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 6))
-        {
-            switch (optionNumber)
-            {
-                case (int)Adminmenu.Products:
-                    {
-                        Console.Clear();
-                        ProductsMenu(emailOrPhone, password);
-                    }
-                    break;
-                case (int)Adminmenu.Brands:
-                    {
-                        Console.Clear();
-                        BrandsMenu(emailOrPhone, password);
-                    }
-                    break;
-                case (int)Adminmenu.Category:
-                    {
-                        CategoriesMenu(emailOrPhone, password);
-                    }
-                    break;
-                case (int)Adminmenu.Discounts:
-                    {
-                        DiscountsMenu(emailOrPhone, password);
-                    }
-                    break;
-                case (int)Adminmenu.Users:
-                    {
-                        EditUsersMenu(emailOrPhone, password);
-                    }
-                    break;
-                case (int)Adminmenu.EditProfile:
-                    {
-                        EditProfile(emailOrPhone, password);
-                    }
-                    break;
-                default:
-                    {
-                        Console.Clear();
-                        emailOrPhone = null;
-                        password = null;
-                        HomeMenu();
-                        break;
-                    }
-            }
-        }
-        else
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Please choose valid option");
-            Console.ResetColor();
-            AdminMenu(emailOrPhone, password);
+            HomeMenu();
         }
     }
     public void AdminMenu(string? emailOrPhone, string? password)
@@ -1248,7 +1186,7 @@ public class MenuServices
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.Write("___________________________________\n" +
                       "\n" +
-                      "<<<<<<<<<< ALL PRODUCTS >>>>>>>>\n" +
+                      "<<<<<<<<<<<< ALL PRODUCTS >>>>>>>>>\n" +
                       "___________________________________\n" +
                       "\n");
         if (productServices.IsProductsExist() == false)
@@ -2784,6 +2722,512 @@ public class MenuServices
                               "");
             Console.ResetColor();
             ChangeBirthDate(emailOrPhone, password);
+        }
+    }
+
+
+    //-----------         -----------------------------------------------------------------------------------------------------------
+    //-----------USER MENU-----------------------------------------------------------------------------------------------------------
+    //-----------         -----------------------------------------------------------------------------------------------------------
+
+
+    public void UserMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("__________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<< USER MENU >>>>>>>>>>>>\n" +
+                      "__________________________________\n" +
+                      "\n" +
+                      "[1|Producs]\n" +
+                      "[2|Cart]\n" +
+                      "[3|Wallet]\n" +
+                      "[4|Edit profile]\n" +
+                      "[0|Log out]\n" +
+                      "\n" +
+                      "CHOOSE THE OPTION: ");
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 6))
+        {
+            switch (optionNumber)
+            {
+                case (int)Usermenu.Products:
+                    {
+                        Console.Clear();
+                        UserProductsMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Usermenu.Cart:
+                    {
+                        Console.Clear();
+                        CartMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Usermenu.Wallet:
+                    {
+                        Console.Clear();
+                        CategoriesMenu(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Usermenu.EditProfile:
+                    {
+                        Console.Clear();
+                        EditProfile(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    {
+                        Console.Clear();
+                        emailOrPhone = null;
+                        password = null;
+                        HomeMenu();
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            AdminMenu(emailOrPhone, password);
+        }
+    }
+    public void UserProductsMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<< PRODUCTS MENU >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                          "\n" +
+                          " [1|Search in products]\n" +
+                          " [2|Show all products]\n" +
+                          " [3|Show all products by brand]\n" +
+                          " [4|Show all products by category]\n" +
+                          " [0]Back]\n" +
+                          "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 11))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)UserProductmenu.SearchInProducts:
+                    {
+                        SearchInProducts(emailOrPhone, password);
+                    }
+                    break;
+                case (int)UserProductmenu.ShowAllProducts:
+                    {
+                        UserShowAllProducts(emailOrPhone, password);
+                    }
+                    break;
+                case (int)UserProductmenu.ShowAllProductsByBrand:
+                    {
+                        UserShowAllProductsByBrand(emailOrPhone, password);
+                    }
+                    break;
+                case (int)UserProductmenu.ShowAllProductsByCategory:
+                    {
+                        UserShowAllProductsByCategory(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    UserMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            UserProductsMenu(emailOrPhone, password);
+        }
+    }
+    public void SearchInProducts(string? emailOrPhone, string? password)
+    {
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            UserProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("___________________________________\n" +
+                              "\n" +
+                              "<<<<<<<<< SEARCH IN PRODUCTS >>>>>>\n" +
+                              "___________________________________\n" +
+                              "\n");
+                Console.Write("Enter product name: ");
+                Console.ResetColor();
+                string? name = Console.ReadLine();
+                if (name == "0")
+                {
+                    Console.Clear();
+                    UserProductsMenu(emailOrPhone, password);
+                }
+                productServices.GetProductByName(name);
+                ActionMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                SearchInProducts(emailOrPhone, password);
+            }
+        }
+    }
+    public void UserShowAllProducts(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< ALL PRODUCTS >>>>>>>>>\n" +
+                      "___________________________________\n" +
+                      "\n");
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            UserProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            productServices.ShowActiveProducts();
+            ActionMenu(emailOrPhone, password);
+        }
+    }
+    public void UserShowAllProductsByBrand(string? emailOrPhone, string? password)
+    {
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            UserProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                brandServices.ShowActiveBrands();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Choose brand ID");
+                Console.ResetColor();
+                int? brandId = Convert.ToInt32(Console.ReadLine());
+                if (brandId == 0)
+                {
+                    Console.Clear();
+                    UserProductsMenu(emailOrPhone, password);
+                }
+                productServices.ShowAllProductsByBrand(brandId);
+                ActionMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                UserShowAllProductsByBrand(emailOrPhone, password);
+            }
+        }
+    }
+    public void UserShowAllProductsByCategory(string? emailOrPhone, string? password)
+    {
+        if (productServices.IsProductsExist() == false)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("No products available");
+            Console.ResetColor();
+            UserProductsMenu(emailOrPhone, password);
+        }
+        else
+        {
+            try
+            {
+                categoryServices.ShowActiveCategories();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Choose category ID");
+                Console.ResetColor();
+                int? categoryId = Convert.ToInt32(Console.ReadLine());
+                if (categoryId == 0)
+                {
+                    Console.Clear();
+                    UserProductsMenu(emailOrPhone, password);
+                }
+                productServices.ShowAllProductsByCategory(categoryId);
+                ActionMenu(emailOrPhone, password);
+            }
+            catch (Exception ex)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("___________________________________\n" +
+                                  "\n" +
+                                 $"  {ex.Message}\n" +
+                                  "___________________________________\n" +
+                                  "");
+                Console.ResetColor();
+                UserShowAllProductsByCategory(emailOrPhone, password);
+            }
+        }
+    }
+
+    public void CartMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< CARTS MENU >>>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                          "\n" +
+                          " [1|Show products in cart]\n" +
+                          " [2|Remove from cart]\n" +
+                          " [0]Back]\n" +
+                          "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 11))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)Cartmenu.ShowProductsInCart:
+                    {
+                        GetCartProducts(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Cartmenu.RemoveFromCart:
+                    {
+                        RemoveFromCart(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    UserMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            UserMenu(emailOrPhone, password);
+        }
+    }
+    public void AddToCart(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            var user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Choose product ID: ");
+            Console.ResetColor();
+            int? prodId = Convert.ToInt32(Console.ReadLine());
+            if (prodId == 0)
+            {
+                Console.Clear();
+                UserProductsMenu(emailOrPhone, password);
+            }
+            cartServices.AddToCart(user.Id, prodId);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "       Added successfully\n" +
+                          "___________________________________\n");
+            UserProductsMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            UserProductsMenu(emailOrPhone, password);
+        }
+    }
+    public void ActionMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\n" +
+                          "[1|Add to cart]\n" +
+                          "[2|Buy]\n" +
+                          "[0|Cancel");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 11))
+        {
+            switch (optionNumber)
+            {
+                case (int)Actionmenu.AddToCart:
+                    {
+                        AddToCart(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Actionmenu.Buy:
+                    {
+                        UserShowAllProducts(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    Console.Clear();
+                    UserProductsMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        UserProductsMenu(emailOrPhone, password);
+    }
+    public void GetCartProducts(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            var user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<<<<< MY CART >>>>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n");
+            cartServices.GetFromCart(user.Id);
+            CartMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            CartMenu(emailOrPhone, password);
+        }
+    }
+    public void RemoveFromCart(string? emailOrPhone, string? password)
+    {
+        try
+        {
+            var user = shopDbContext.Users.FirstOrDefault(u => u.Email == emailOrPhone || u.PhoneNumber == emailOrPhone);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("___________________________________\n" +
+                          "\n" +
+                          "<<<<<<<<<<<<<< MY CART >>>>>>>>>>>>\n" +
+                          "___________________________________\n" +
+                          "\n");
+            cartServices.GetFromCart(user.Id);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Choose product ID: ");
+            Console.ResetColor();
+            int? prodId = Convert.ToInt32(Console.ReadLine());
+            if (prodId == 0)
+            {
+                Console.Clear();
+                CartMenu(emailOrPhone, password);
+            }
+            cartServices.RemoveFromCart(user.Id, prodId);
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("___________________________________\n" +
+                          "\n" +
+                          "       Removed successfully\n" +
+                          "___________________________________\n" +
+                          "\n");
+            CartMenu(emailOrPhone, password);
+        }
+        catch (Exception ex)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("___________________________________\n" +
+                              "\n" +
+                             $"  {ex.Message}\n" +
+                              "___________________________________\n" +
+                              "");
+            Console.ResetColor();
+            CartMenu(emailOrPhone, password);
+        }
+    }
+
+
+
+    public void WalletMenu(string? emailOrPhone, string? password)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write("___________________________________\n" +
+                      "\n" +
+                      "<<<<<<<<<<<< WALLET MENU >>>>>>>>>>\n" +
+                      "___________________________________\n" +
+                          "\n" +
+                          " [1|Add card]\n" +
+                          " [2|Show all cards]\n" +
+                          " [3|Change card name]\n" +
+                          " [0]Back]\n" +
+                          "\n" +
+                          "CHOOSE THE OPTION: ");
+        Console.ResetColor();
+        string? option = Console.ReadLine();
+        if (int.TryParse(option, out int optionNumber) && (optionNumber >= 0 && optionNumber <= 11))
+        {
+            Console.Clear();
+            switch (optionNumber)
+            {
+                case (int)Cartmenu.ShowProductsInCart:
+                    {
+                        GetCartProducts(emailOrPhone, password);
+                    }
+                    break;
+                case (int)Cartmenu.RemoveFromCart:
+                    {
+                        RemoveFromCart(emailOrPhone, password);
+                    }
+                    break;
+                default:
+                    UserMenu(emailOrPhone, password);
+                    break;
+            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please choose valid option");
+            Console.ResetColor();
+            UserMenu(emailOrPhone, password);
         }
     }
 }

@@ -134,11 +134,7 @@ public class ShopDbContext : DbContext
         modelBuilder.Entity<Wallet>()
             .Property(w => w.LastModifiedDate)
             .HasDefaultValue(DateTime.Now);
-        
-        modelBuilder.Entity<CartProducts>()
-            .Property(w => w.AmountOfProducts)
-            .HasDefaultValue(1);
-
+       
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();

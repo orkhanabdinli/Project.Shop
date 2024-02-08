@@ -60,6 +60,7 @@ public enum Categoriesmenu
     ChangeName,
     ShowAllCategories
 }
+
 public enum Discountsmenu
 {
     Add = 1,
@@ -69,6 +70,7 @@ public enum Discountsmenu
     ChangePercentage,
     ShowAllDiscounts
 }
+
 public enum EditUsersmenu
 {
     Activate = 1,
@@ -77,6 +79,7 @@ public enum EditUsersmenu
     DisableAdmin,
     ShowAllUsers
 }
+
 public enum EditProfilesmenu
 {
     ChangePassword = 1,
@@ -84,4 +87,32 @@ public enum EditProfilesmenu
     ChangePhone,
     ChangeNameAndLastname,
     ChangeBirthDate
+}
+
+public enum Usermenu
+{
+    Products = 1,
+    Cart,
+    Wallet,
+    EditProfile
+}
+
+public enum UserProductmenu
+{
+    SearchInProducts = 1,
+    ShowAllProducts,
+    ShowAllProductsByBrand,
+    ShowAllProductsByCategory,
+}
+
+public enum Actionmenu
+{
+    AddToCart = 1,
+    Buy
+}
+
+public enum Cartmenu
+{
+    ShowProductsInCart = 1,
+    RemoveFromCart
 }
